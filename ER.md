@@ -10,7 +10,7 @@ user_info {
     increments id PK "ユーザーID"
     string email "メールアドレス"
     string user_name "ユーザー名"
-    string user_type "ユーザー区分  ユーザー、オーナー、管理者"
+    string user_type "ユーザー区分…ユーザー、オーナー、管理者"
 }
 
 car_info {
@@ -22,7 +22,7 @@ car_info {
 }
 
 carport_info {
-    increments id "駐車場ID"
+    increments id PK "駐車場ID"
     integer user_id FK "ユーザーID"
     string address "駐車場の住所"
     decimal(18, 15) latitude "緯度"
@@ -35,20 +35,20 @@ share_car_info {
     integer car_id FK "車両ID"
     integer carport_id FK "駐車場ID"
     integer share_prise "シェア価格"
-    string share_state "シェア状態"
+    string share_state "シェア状態…予約、貸出、返却"
 }
 
 reserve_info {
     integer user_id FK "ユーザーID"
     integer share_car_id FK "シェアカーID"
     integer carport_id FK "駐車場ID"
-    string share_status "シェア状態  予約、貸出、返却"
+    string share_status "シェア状態…予約、貸出、返却"
     timestamp reserved_at "予約された日時"
     timestamp rent_at "借りる予定日時"
     timestamp rented_at "実際に借り始めた日時"
     timestamp return_at "返却予定日時"
     timestamp returned_at "返却完了日時"
-    string evaluation "評価  良い、悪い、評価しない"
+    string evaluation "評価…良かった、悪かった、評価しない"
     boolean is_refueled "給油されたか"
     boolean is_washed "洗車されたか"
 }
@@ -63,7 +63,7 @@ share_info {
 }
 
 share_request_info {
-    increments id "シェアリクエストID"
+    increments id PK "シェアリクエストID"
     integer user_id FK "ユーザーID"
     decimal(18, 15) latitude "緯度"
     decimal(18, 15) longitude "経度"
