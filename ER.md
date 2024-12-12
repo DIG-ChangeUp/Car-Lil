@@ -14,7 +14,7 @@ user_info {
 }
 
 car_info {
-    increments id PK "車両ID"
+    increments id PK "車種ID"
     string car_name "車名"
     string maker "メーカー"
     string type "車種区分"
@@ -25,8 +25,8 @@ carport_info {
     increments id PK "駐車場ID"
     integer user_id FK "ユーザーID"
     string address "駐車場の住所"
-    decimal(18, 15) latitude "緯度"
-    decimal(18, 15) longitude "経度"
+    float latitude "緯度"
+    float longitude "経度"
 }
 
 share_car_info {
@@ -39,6 +39,7 @@ share_car_info {
 }
 
 reserve_info {
+    increments id PK "予約（〜貸出、返却）情報ID"
     integer user_id FK "ユーザーID"
     integer share_car_id FK "シェアカーID"
     integer carport_id FK "駐車場ID"
@@ -54,7 +55,7 @@ reserve_info {
 }
 
 share_info {
-    increments id PK "オーナーのシェア情報ID"
+    increments id PK "オーナー側のシェア情報ID"
     integer user_id FK "ユーザーID"
     integer carport_id FK "駐車場ID"
     integer share_car_id FK "シェアカーID"
@@ -65,24 +66,23 @@ share_info {
 share_request_info {
     increments id PK "シェアリクエストID"
     integer user_id FK "ユーザーID"
-    decimal(18, 15) latitude "緯度"
-    decimal(18, 15) longitude "経度"
+    float latitude "緯度"
+    float longitude "経度"
     string message "リクエスト時のメッセージ"
     timestamp created_at "リクエスト作成日時"
 }
 
-user_info ||--o{ carport_info : "1つのuser_infoは、0以上のcarport_infoを持つ"
-user_info ||--o{ share_car_info : "1つのuser_infoは、0以上のshare_car_infoを持つ"
-user_info ||--o{ reserve_info : "1つのuser_infoは、0以上のreserve_infoを持つ"
-user_info ||--o{ share_info : "1つのuser_infoは、0以上のshare_infoを持つ"
-user_info ||--o{ share_request_info : "1つのuser_infoは、0以上のshare_request_infoを持つ"
+user_info ||--o{ carport_info : "一人のユーザーは、0以上の駐車場を持つ"
+user_info ||--o{ share_car_info : "一人のユーザーは、0以上のシェアカーを持つ"
+user_info ||--o{ reserve_info : "一人のユーザーは、0以上の予約情報を持つ"
+user_info ||--o{ share_info : "一人のユーザーは、0以上のオーナー側のシェア情報を持つ"
+user_info ||--o{ share_request_info : "一人のユーザーは、0以上のシェアリクエストを持つ"
 
-car_info ||--o{ share_car_info : "1つのcar_infoは、0以上のshare_car_infoを持つ"
-car_info ||--o{ share_car_info : "1つのcar_infoは、0以上のshare_car_infoを持つ"
+car_info ||--o{ share_car_info : "１つの車種は、0以上のシェアカーを持つ"
 
-carport_info ||--o{ share_car_info : "carport_info、0以上のshare_car_infoを持つ"
-carport_info ||--o{ share_info : "carport_info、0以上のshare_infoを持つ"
+carport_info ||--o{ share_car_info : "一つの駐車場は、0以上のシェアカーを持つ"
+carport_info ||--o{ share_info : "一つの駐車場は、0以上のオーナー側のシェア情報を持つ"
 
-share_car_info ||--o{ reserve_info : "share_car_info、0以上のreserve_infoを持つ"
-share_car_info ||--o{ share_info : "share_car_info、0以上のshare_infoを持つ"
+share_car_info ||--o{ reserve_info : "１台のシェアカーは、0以上の予約情報を持つ"
+share_car_info ||--o{ share_info : "１台のシェアカーは、0以上のオーナー側のシェア情報を持つ"
 ```
