@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config({ path: "./.env" });
 const environment = process.env.NODE_ENV
+const cors = require("cors")
 
 // const cors = require("cors");
 
@@ -8,7 +9,7 @@ const usersController= require("./users/users.controller");
 
 function setupServer() {
   const app = express();
-  // app.use(cors());
+  app.use(cors());
   app.use(express.json());
   app.use("/", express.static("./dist"));
 
