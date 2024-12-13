@@ -9,6 +9,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+
 module.exports = {
   development: {
     client: 'pg',
