@@ -17,7 +17,7 @@ cars {
     increments id PK "車種ID"
     string car_name "車名"
     string maker "メーカー"
-    string type "車種区分"
+    string car_type "車種区分"
     string photo_url "車両画像URL"
 }
 
@@ -43,7 +43,7 @@ reservations {
     integer user_id FK "ユーザーID"
     integer share_car_id FK "シェアカーID"
     integer carport_id FK "駐車場ID"
-    string share_status "シェア状態…予約、貸出、返却"
+    string share_state "シェア状態…予約、貸出、返却"
     timestamp reserved_at "予約された日時"
     timestamp rent_at "借りる予定日時"
     timestamp rented_at "実際に借り始めた日時"
