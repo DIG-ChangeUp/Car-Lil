@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1"
+  },
+  "scripts": {
+    "migrate-make": "knex migrate:make",
+    "migrate-latest": "knex migrate:latest",
+    "migrate-down": "knex migrate:down",
+    "seed-make": "knex seed:make",
+    "seed-data": "knex seed:run",
+    "dev": "nodemon ./src/server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
