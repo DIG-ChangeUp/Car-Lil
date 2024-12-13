@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
 
-console.log("--------------")
 export default function TestView(){
-  const [users, setUsers] = useState("")
+  const [users, setUsers] = useState([])
 
-  useEffect(async () => {
-    const data = await fetch("http://localhost:4000/api"
-    ).then(response => response.json())
-    setUsers(data)
+  useEffect( () => {
+    async function getUsers(){
+      const usersArr = await fetch("/api")
+      const jsonData = await usersArr.json()
+      setUsers(jsonData.data[0].user_name)
+    }
+    getUsers()
   }, []);
 
   return (
