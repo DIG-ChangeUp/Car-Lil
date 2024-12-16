@@ -1,22 +1,21 @@
-const express = require("express");
-require("dotenv").config({ path: "./.env" });
-const environment = process.env.NODE_ENV
-const cors = require("cors")
+const express = require('express');
+require('dotenv').config({ path: './.env' });
+const environment = process.env.NODE_ENV;
+const cors = require('cors');
 
 // const cors = require("cors");
 
-const usersController= require("./users/users.controller");
-const {resolve} = require("node:path");
+const usersController = require('./users/users.controller');
+const { resolve } = require('node:path');
 
 function setupServer() {
   const app = express();
   app.use(cors());
   app.use(express.json());
   // app.use("/", express.static( __dirname + "./backend/dist"));
-  app.use("/", express.static( resolve(__dirname, '../dist')));
+  app.use('/', express.static(resolve(__dirname, '../dist')));
 
-
-  app.get("/api", usersController.index)
+  app.get('/api', usersController.index);
 
   return app;
 }
@@ -29,10 +28,9 @@ const app = setupServer();
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  if(environment === "development"){
+  if (environment === 'development') {
     console.log(`Local server is running on: http://localhost:${PORT}/`);
-  }else{
+  } else {
     console.log(`Web server is running  PORT:${PORT}/`);
   }
 });
-

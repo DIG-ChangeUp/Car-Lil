@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 // import { Provider } from "jotai";
 
-import TestView from "./components/TestView.jsx";
+import TestView from "./components/TestView.tsx";
 
 export default function AppRoutes() {
   return (
