@@ -14,7 +14,7 @@
     "seed-data": "knex seed:run",
     "dev": "nodemon ./src/server.js",
     "build": "npm install && npm run migrate-latest && npm run seed-data",
-    "start": "node /backend/src/server.js"
+    "start": "node server.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
