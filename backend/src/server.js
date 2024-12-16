@@ -6,14 +6,13 @@ const cors = require("cors")
 // const cors = require("cors");
 
 const usersController= require("./users/users.controller");
-const {resolve} = require("node:path");
 
 function setupServer() {
   const app = express();
   app.use(cors());
   app.use(express.json());
   // app.use("/", express.static( __dirname + "./backend/dist"));
-  app.use("/", express.static( resolve(__dirname, 'dist')));
+  app.use("/", express.static( path.resolve(__dirname, 'dist')));
 
 
   app.get("/api", usersController.index)
