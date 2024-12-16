@@ -40,7 +40,7 @@ module.exports = {
   // },
 
   production: {
-    client: DB_CONNECTION,
+    client: 'pg',
     connection: {
       URI: DATABASE_URL,
       Database: DB_DATABASE,
