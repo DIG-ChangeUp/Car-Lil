@@ -1,13 +1,12 @@
 // Update with your config settings.
-require ('dotenv').config({ path: "./.env" })
+require("dotenv").config({ path: "./.env" });
 const DB_USERNAME = process.env.DB_USERNAME;
-const DB_PORT = process.env.DB_PORT
+const DB_PORT = process.env.DB_PORT;
 const DATABASE_URL = process.env.DATABASE_URL;
-const DB_CONNECTION = process.env.DB_CONNECTION
-const DB_PASSWORD = process.env.DB_PASSWORD
-const DB_DATABASE = process.env.DATABASE_URL
-const DB_HOST = process.env.DB_HOST
-
+const DB_CONNECTION = process.env.DB_CONNECTION;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_DATABASE = process.env.DB_DATABASE;
+const DB_HOST = process.env.DB_HOST;
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
@@ -15,7 +14,7 @@ const DB_HOST = process.env.DB_HOST
 
 module.exports = {
   development: {
-    client: 'pg',
+    client: "pg",
     connection: {
       host: DB_HOST,
       port: DB_PORT,
@@ -24,10 +23,10 @@ module.exports = {
       password: DB_PASSWORD,
     },
     migrations: {
-      directory: './db/migrations',
+      directory: "./db/migrations",
     },
     seeds: {
-      directory: './db/seeds',
+      directory: "./db/seeds",
     },
   },
   // staging: {
@@ -40,24 +39,27 @@ module.exports = {
   // },
 
   production: {
-    client: 'pg',
+    client: "pg",
     connection: {
-      URI: DATABASE_URL,
+      connectionString: DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      // URI: DATABASE_URL,
       Database: DB_DATABASE,
       Host: DB_HOST,
       Password: DB_PASSWORD,
-      User: DB_USERNAME
+      User: DB_USERNAME,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      directory: './db/migrations',
+      directory: "./db/migrations",
     },
     seeds: {
-      directory: './db/seeds',
+      directory: "./db/seeds",
     },
-  }
-
+  },
 };
