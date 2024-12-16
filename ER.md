@@ -59,8 +59,8 @@ share {
     integer user_id FK "ユーザーID"
     integer carport_id FK "駐車場ID"
     integer share_car_id FK "シェアカーID"
-    timestamp start_date "貸し出せる時間帯の始まりの日時"
-    timestamp end_date "貸し出せる時間帯の終わりの日時"
+    timestamp start_at "貸し出せる時間帯の始まりの日時"
+    timestamp end_at "貸し出せる時間帯の終わりの日時"
 }
 
 requests {

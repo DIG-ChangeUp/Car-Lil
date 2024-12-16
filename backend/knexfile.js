@@ -1,11 +1,14 @@
 // Update with your config settings.
 require ('dotenv').config({ path: "./.env" })
-const DB_USER = process.env.DB_USER;
-const DB_NAME = process.env.DB_NAME;
-const DB_HOST = process.env.DB_HOST
+const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PORT = process.env.DB_PORT
-const DB_URL = process.env.DB_URL;
+const DATABASE_URL = process.env.DATABASE_URL;
+const DB_CONNECTION = process.env.DB_CONNECTION
 const DB_PASSWORD = process.env.DB_PASSWORD
+const DB_DATABASE = process.env.DATABASE_URL
+const DB_HOST = process.env.DB_HOST
+
+
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
@@ -37,8 +40,14 @@ module.exports = {
   // },
 
   production: {
-    client: 'pg',
-    connection: DB_URL,
+    client: DB_CONNECTION,
+    connection: {
+      URI: DATABASE_URL,
+      Database: DB_DATABASE,
+      Host: DB_HOST,
+      Password: DB_PASSWORD,
+      User: DB_USERNAME
+    },
     pool: {
       min: 2,
       max: 10
