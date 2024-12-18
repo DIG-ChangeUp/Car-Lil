@@ -4,6 +4,8 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
 
+import { Button, Container, PasswordInput, Text } from '@yamada-ui/react';
+
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
@@ -34,17 +36,19 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>ログイン</h1>
+    <Container centerContent>
+      <Text fontSize={'4xl'} fontWeight={'bold'}>
+        Car-Lil
+      </Text>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">メールアドレス</label>
+          <label htmlFor="email">E-mail : </label>
           <input id="email" name="email" type="email" placeholder="email" />
         </div>
         <div>
-          <label htmlFor="password">パスワード</label>
-          <input
+          <label htmlFor="password">Password : </label>
+          <PasswordInput
             id="password"
             name="password"
             type="password"
@@ -52,7 +56,7 @@ const Login: React.FC = () => {
           />
         </div>
         <div>
-          <button type="submit">ログイン</button>
+          <Button type="submit">ログイン</Button>
         </div>
         <div>
           ユーザ登録は<Link to={'/signup'}>こちら</Link>から
@@ -62,7 +66,7 @@ const Login: React.FC = () => {
         <p>Googleを使って認証はこちら</p>
         <GoogleAuthButton />
       </div>
-    </div>
+    </Container>
   );
 };
 
