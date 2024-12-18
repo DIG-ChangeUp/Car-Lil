@@ -4,7 +4,7 @@ import Footer from '../components/Footer.tsx';
 
 const OwnerTop = () => {
   return (
-    <div>
+    <div className="display-container">
       <Header />
       <OwnerSelectMenu />
       <Footer />
