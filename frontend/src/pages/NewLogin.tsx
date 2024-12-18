@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
 
 import {
   Button,
@@ -13,22 +16,50 @@ import {
   HStack,
   Text,
 } from '@yamada-ui/react';
+import { useState } from 'react';
 
 const NewLogin = () => {
+  // login ----------------------------
+
+  const navigate = useNavigate();
+  const [error, setError] = useState<string>('');
+  const auth = getAuth(); // Firebase Auth インスタンスを取得
+
+  const handleLoginSubmit = async (data: Data) => {
+    const email: string = data.email;
+    const password: string = data.password;
+    console.log('email: ', email, ' / password: ', password);
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('ログイン成功');
+      navigate('/');
+    } catch (error) {
+      console.error('ログインエラー:', error);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      setError(error.message);
+    }
+  };
+
+  // ---------------------------------
+
   type Data = { name: string; password: string; email: string };
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Data>();
 
-  const onSubmit: SubmitHandler<Data> = (data) => {
+  const onSubmit: SubmitHandler<Data> = async (data) => {
     console.log('submit:', data);
+    await handleLoginSubmit(data);
   };
 
-  console.log('watch:', watch());
+  const RegistrationNewUser = () => {
+    navigate('/signup');
+  };
 
   return (
     <Center padding={'10'} height="calc(100vh - 100px)">
@@ -36,6 +67,7 @@ const NewLogin = () => {
         <Text fontSize="5xl" fontWeight="extrabold" textAlign="center">
           CAR-LIL
         </Text>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <FormControl
           marginTop="6"
           isInvalid={!!errors.email}
@@ -83,10 +115,13 @@ const NewLogin = () => {
           <Separator width="40" />
         </HStack>
 
-        <Button leftIcon={<FcGoogle />} variant="outline">
-          Googleでログイン
-        </Button>
-        <Button colorScheme="link" marginTop="8" variant="link">
+        <GoogleAuthButton />
+        <Button
+          colorScheme="link"
+          marginTop="8"
+          variant="link"
+          onClick={RegistrationNewUser}
+        >
           新規登録
         </Button>
       </VStack>
