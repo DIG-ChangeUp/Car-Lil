@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 import { useEffect } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
+import { Button } from '@yamada-ui/react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Home = () => {
   return (
     <div>
       <h1>ホームページ</h1>
-      <button onClick={handleLogout}>ログアウト</button>
+      <Button onClick={handleLogout}>ログアウト</Button>
       <GoogleMap />
     </div>
   );
