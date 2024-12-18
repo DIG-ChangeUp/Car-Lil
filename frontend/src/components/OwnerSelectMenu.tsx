@@ -1,6 +1,4 @@
 import "./ownerSelectMenu.css"
-import Header from "./Header"
-import Footer from "./Footer"
 import { Card } from "@yamada-ui/react"
 
 export function OwnerSelectMenu(){
@@ -15,8 +13,6 @@ export function OwnerSelectMenu(){
   return (
     <div className="display-container">
       <h1>オーナーメニュー選択画面</h1>
-      {/*ヘッダー------------------------*/}
-      <Header />
       {/*メイン画面------------------------*/}
       <div className="main-container">
         {/*メニュー選択*/}
@@ -34,8 +30,6 @@ export function OwnerSelectMenu(){
           <p>カレンダーに戻ります</p>
         </div>
       </div>
-      {/*フッター-----------------------------*/}
-      <Footer />
     </div>
   )
 }
