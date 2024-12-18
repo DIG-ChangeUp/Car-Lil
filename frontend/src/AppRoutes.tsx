@@ -3,8 +3,8 @@ import { UIProvider } from "@yamada-ui/react"
 
 // import { Provider } from "jotai";
 
-import TestView from './components/TestView.tsx';
 import { OwnerSelectMenu } from './components/OwnerSelectMenu.tsx';
+import OwnerTop from './pages/OwnerTop.tsx';
 
 export default function AppRoutes() {
   return (
@@ -12,8 +12,8 @@ export default function AppRoutes() {
     <BrowserRouter>
       <UIProvider>
         <Routes>
-          <Route path="/" element={<TestView />} />
-          <Route path="/ownerInput" element={<OwnerSelectMenu />} />
+          <Route path="/ownerTop" element={<OwnerTop />} />
+          <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
         </Routes>
         </UIProvider>
     </BrowserRouter>
