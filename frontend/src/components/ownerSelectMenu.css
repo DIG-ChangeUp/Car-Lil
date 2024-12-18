@@ -1,0 +1,38 @@
+.display-container{
+    width: 30%;
+}
+
+/*ヘッダー*/
+.header-container{
+    background-color: darkgrey;
+}
+.header-upper-side{
+    display: flex;
+    justify-content: space-between;
+}
+.icons{
+    display: flex;
+}
+.notifications{
+    display: flex;
+}
+
+/*メイン画面*/
+.menu-icons{
+    flex-wrap: wrap;
+}
+
+.completed-editing-display{
+    background-color: aquamarine;
+}
+
+
+/*フッター*/
+.footer-container{
+}
+.back-button{
+    justify-content: right;
+}
+.buttons{
+    justify-content: space-between;
+}
