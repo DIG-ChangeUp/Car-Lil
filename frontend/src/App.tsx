@@ -9,6 +9,7 @@ import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import SampleCalendar from './pages/SampleCalendar.tsx';
+import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
         <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
         <Route path="/calendar" element={<OwnerDateRegistration />} />
+        <Route path="/selectTime" element={<OwnerSelectTime />} />
         <Route path="/sample" element={<SampleCalendar />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
