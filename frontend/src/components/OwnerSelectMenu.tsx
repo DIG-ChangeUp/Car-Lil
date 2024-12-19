@@ -17,7 +17,9 @@ export function OwnerSelectMenu() {
   // ・編集が完了したかどうか＝＞完了画面への切り替えに必要
   return (
     <div className="main-container">
+      <br></br>
       <h1>オーナーページ</h1>
+      <br></br>
       <div className="menu-cards">
         <VStack>
           <HStack>
