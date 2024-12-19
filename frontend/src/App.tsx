@@ -7,6 +7,7 @@ import { AuthProvider } from './components/AuthContext.tsx';
 import NewLogin from './pages/NewLogin.tsx';
 import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
+import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<NewLogin />} />
         <Route path="/ownerTop" element={<OwnerTop />} />
+        <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
         <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
         <Route path="/calendar" element={<OwnerDateRegistration />} />
         <Route path="*" element={<NotFound />} />
