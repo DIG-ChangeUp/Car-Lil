@@ -1,7 +1,19 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { Calendar } from '@yamada-ui/calendar';
-import { Button, Container } from '@yamada-ui/react';
-import DrumRoll from '../components/DrumRoll.tsx';
+import {
+  Button,
+  Container,
+  NativeTable,
+  ScrollArea,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  VStack,
+} from '@yamada-ui/react';
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
@@ -64,22 +76,86 @@ const OwnerDateRegistration = () => {
   console.log('rentalDays: ', rentalDays);
   console.log('rentalDateAndTimes: ', rentalDateAndTimes);
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() - 1);
+
   return (
     <>
       <Header />
       <Container h="calc(100vh - 180px)" centerContent>
         <Calendar
+          locale="ja"
+          dateFormat="YYYY年 MM月"
+          fontSize="1xl"
+          excludeDate={(date) => date < tomorrow}
+          firstDayOfWeek="sunday" // 日曜始まり
           variant="subtle"
           defaultValue={[]}
           today
           onChange={(value) => createDays(value)}
           // value={selectDate}
         />
-        {/*<Text>{`date:${dateFormat(selectDate[3])}`}</Text>*/}
-        <DrumRoll />
-        <Button colorScheme="primary" variant="solid" onClick={makeRentalData}>
-          確認画面に進む
-        </Button>
+        <Container>
+          <ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>
+            <TableContainer>
+              <NativeTable variant="striped">
+                <Thead>
+                  <Tr>
+                    <Th>車両</Th>
+                    <Th>貸出可能日時</Th>
+                  </Tr>
+                </Thead>
+
+                <Tbody>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>{'ハイラックスサーフ'.substring(0, 7) + '...'}</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>ヤリス</Td>
+                    <Td>12月26日 10:30-16:00</Td>
+                  </Tr>
+                </Tbody>
+              </NativeTable>
+            </TableContainer>
+          </ScrollArea>
+        </Container>
+        <Container>
+          <Button
+            colorScheme="primary"
+            variant="solid"
+            onClick={makeRentalData}
+          >
+            時間指定に進む
+          </Button>
+          {rentalDays.length > 0 || (
+            <Text textAlign="center">カレンダーから日付を選択してください</Text>
+          )}
+        </Container>
       </Container>
       <Footer />
     </>
