@@ -1,12 +1,13 @@
 import { MdOutlineArrowBackIos } from 'react-icons/md';
+import { Container } from '@yamada-ui/react';
 
 export default function Header() {
   return (
-    <header className="header-container">
+    <Container h="100px">
       {/*戻るボタン*/}
       <div className="back-button">
         <MdOutlineArrowBackIos />
       </div>
-    </header>
+    </Container>
   );
 }

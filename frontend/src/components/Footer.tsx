@@ -6,18 +6,17 @@ import {
   MdOutlineListAlt,
   MdPersonOutline,
 } from 'react-icons/md';
+import { HStack } from '@yamada-ui/react';
 
 export default function Footer() {
   return (
-    <footer className="footer-container">
-      <div className="footer-icons">
-        <MdOutlineCalendarMonth />
-        <MdOutlineDirectionsCar />
-        <MdOutlineListAlt />
-        <MdPersonOutline />
-        <MdNotificationsNone />
-        <MdMoreHoriz />
-      </div>
-    </footer>
+    <HStack justifyContent="space-between" h="80px" marginX="5">
+      <MdOutlineCalendarMonth />
+      <MdOutlineDirectionsCar />
+      <MdOutlineListAlt />
+      <MdPersonOutline />
+      <MdNotificationsNone />
+      <MdMoreHoriz />
+    </HStack>
   );
 }
