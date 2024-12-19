@@ -1,5 +1,4 @@
-import './style.css';
-import { Card, Container, HStack, VStack } from '@yamada-ui/react';
+import { Card, Container, HStack, Text, VStack } from '@yamada-ui/react';
 import {
   MdEditCalendar,
   MdOutlineRestore,
@@ -18,32 +17,69 @@ export function OwnerSelectMenu() {
   return (
     <Container h="calc(100vh - 180px)">
       <br></br>
-      <h1>オーナーページ</h1>
-      <br></br>
-      <div className="menu-cards">
-        <VStack>
+      <Text fontSize="2xl" fontWeight="bold">
+        オーナーページ
+      </Text>
+      <Container>
+        <VStack alignItems="center" textAlign="center">
           <HStack>
-            <Card className="menu-card">
-              <MdEditCalendar className="menu-icon" />
-              <div>貸出設定</div>
+            <Card
+              w="180"
+              h="180"
+              alignItems="center"
+              paddingTop="35"
+              backgroundColor="#F3F7F7"
+              sx={{ border: '1px solid #D9D9D9' }}
+            >
+              <MdEditCalendar size="50" />
+              <Text fontSize="xl" paddingTop="2">
+                貸出設定
+              </Text>
             </Card>
-            <Card className="menu-card">
-              <MdOutlineRestore className="menu-icon" />
-              <p>貸出履歴</p>
+            <Card
+              w="180"
+              h="180"
+              alignItems="center"
+              paddingTop="35"
+              backgroundColor="#F3F7F7"
+              sx={{ border: '1px solid #D9D9D9' }}
+            >
+              <MdOutlineRestore size="50" />
+              <Text fontSize="xl" paddingTop="2">
+                貸出履歴
+              </Text>
             </Card>
           </HStack>
           <HStack>
-            <Card className="menu-card">
-              <MdCarCrash className="menu-icon" />
-              <p>車両情報</p>
+            <Card
+              w="180"
+              h="180"
+              alignItems="center"
+              paddingTop="35"
+              backgroundColor="#F3F7F7"
+              sx={{ border: '1px solid #D9D9D9' }}
+            >
+              <MdCarCrash size="50" />
+              <Text fontSize="xl" paddingTop="2">
+                車両情報
+              </Text>
             </Card>
-            <Card className="menu-card">
-              <MdCurrencyYen className="menu-icon" />
-              <p>キャッシュバック金額</p>
+            <Card
+              w="180"
+              h="180"
+              alignItems="center"
+              paddingTop="35"
+              backgroundColor="#F3F7F7"
+              sx={{ border: '1px solid #D9D9D9' }}
+            >
+              <MdCurrencyYen size="50" />
+              <Text fontSize="xl" paddingTop="2">
+                キャッシュバック<br></br>金額
+              </Text>
             </Card>
           </HStack>
         </VStack>
-      </div>
+      </Container>
     </Container>
   );
 }

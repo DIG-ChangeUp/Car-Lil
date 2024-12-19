@@ -17,6 +17,7 @@ export default function Footer() {
       paddingBottom="3"
       fontSize="2xl"
       backgroundColor="#F3F7F7"
+      sx={{ borderTop: '1px solid #D9D9D9' }}
     >
       <VStack alignItems="center">
         <MdOutlineCalendarMonth />
