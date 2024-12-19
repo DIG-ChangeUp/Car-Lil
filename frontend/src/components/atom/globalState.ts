@@ -1,3 +1,3 @@
-import { atom } from "jotai";
+import { atom } from 'jotai';
 
-export const userDataAtom = atom({});
+export const userDataAtom = atom({ email: '', userId: '' });
