@@ -7,10 +7,10 @@ import {
   MdPersonOutline,
 } from 'react-icons/md';
 
-export default function Footer(){
+export default function Footer() {
   return (
     <footer className="footer-container">
-      <div className="icons">
+      <div className="footer-icons">
         <MdOutlineCalendarMonth />
         <MdOutlineDirectionsCar />
         <MdOutlineListAlt />
@@ -19,5 +19,5 @@ export default function Footer(){
         <MdMoreHoriz />
       </div>
     </footer>
-  )
+  );
 }

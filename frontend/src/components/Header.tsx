@@ -1,12 +1,12 @@
-import { SlArrowLeft } from 'react-icons/sl';
+import { MdOutlineArrowBackIos } from 'react-icons/md';
 
-export default function Header(){
+export default function Header() {
   return (
     <header className="header-container">
       {/*戻るボタン*/}
       <div className="back-button">
-        <SlArrowLeft />
+        <MdOutlineArrowBackIos />
       </div>
     </header>
-  )
+  );
 }
