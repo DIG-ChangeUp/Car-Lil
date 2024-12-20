@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
+import { getGeolocation } from '../components/geolocation.ts';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -16,7 +17,7 @@ import {
   HStack,
   Text,
 } from '@yamada-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const NewLogin = () => {
   // login ----------------------------
@@ -60,6 +61,11 @@ const NewLogin = () => {
   const RegistrationNewUser = () => {
     navigate('/signup');
   };
+
+  // 現在位置取得
+  useEffect(() => {
+    getGeolocation();
+  }, []);
 
   return (
     <Center padding={'10'} height="calc(100vh - 100px)">
