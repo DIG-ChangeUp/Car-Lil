@@ -4,15 +4,20 @@ import { UseAuthContext } from '../components/AuthContext.tsx';
 import { useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { Button } from '@yamada-ui/react';
+import { getGeolocation } from '../components/geolocation.ts';
 
 import axios from 'axios';
 //import { google } from '@googlemaps/google-maps-services-js';
 
-import {ICarPort} from '../../globals';
+import { ICarPort } from '../../globals';
+import { useAtomValue, useSetAtom } from 'jotai/index';
+import { locationAtom } from '../components/atom/globalState.ts';
 
 const Map = () => {
   const navigate = useNavigate();
   const { user } = UseAuthContext();
+  const location = useAtomValue(locationAtom);
+  const setLocation = useSetAtom(locationAtom);
 
   const handleLogout = async () => {
     try {
@@ -31,10 +36,9 @@ const Map = () => {
     }
   }, [user, navigate]); // user または navigate が変更された場合にのみ実行
 
-
   /* =================================================================
-  * 駐車場情報読み込み
-  * ================================================================= */
+   * 駐車場情報読み込み
+   * ================================================================= */
 
   const [carPortList, setCarPortList] = useState<ICarPort[]>([]);
 
@@ -42,6 +46,8 @@ const Map = () => {
     (async () => {
       await getCarPortList();
       await getRootDistance();
+      const userPosition = getGeolocation();
+      setLocation(userPosition);
     })();
   }, []);
 
@@ -58,11 +64,14 @@ const Map = () => {
       origin,
       destination,
       key: import.meta.env.VITE_GOOGLE_API_KEY,
-      mode: 'driving' // 移動手段を指定 (driving, walking, bicyclingなど)
+      mode: 'driving', // 移動手段を指定 (driving, walking, bicyclingなど)
     };
 
     try {
-      const response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', { params: request });
+      const response = await axios.get(
+        'https://maps.googleapis.com/maps/api/directions/json',
+        { params: request }
+      );
       const distance = response.data.routes[0].legs[0].distance.text;
       console.log('距離:', distance);
       // ここで、取得した距離を画面に表示するなどの処理を行う
@@ -70,7 +79,6 @@ const Map = () => {
       console.error('Error:', error);
     }
   }
-
 
   if (!user) {
     // navigateによるリダイレクトが完了するまで何もレンダリングしない

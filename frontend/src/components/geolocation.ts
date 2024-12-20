@@ -3,7 +3,7 @@ type position = {
   longitude: number;
 };
 export const getGeolocation = (): position => {
-  const resultPosition = { latitude: 35.1701884, longitude: 36.8853477 };
+  const resultPosition = { latitude: 35.1704882, longitude: 136.8851653 };
   const options = {
     enableHighAccuracy: true,
     timeout: 5000,
@@ -21,6 +21,7 @@ export const getGeolocation = (): position => {
 
     resultPosition.latitude = crd.latitude;
     resultPosition.longitude = crd.longitude;
+    console.log('resultPosition: ', resultPosition);
   }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

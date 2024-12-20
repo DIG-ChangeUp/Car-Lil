@@ -14,6 +14,6 @@ export const rentalStartTimeAtom = atom<string | null>('10:00');
 export const rentalEndTimeAtom = atom<string | null>('16:00');
 // 初期値をミットランドとしている
 export const locationAtom = atom({
-  latitude: 35.1701884,
-  longitude: 36.8853477,
+  latitude: 35.1704882,
+  longitude: 136.8851653,
 });
