@@ -1,10 +1,10 @@
 import {
+  MdCarCrash,
+  MdCurrencyYen,
+  MdEditCalendar,
   MdMoreHoriz,
   MdNotificationsNone,
-  MdOutlineCalendarMonth,
-  MdOutlineDirectionsCar,
-  MdOutlineListAlt,
-  MdPersonOutline,
+  MdOutlineRestore,
 } from 'react-icons/md';
 import { HStack, Text, VStack } from '@yamada-ui/react';
 
@@ -20,20 +20,20 @@ export default function Footer() {
       sx={{ borderTop: '1px solid #D9D9D9' }}
     >
       <VStack alignItems="center">
-        <MdOutlineCalendarMonth />
-        <Text fontSize="2xs">予約する</Text>
+        <MdEditCalendar />
+        <Text fontSize="2xs">貸出設定</Text>
       </VStack>
       <VStack alignItems="center">
-        <MdOutlineDirectionsCar />
-        <Text fontSize="2xs">利用する</Text>
+        <MdOutlineRestore />
+        <Text fontSize="2xs">貸出履歴</Text>
       </VStack>
       <VStack alignItems="center">
-        <MdOutlineListAlt />
-        <Text fontSize="2xs">予約一覧</Text>
+        <MdCarCrash />
+        <Text fontSize="2xs">車両情報</Text>
       </VStack>
       <VStack alignItems="center">
-        <MdPersonOutline />
-        <Text fontSize="2xs">オーナー</Text>
+        <MdCurrencyYen />
+        <Text fontSize="2xs">バック金額</Text>
       </VStack>
       <VStack alignItems="center">
         <MdNotificationsNone />
