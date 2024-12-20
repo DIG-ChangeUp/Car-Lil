@@ -1,8 +1,14 @@
+import { useEffect } from 'react'
+
 import { Routes, Route } from 'react-router-dom';
+
+import OneSignal from 'react-onesignal'
+
 import { OwnerSelectMenu } from './components/OwnerSelectMenu.tsx';
+import { AuthProvider } from './components/AuthContext.tsx';
+
 import OwnerTop from './pages/OwnerTop.tsx';
 import Home from './pages/Home.tsx';
-import { AuthProvider } from './components/AuthContext.tsx';
 import NewLogin from './pages/NewLogin.tsx';
 import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
@@ -12,6 +18,14 @@ import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
 import NewSignUp from './pages/NewSignUp.tsx';
 
 export default function App() {
+  useEffect(() => {
+    (async() => {
+      await OneSignal.init({
+        appId: import.meta.env.VITE_ONESIGNAL_API_KEY,
+      })
+    })()
+  }, [])
+
   return (
     <AuthProvider>
       <Routes>
