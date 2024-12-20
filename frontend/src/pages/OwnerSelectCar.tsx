@@ -18,12 +18,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { atom, useAtom } from 'jotai/index';
 const carDataAtom = atom<object>({});
-// const selectedKeyAtom = atom<number>(0);
+
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
   const [selectedCarDataAtom, setSelectedCarDataAtom] = useAtom(carDataAtom);
-  // const [selectedKeyOfContainerAtom, setSelectedKeyOfContainerAtom] =
-  //   useAtom(selectedKeyAtom);
+  // 確認用
   useEffect(() => {
     console.log('selectedCarDataAtom:', selectedCarDataAtom);
   }, [selectedCarDataAtom]);
@@ -42,10 +41,6 @@ const OwnerSelectCar = () => {
     });
   });
 
-  // function getKeyOfContainer(keyOfContainer: number) {
-  //   setSelectedKeyOfContainerAtom(keyOfContainer);
-  // }
-
   return (
     <>
       <Header />
@@ -60,10 +55,8 @@ const OwnerSelectCar = () => {
               オーナーページ
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="/ownerSelectCar" fontSize="larger">
-              貸出車両選択
-            </BreadcrumbLink>
+          <BreadcrumbItem>
+            <BreadcrumbLink fontSize="larger">貸出車両選択</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <ScrollArea h="calc(100vh - 180px)" w="100%">
@@ -102,7 +95,8 @@ const OwnerSelectCar = () => {
                           capacity: car.capacity,
                           prise: 330,
                         });
-                        // navigate('/次の確認画面のルート');
+                        // ！！一旦エラー回避でトップにnavigate
+                        navigate('/ownerTop');
                       }}
                     >
                       確認画面へ進む
