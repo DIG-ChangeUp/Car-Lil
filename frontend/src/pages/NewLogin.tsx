@@ -18,8 +18,11 @@ import {
   Text,
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
+import { useSetAtom } from 'jotai/index';
+import { locationAtom } from '../components/atom/globalState.ts';
 
 const NewLogin = () => {
+  const setLocation = useSetAtom(locationAtom);
   // login ----------------------------
 
   const navigate = useNavigate();
@@ -64,7 +67,8 @@ const NewLogin = () => {
 
   // 現在位置取得
   useEffect(() => {
-    getGeolocation();
+    const userPosition = getGeolocation();
+    setLocation(userPosition);
   }, []);
 
   return (
