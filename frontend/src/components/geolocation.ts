@@ -1,9 +1,9 @@
 type position = {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 };
 export const getGeolocation = (): position => {
-  const resultPosition = { latitude: '', longitude: '' };
+  const resultPosition = { latitude: 35.1701884, longitude: 36.8853477 };
   const options = {
     enableHighAccuracy: true,
     timeout: 5000,
