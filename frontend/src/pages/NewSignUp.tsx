@@ -57,7 +57,7 @@ const SignUp: React.FC = () => {
   };
 
   const backLoginPage = () => {
-    navigate('/login');
+    navigate('/');
   };
 
   return (
