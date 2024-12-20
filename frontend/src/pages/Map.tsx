@@ -13,6 +13,7 @@ const Map = () => {
     try {
       await auth.signOut();
       navigate('/');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       console.log('ログアウト エラー');
     }
@@ -29,6 +30,8 @@ const Map = () => {
     // navigateによるリダイレクトが完了するまで何もレンダリングしない
     return null;
   }
+
+  console.log('location: ', location);
 
   return (
     <div>
