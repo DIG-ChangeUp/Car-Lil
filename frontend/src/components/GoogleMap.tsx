@@ -8,9 +8,17 @@ import {
   InfoWindow,
 } from '@vis.gl/react-google-maps';
 import { Markers } from './Markers.tsx';
+import { useAtomValue } from 'jotai/index';
+import { locationAtom } from './atom/globalState.ts';
 
 export default function GoogleMap() {
-  const position = { lat: 35.1698072, lng: 136.885171621167 };
+  const location = useAtomValue(locationAtom);
+  type positionType = { lat: number; lng: number };
+
+  const position: positionType = {
+    lat: location.latitude,
+    lng: location.longitude,
+  };
   const [open, setOpen] = useState<boolean>(false);
 
   const GOOGLE_API_KEY =
