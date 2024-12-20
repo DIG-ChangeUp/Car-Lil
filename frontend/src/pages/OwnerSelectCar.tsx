@@ -2,6 +2,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Button,
   Card,
   Container,
   HStack,
@@ -13,14 +14,19 @@ import {
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import { Car, ShareCar, cars, shareCars } from './sampleData.tsx';
-import { useEffect, useState } from 'react';
-
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { atom, useAtom } from 'jotai/index';
+const carDataAtom = atom<object>({});
+// const selectedKeyAtom = atom<number>(0);
 const OwnerSelectCar = () => {
-  // const [selectedKeyOfContainerAtom, setSelectedKeyOfContainerAtom] = useAtom(
-  //   atom<boolean>(false)
-  // );
-  // console.log('!!!', selectedKeyOfContainerAtom);
-  const [selectedKeyOfContainer, setSelectedKeyOfContainer] = useState(0);
+  const navigate = useNavigate();
+  const [selectedCarDataAtom, setSelectedCarDataAtom] = useAtom(carDataAtom);
+  // const [selectedKeyOfContainerAtom, setSelectedKeyOfContainerAtom] =
+  //   useAtom(selectedKeyAtom);
+  useEffect(() => {
+    console.log('selectedCarDataAtom:', selectedCarDataAtom);
+  }, [selectedCarDataAtom]);
 
   const ownerId = 8;
   const carsData: Car[] = [];
@@ -36,13 +42,9 @@ const OwnerSelectCar = () => {
     });
   });
 
-  function getKeyOfContainer(keyOfContainer: number) {
-    setSelectedKeyOfContainer(keyOfContainer);
-  }
-  // 確認用
-  useEffect(() => {
-    console.log('selectedKeyOfContainer', selectedKeyOfContainer);
-  }, [selectedKeyOfContainer]);
+  // function getKeyOfContainer(keyOfContainer: number) {
+  //   setSelectedKeyOfContainerAtom(keyOfContainer);
+  // }
 
   return (
     <>
@@ -72,15 +74,8 @@ const OwnerSelectCar = () => {
                   <Card
                     sx={{
                       padding: '5',
-                      border:
-                        selectedKeyOfContainer === index + 1
-                          ? '4px grid #289FAB'
-                          : '',
                     }}
                     backgroundColor="#F3F7F7"
-                    onClick={() => {
-                      getKeyOfContainer(index + 1);
-                    }}
                   >
                     <Text>{`登録車両 ${index + 1}`}</Text>
                     <HStack height="100">
@@ -96,6 +91,22 @@ const OwnerSelectCar = () => {
                     <Text>{`定員：${car.capacity}`}</Text>
                     <Separator />
                     <Text>{`貸出料金：330円`}</Text>
+                    <Button
+                      backgroundColor="#289FAB"
+                      color="#FEFEFE"
+                      onClick={() => {
+                        setSelectedCarDataAtom({
+                          maker: car.maker,
+                          car_name: car.car_name,
+                          car_type: car.car_type,
+                          capacity: car.capacity,
+                          prise: 330,
+                        });
+                        // navigate('/次の確認画面のルート');
+                      }}
+                    >
+                      確認画面へ進む
+                    </Button>
                   </Card>
                 </Container>
               );
