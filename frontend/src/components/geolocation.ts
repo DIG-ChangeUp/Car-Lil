@@ -5,7 +5,7 @@ export const getGeolocation = () => {
     maximumAge: 0,
   };
 
-  function success(pos) {
+  function success(pos:any) {
     const crd = pos.coords;
 
     console.log('Your current position is:');
@@ -14,7 +14,7 @@ export const getGeolocation = () => {
     console.log(`More or less ${crd.accuracy} meters.`);
   }
 
-  function error(err) {
+  function error(err:any) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
