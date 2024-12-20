@@ -33,7 +33,7 @@ const NewLogin = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('ログイン成功');
-      navigate('/');
+      navigate('/map');
     } catch (error) {
       console.error('ログインエラー:', error);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

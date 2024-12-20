@@ -36,7 +36,7 @@ const SignUp: React.FC = () => {
       //   password
       // );
       //console.log('User created:', userCredential.user);
-      navigate('/');
+      navigate('/map');
     } catch (error: any) {
       console.error('Error creating user:', error);
       setError(error.message);
