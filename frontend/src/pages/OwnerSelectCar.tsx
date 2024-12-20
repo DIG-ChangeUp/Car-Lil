@@ -13,7 +13,6 @@ import {
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import { Car, ShareCar, cars, shareCars } from './sampleData.tsx';
-import { atom, useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 
 const OwnerSelectCar = () => {
