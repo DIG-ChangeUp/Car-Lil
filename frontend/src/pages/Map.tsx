@@ -5,14 +5,14 @@ import { useEffect } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { Button } from '@yamada-ui/react';
 
-const Home = () => {
+const Map = () => {
   const navigate = useNavigate();
   const { user } = UseAuthContext();
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.log('ログアウト エラー');
     }
@@ -21,7 +21,7 @@ const Home = () => {
   // userが存在しない場合にリダイレクト
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate('/');
     }
   }, [user, navigate]); // user または navigate が変更された場合にのみ実行
 
@@ -39,4 +39,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Map;
