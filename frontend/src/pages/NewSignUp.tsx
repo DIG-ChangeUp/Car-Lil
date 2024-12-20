@@ -29,13 +29,14 @@ const SignUp: React.FC = () => {
     console.log('email: ', email, ' / password: ', password);
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await createUserWithEmailAndPassword(auth, email, password);
+      // const userCredential = await createUserWithEmailAndPassword(
+      //   auth,
+      //   email,
+      //   password
+      // );
       //console.log('User created:', userCredential.user);
-      navigate('/');
+      navigate('/map');
     } catch (error: any) {
       console.error('Error creating user:', error);
       setError(error.message);
@@ -56,7 +57,7 @@ const SignUp: React.FC = () => {
   };
 
   const backLoginPage = () => {
-    navigate('/login');
+    navigate('/');
   };
 
   return (

@@ -14,7 +14,7 @@ const GoogleAuthButton: React.FC = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       console.log('user info:', user);
-      navigate('/');
+      navigate('/map');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       console.log('google auth error!');

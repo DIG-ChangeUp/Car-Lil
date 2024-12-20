@@ -19,13 +19,14 @@ const SignUp: React.FC = () => {
     console.log('email:', email, '  /password:', password);
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log('User created:', userCredential.user);
-      navigate('/');
+      await createUserWithEmailAndPassword(auth, email, password);
+      // const userCredential = await createUserWithEmailAndPassword(
+      //   auth,
+      //   email,
+      //   password
+      // );
+      // console.log('User created:', userCredential.user);
+      navigate('/map');
     } catch (error: any) {
       console.error('Error creating user:', error);
       setError(error.message);
