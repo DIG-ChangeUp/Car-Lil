@@ -102,7 +102,7 @@ function calcDistance(myPlace, placeData) {
   copyData.sort((a, b) => a.distance - b.distance);
   return copyData;
 }
-console.log('data-------', calcDistance(samplePlace, sampleData));
+// console.log('data-------', calcDistance(samplePlace, sampleData));
 // 緯度、経度での計算テスト終わり------------
 
 module.exports = {
