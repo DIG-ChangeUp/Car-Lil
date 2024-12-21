@@ -27,7 +27,6 @@
     "react-icons": "^5.4.0",
     "react-onesignal": "^3.0.1",
     "react-router-dom": "^7.0.2",
-    "react-time-picker-typescript": "^1.2.5",
     "vite": "^6.0.3",
     "vite-plugin-pwa": "^0.21.1"
   },
