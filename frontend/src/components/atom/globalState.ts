@@ -17,3 +17,9 @@ export const locationAtom = atom({
   latitude: 35.1704882,
   longitude: 136.8851653,
 });
+type position = {
+  lat: number;
+  lng: number;
+};
+export const selectInfoWindowAtom = atom<position | null>(null);
+export const isOpenInfoWindowAtom = atom<boolean>(false);

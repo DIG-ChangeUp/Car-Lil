@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   APIProvider,
   Map,
@@ -9,20 +8,30 @@ import {
 } from '@vis.gl/react-google-maps';
 import { Markers } from './Markers.tsx';
 import { useAtomValue } from 'jotai/index';
-import { locationAtom } from './atom/globalState.ts';
+import {
+  isOpenInfoWindowAtom,
+  locationAtom,
+  selectInfoWindowAtom,
+} from './atom/globalState.ts';
+import reactIcon from '../assets/react.svg';
+import { useAtom } from 'jotai';
+import { Flex, Text } from '@yamada-ui/react';
 
 export default function GoogleMap() {
   const location = useAtomValue(locationAtom);
+  const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
+  const [isOpenInfoWindow, setIsOpenInfoWindow] = useAtom(isOpenInfoWindowAtom);
   type positionType = { lat: number; lng: number };
 
   const position: positionType = {
     lat: location.latitude,
     lng: location.longitude,
   };
-  const [open, setOpen] = useState<boolean>(false);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
+
+  console.log('location: ', selectInfoWindow);
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
@@ -34,22 +43,26 @@ export default function GoogleMap() {
         ></Map>
         <AdvancedMarker
           position={position}
-          onClick={() => setOpen(true)}
+          // onClick={() => setOpen(true)}
         ></AdvancedMarker>
         <Markers />
 
-        {open && (
+        {isOpenInfoWindow && (
           <InfoWindow
-            position={position}
+            position={selectInfoWindow}
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             options={{
               // pinが隠れるので上にオフセットさせる
-              pixelOffset: new google.maps.Size(0, -40),
+              pixelOffset: new google.maps.Size(0, -50),
             }}
-            onClose={() => setOpen(false)}
+            onClose={() => setIsOpenInfoWindow(false)}
           >
-            <p>ミッドランド</p>
+            <Flex alignItems="center" gap="3">
+              <img src={reactIcon} width={40} height={40} alt="car_icon" />
+              <Text>ここに車両名を入れる</Text>
+            </Flex>
+            <p>{`selectInfoWindow: ${selectInfoWindow?.lat} / ${selectInfoWindow?.lng}`}</p>
           </InfoWindow>
         )}
       </div>

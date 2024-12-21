@@ -1,12 +1,20 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { Pin, AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
+import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import type { Marker } from '@googlemaps/markerclusterer';
+import iconImage from '../assets/iconCar.svg';
+import {
+  isOpenInfoWindowAtom,
+  selectInfoWindowAtom,
+} from './atom/globalState.ts';
+import { useSetAtom } from 'jotai/index';
 
 export const Markers = () => {
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
+  const setSelectInfoWindow = useSetAtom(selectInfoWindowAtom);
+  const setIsOpenInfoWindow = useSetAtom(isOpenInfoWindowAtom);
 
   useEffect(() => {
     if (!map) return;
@@ -35,12 +43,22 @@ export const Markers = () => {
     });
   };
 
+  type position = {
+    lat: number;
+    lng: number;
+  };
   // クリックしたピンをmap中心にする処理
-  const handleClick = useCallback((ev: google.maps.MapMouseEvent) => {
-    if (!map) return;
-    if (!ev.latLng) return;
-    map.panTo(ev.latLng);
-  }, []);
+  const handleClick = useCallback(
+    (ev: google.maps.MapMouseEvent, location: position) => {
+      console.log('click event!');
+      if (!map) return;
+      if (!ev.latLng) return;
+      map.panTo(ev.latLng);
+      setSelectInfoWindow(location);
+      setIsOpenInfoWindow(true);
+    },
+    []
+  );
 
   return (
     <>
@@ -50,13 +68,9 @@ export const Markers = () => {
           position={poi.location}
           ref={(marker) => setMarkerRef(marker, poi.key)}
           clickable={true}
-          onClick={handleClick}
+          onClick={(ev) => handleClick(ev, poi.location)}
         >
-          <Pin
-            background={'#FBBC04'}
-            glyphColor={'#000'}
-            borderColor={'#000'}
-          />
+          <img src={iconImage} width={50} height={50} alt="car_icon" />
         </AdvancedMarker>
       ))}
     </>
