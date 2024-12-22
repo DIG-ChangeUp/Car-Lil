@@ -50,15 +50,20 @@ export const Markers = () => {
   // クリックしたピンをmap中心にする処理
   const handleClick = useCallback(
     (ev: google.maps.MapMouseEvent, location: position) => {
-      console.log('click event!');
       if (!map) return;
       if (!ev.latLng) return;
       map.panTo(ev.latLng);
       setSelectInfoWindow(location);
-      setIsOpenInfoWindow(true);
+      // 一旦閉じてから開く
+      setIsOpenInfoWindow(false);
+      setTimeout(() => {
+        setIsOpenInfoWindow(true);
+      }, 0); // 最短の遅延
     },
-    []
+    [map, setSelectInfoWindow, setIsOpenInfoWindow]
   );
+
+  console.log('Map instance:', map);
 
   return (
     <>
