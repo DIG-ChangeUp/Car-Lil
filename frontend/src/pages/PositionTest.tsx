@@ -42,6 +42,10 @@ export function PositionTest() {
     }
     executeGetGeolocation();
   }, []);
+  //確認用
+  useEffect(() => {
+    console.log('lengthOfDistanceData:', distanceData.length);
+  }, [distanceData]);
 
   //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
   async function getDataAroundCurrentPosition(position: Position) {
@@ -53,7 +57,10 @@ export function PositionTest() {
         body: JSON.stringify({ currentPosition: currentPosition }),
       });
       if (response.ok) {
-        setDistanceData(response.body.data);
+        // @ts-ignore
+        const jsonResponse = await response.json();
+        console.log('response.body-----', jsonResponse);
+        setDistanceData(jsonResponse.data);
       }
     } else {
       alert('位置情報がまだ取得できていません。');
@@ -81,32 +88,38 @@ export function PositionTest() {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  return (
+  return !currentPosition.latitude ? (
+    <>
+      <h1>位置情報がまだ取得できていない</h1>
+    </>
+  ) : (
     <div>
-      <h1>current position</h1>
-      <div>latitude:{currentPosition.latitude}</div>
-      <div>longitude{currentPosition.longitude}</div>
+      <h1>＜現在位置＞</h1>
+      <div>latitude（緯度）: {currentPosition.latitude}</div>
+      <div>longitude（経度）: {currentPosition.longitude}</div>
+      <br></br>
       <div>↓ボタンだよ↓</div>
       <button
         style={{ backgroundColor: 'lightcyan' }}
         onClick={() => getDataAroundCurrentPosition(currentPosition)}
       >
-        [位置情報送信 → データが返る]
+        [位置情報送信ボタン]
       </button>
-      {/*<div>*/}
-      {/*  <div>*/}
-      {/*    distanceData.length === 0 ? (<></>) : (*/}
-      {/*    {distanceData.map((data: Carports, index: number) => {*/}
-      {/*      return (*/}
-      {/*        <div key={index}>*/}
-      {/*          <div>{index + 1}番目に近い場所</div>*/}
-      {/*          <div>{data.distance}</div>*/}
-      {/*        </div>*/}
-      {/*      );*/}
-      {/*    })}*/}
-      {/*    )*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      <br></br>
+      <div>
+        {distanceData.length === 0 ? (
+          <></>
+        ) : (
+          distanceData.map((data: Carports, index: number) => {
+            return (
+              <div key={index}>
+                <div>◾️{index + 1}番目に近い場所との直線距離</div>
+                <div>→ {data.distance} km</div>
+              </div>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

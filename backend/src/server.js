@@ -16,7 +16,7 @@ function setupServer() {
 
   app.get('/api/users', usersController.index);
   app.get('/api/carports', carportsController.index);
-  app.get('/api/distance', carportsController.getDistance);
+  app.post('/api/distance', carportsController.getDistance);
   app.get('/distance', calcDistance.calcDistance); //テスト用
 
   return app;
