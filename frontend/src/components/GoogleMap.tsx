@@ -35,11 +35,12 @@ export default function GoogleMap() {
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
-      <div style={{ height: '80vh', width: '100%' }}>
+      <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>
         <Map
           defaultZoom={18}
           defaultCenter={position}
           mapId="da37f3254c6a6d1c"
+          disableDefaultUI={true}
         ></Map>
         <AdvancedMarker
           position={position}

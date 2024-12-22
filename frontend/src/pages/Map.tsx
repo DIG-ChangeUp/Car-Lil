@@ -3,8 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 import { useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
-import { Button } from '@yamada-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Center,
+  Float,
+  Text,
+  ZStack,
+} from '@yamada-ui/react';
 import { getGeolocation } from '../components/geolocation.ts';
+import { MdLogout } from 'react-icons/md';
 
 import axios from 'axios';
 //import { google } from '@googlemaps/google-maps-services-js';
@@ -12,12 +21,14 @@ import axios from 'axios';
 import { ICarPort } from '../../globals';
 import { useAtomValue, useSetAtom } from 'jotai/index';
 import { locationAtom } from '../components/atom/globalState.ts';
+import Footer from '../components/Footer.tsx';
 
 const Map = () => {
   const navigate = useNavigate();
   const { user } = UseAuthContext();
   const location = useAtomValue(locationAtom);
   const setLocation = useSetAtom(locationAtom);
+  const [viewMode, setViewMode] = useState('map');
 
   const handleLogout = async () => {
     try {
@@ -85,23 +96,87 @@ const Map = () => {
     return null;
   }
 
+  function handleViewModeClick(mode: string) {
+    setViewMode(mode);
+  }
+
   console.log('location: ', location);
 
   return (
-    <div>
-      <h1>ホームページ</h1>
-      {carPortList.map((carPort) => {
-        return (
-          <div key={carPort.id}>
-            <p>{carPort.address}</p>
-            <p>{carPort.distance}</p>
-          </div>
-        );
-      })}
-
-      <Button onClick={handleLogout}>ログアウト</Button>
-      <GoogleMap />
-    </div>
+    <>
+      <Center height="calc(100vh - 80px)" maxWidth="100vw">
+        <ZStack width="100%">
+          {carPortList.map((carPort) => {
+            return (
+              <div key={carPort.id}>
+                <p>{carPort.address}</p>
+                <p>{carPort.distance}</p>
+              </div>
+            );
+          })}
+          <Box height="calc(100vh - 80px)" width="100%">
+            <GoogleMap />
+            <Float offset="xl" placement="end-start">
+              <Button
+                onClick={handleLogout}
+                rounded="100%"
+                width="60px"
+                height="60px"
+                fontSize="4xl"
+                marginBottom="10"
+                border="solid #F3F7F7 2px"
+              >
+                <MdLogout />
+              </Button>
+            </Float>
+          </Box>
+          <Center w="100%" marginTop="30px">
+            <Box
+              width="180px"
+              height="80px"
+              bg="#F3F7F7"
+              rounded="20px"
+              boxShadow="0px 0px 15px -5px #777777"
+            >
+              <Text textAlign="center" marginTop="6px" fontWeight="bold">
+                表示切替え
+              </Text>
+              <Center>
+                <ButtonGroup
+                  variant="outline"
+                  w="160px"
+                  marginTop="3px"
+                  border="solid #c9c9c9 1px"
+                  rounded="12px"
+                >
+                  <Button
+                    colorScheme="gray"
+                    w="80px"
+                    color={viewMode === 'map' ? 'black' : '#c9c9c9'}
+                    bg={viewMode === 'map' ? 'gray.100' : 'none'}
+                    border={viewMode === 'map' ? 'solid black 1px' : 'none'}
+                    onClick={() => handleViewModeClick('map')}
+                  >
+                    Map
+                  </Button>
+                  <Button
+                    colorScheme="gray"
+                    w="80px"
+                    color={viewMode === 'list' ? 'black' : '#c9c9c9'}
+                    bg={viewMode === 'list' ? 'gray.100' : 'none'}
+                    border={viewMode === 'list' ? 'solid black 1px' : 'none'}
+                    onClick={() => handleViewModeClick('list')}
+                  >
+                    List
+                  </Button>
+                </ButtonGroup>
+              </Center>
+            </Box>
+          </Center>
+        </ZStack>
+      </Center>
+      <Footer />
+    </>
   );
 };
 
