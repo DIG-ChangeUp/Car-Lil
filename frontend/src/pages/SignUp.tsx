@@ -37,8 +37,10 @@ const SignUp: React.FC = () => {
       // );
       //console.log('User created:', userCredential.user);
       navigate('/map');
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error creating user:', error);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       setError(error.message);
     }
   };
