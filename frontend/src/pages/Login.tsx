@@ -21,7 +21,7 @@ import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai/index';
 import { locationAtom } from '../components/atom/globalState.ts';
 
-const NewLogin = () => {
+const Login = () => {
   const setLocation = useSetAtom(locationAtom);
   // login ----------------------------
 
@@ -139,4 +139,4 @@ const NewLogin = () => {
   );
 };
 
-export default NewLogin;
+export default Login;
