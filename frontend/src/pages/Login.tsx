@@ -16,6 +16,7 @@ import {
   Separator,
   HStack,
   Text,
+  Container,
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai/index';
@@ -72,70 +73,72 @@ const Login = () => {
   }, []);
 
   return (
-    <Center padding={'10'} height="calc(100vh - 100px)">
-      <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Text fontSize="5xl" fontWeight="extrabold" textAlign="center">
-          CAR-LIL
-        </Text>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <FormControl
-          marginTop="6"
-          isInvalid={!!errors.email}
-          label="Email"
-          errorMessage={errors.email ? errors.email.message : undefined}
-        >
-          <InputGroup>
-            <Input
-              type="email"
-              placeholder="your-address@example.com"
-              {...register('email', {
-                required: { value: true, message: 'E-mail is required.' },
+    <Container centerContent margin="0 auto">
+      <Center padding={'10'} height="calc(100vh - 100px)" maxWidth="100vw">
+        <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
+          <Text fontSize="5xl" fontWeight="extrabold" textAlign="center">
+            CAR-LIL
+          </Text>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <FormControl
+            marginTop="6"
+            isInvalid={!!errors.email}
+            label="Email"
+            errorMessage={errors.email ? errors.email.message : undefined}
+          >
+            <InputGroup>
+              <Input
+                type="email"
+                placeholder="your-address@example.com"
+                {...register('email', {
+                  required: { value: true, message: 'E-mail is required.' },
+                })}
+              />
+            </InputGroup>
+          </FormControl>
+
+          <FormControl
+            isInvalid={!!errors.password}
+            label="Password"
+            errorMessage={errors.password?.message}
+            // errorMessage={errors.name ? errors.name.message : undefined}
+          >
+            <PasswordInput
+              variant="outline"
+              placeholder="your password"
+              {...register('password', {
+                required: { message: 'Password is required.', value: true },
+                minLength: {
+                  value: 6,
+                  message: 'Password must be at least 6 characters',
+                },
               })}
             />
-          </InputGroup>
-        </FormControl>
+          </FormControl>
 
-        <FormControl
-          isInvalid={!!errors.password}
-          label="Password"
-          errorMessage={errors.password?.message}
-          // errorMessage={errors.name ? errors.name.message : undefined}
-        >
-          <PasswordInput
-            variant="outline"
-            placeholder="your password"
-            {...register('password', {
-              required: { message: 'Password is required.', value: true },
-              minLength: {
-                value: 6,
-                message: 'Password must be at least 6 characters',
-              },
-            })}
-          />
-        </FormControl>
+          <Button type="submit" marginTop="6">
+            Login
+          </Button>
+          <HStack marginTop="6">
+            <Separator width="40" />
+            <Text fontSize="2xs" width="60" textAlign="center">
+              OR CONTINUE WITH
+            </Text>
+            <Separator width="40" />
+          </HStack>
 
-        <Button type="submit" marginTop="6">
-          Login
-        </Button>
-        <HStack marginTop="6">
-          <Separator width="40" />
-          <Text fontSize="2xs" width="60" textAlign="center">
-            OR CONTINUE WITH
-          </Text>
-          <Separator width="40" />
-        </HStack>
-
-        <GoogleAuthButton />
-        <Button
-          colorScheme="link"
-          marginTop="8"
-          variant="link"
-          onClick={RegistrationNewUser}
-        >
-          新規登録
-        </Button>
-      </VStack>
-    </Center>
+          <GoogleAuthButton />
+          <Button
+            colorScheme="link"
+            marginTop="8"
+            variant="link"
+            onClick={RegistrationNewUser}
+          >
+            新規登録
+          </Button>
+        </VStack>
+      </Center>
+    </Container>
   );
 };
 
