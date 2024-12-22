@@ -101,19 +101,20 @@ const Map = () => {
   }
 
   console.log('location: ', location);
+  console.log('carPortList: ', carPortList);
 
   return (
     <>
       <Center height="calc(100vh - 80px)" maxWidth="100vw">
         <ZStack width="100%">
-          {carPortList.map((carPort) => {
-            return (
-              <div key={carPort.id}>
-                <p>{carPort.address}</p>
-                <p>{carPort.distance}</p>
-              </div>
-            );
-          })}
+          {/*{carPortList.map((carPort) => {*/}
+          {/*  return (*/}
+          {/*    <div key={carPort.id}>*/}
+          {/*      <p>{carPort.address}</p>*/}
+          {/*      <p>{carPort.distance}</p>*/}
+          {/*    </div>*/}
+          {/*  );*/}
+          {/*})}*/}
           <Box height="calc(100vh - 80px)" width="100%">
             <GoogleMap />
             <Float offset="xl" placement="end-start">
