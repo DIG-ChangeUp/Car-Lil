@@ -1,5 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
 import { getGeolocation } from '../components/geolocation.ts';
 
@@ -70,6 +74,15 @@ const Login = () => {
   useEffect(() => {
     const userPosition = getGeolocation();
     setLocation(userPosition);
+  }, []);
+
+  // ログイン状態なら、画面遷移させる
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate('/map');
+      }
+    });
   }, []);
 
   return (
