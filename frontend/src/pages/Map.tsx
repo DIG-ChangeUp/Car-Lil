@@ -131,7 +131,7 @@ const Map = () => {
               </Button>
             </Float>
           </Box>
-          <Center w="100%" marginTop="30px">
+          <Center w="100%">
             <Box
               width="180px"
               height="80px"
