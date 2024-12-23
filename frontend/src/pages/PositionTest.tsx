@@ -5,14 +5,14 @@ type Position = {
   latitude: number | null;
   longitude: number | null;
 };
-type Carports = {
-  id: number;
-  car_id: number;
-  address: string;
-  latitude: number;
-  longitude: number;
-  distance: number;
-};
+// type Carports = {
+//   id: number;
+//   car_id: number;
+//   address: string;
+//   latitude: number;
+//   longitude: number;
+//   distance: number;
+// };
 type ResponseBody = {
   data: [];
 };
@@ -42,10 +42,6 @@ export function PositionTest() {
     }
     executeGetGeolocation();
   }, []);
-  //確認用
-  useEffect(() => {
-    console.log('lengthOfDistanceData:', distanceData.length);
-  }, [distanceData]);
 
   //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
   async function getDataAroundCurrentPosition(position: Position) {
@@ -112,11 +108,12 @@ export function PositionTest() {
         {distanceData.length === 0 ? (
           <></>
         ) : (
-          distanceData.map((data: Carports, index: number) => {
+          distanceData.map((data: object, index: number) => {
             return (
               <div key={index}>
-                <div>◾️{index + 1}番目に近い場所との直線距離</div>
-                <div>→ {data.distance} km</div>
+                <div>◾️{index + 1}番目に直線距離が近い場所の実際の歩行距離</div>
+                <div> → {data.routes[0].legs[0].distance.text} km</div>
+                <div> 掛かる時間：{data.routes[0].legs[0].duration.text} </div>
               </div>
             );
           })
