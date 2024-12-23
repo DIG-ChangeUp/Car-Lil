@@ -6,6 +6,7 @@ const { resolve } = require('node:path');
 
 const usersController = require('./users/users.controller');
 const calcDistance = require('./calcDistance');
+const carportsController = require('./carports/carports.controller');
 
 function setupServer() {
   const app = express();
@@ -13,8 +14,10 @@ function setupServer() {
   app.use(express.json());
   app.use('/', express.static(resolve(__dirname, '../dist')));
 
-  app.get('/api', usersController.index);
-  app.get('/distance', calcDistance.calcDistance);
+  app.get('/api/users', usersController.index);
+  app.get('/api/carports', carportsController.index);
+  app.post('/api/distance', carportsController.getDistance);
+  app.get('/distance', calcDistance.calcDistance); //テスト用
 
   return app;
 }
