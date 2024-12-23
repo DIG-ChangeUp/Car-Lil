@@ -6,7 +6,7 @@ import {
   AdvancedMarker,
   InfoWindow,
 } from '@vis.gl/react-google-maps';
-import { Markers } from './Markers.tsx';
+import Markers from './Markers.tsx';
 import { useAtomValue } from 'jotai/index';
 import {
   isOpenInfoWindowAtom,
@@ -30,8 +30,6 @@ export default function GoogleMap() {
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
-
-  console.log('location: ', selectInfoWindow);
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
