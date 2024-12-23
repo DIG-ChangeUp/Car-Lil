@@ -50,6 +50,7 @@ export function PositionTest() {
   //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
   async function getDataAroundCurrentPosition(position: Position) {
     if (position.latitude !== null && position.longitude !== null) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const response: ResponseContents = await fetch('/api/distance', {
         method: 'POST',
@@ -57,6 +58,7 @@ export function PositionTest() {
         body: JSON.stringify({ currentPosition: currentPosition }),
       });
       if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const jsonResponse = await response.json();
         console.log('response.body-----', jsonResponse);
