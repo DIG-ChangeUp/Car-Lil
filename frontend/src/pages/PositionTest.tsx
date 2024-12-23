@@ -74,7 +74,7 @@ export function PositionTest() {
       timeout: 5000,
       maximumAge: 0,
     };
-    function success(pos: any) {
+    function success(pos: GeolocationPosition) {
       const crd = pos.coords;
       console.log('Your current position is:');
       console.log(`Latitude : ${crd.latitude}`);
@@ -82,7 +82,7 @@ export function PositionTest() {
       console.log(`More or less ${crd.accuracy} meters.`);
       setCurrentPosition({ latitude: crd.latitude, longitude: crd.longitude });
     }
-    function error(err: any) {
+    function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
