@@ -50,6 +50,7 @@ const Markers = () => {
   // クリックしたピンをmap中心にする処理
   const handleClick = useCallback(
     (ev: google.maps.MapMouseEvent, location: position) => {
+      console.log(' Markers map: ', map);
       if (!map) return;
       if (!ev.latLng) return;
       map.panTo(ev.latLng);
@@ -62,8 +63,6 @@ const Markers = () => {
     },
     [map, setSelectInfoWindow, setIsOpenInfoWindow]
   );
-
-  console.log('Map instance:', map);
 
   return (
     <>

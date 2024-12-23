@@ -12,10 +12,14 @@ type rentalDateAndTime = {
 export const rentalDateAndTimesAtom = atom<rentalDateAndTime[]>([]);
 export const rentalStartTimeAtom = atom<string | null>('10:00');
 export const rentalEndTimeAtom = atom<string | null>('16:00');
-// 初期値をミットランドとしている
-export const locationAtom = atom({
-  latitude: 35.1704882,
-  longitude: 136.8851653,
+
+type location = {
+  latitude: number;
+  longitude: number;
+};
+export const locationAtom = atom<location>({
+  latitude: 35.1704169,
+  longitude: 136.8849973,
 });
 type position = {
   lat: number;

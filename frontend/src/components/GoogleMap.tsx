@@ -1,11 +1,12 @@
 'use client';
 
 import {
-  APIProvider,
   Map,
   AdvancedMarker,
   InfoWindow,
+  useMap,
 } from '@vis.gl/react-google-maps';
+
 import Markers from './Markers.tsx';
 import { useAtomValue } from 'jotai/index';
 import {
@@ -21,6 +22,8 @@ export default function GoogleMap() {
   const location = useAtomValue(locationAtom);
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
   const [isOpenInfoWindow, setIsOpenInfoWindow] = useAtom(isOpenInfoWindowAtom);
+  const map = useMap();
+
   type positionType = { lat: number; lng: number };
 
   const position: positionType = {
@@ -28,43 +31,41 @@ export default function GoogleMap() {
     lng: location.longitude,
   };
 
-  const GOOGLE_API_KEY =
-    import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
+  map?.panTo(position);
+  console.log('panToの後ろ');
 
   return (
-    <APIProvider apiKey={GOOGLE_API_KEY}>
-      <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>
-        <Map
-          defaultZoom={18}
-          defaultCenter={position}
-          mapId="da37f3254c6a6d1c"
-          disableDefaultUI={true}
-        ></Map>
-        <AdvancedMarker
-          position={position}
-          // onClick={() => setOpen(true)}
-        ></AdvancedMarker>
-        <Markers />
+    <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>
+      <Map
+        defaultZoom={18}
+        defaultCenter={position}
+        mapId="da37f3254c6a6d1c"
+        disableDefaultUI={true}
+      ></Map>
+      <AdvancedMarker
+        position={position}
+        // onClick={() => setOpen(true)}
+      ></AdvancedMarker>
+      <Markers />
 
-        {isOpenInfoWindow && (
-          <InfoWindow
-            position={selectInfoWindow}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            options={{
-              // pinが隠れるので上にオフセットさせる
-              pixelOffset: new google.maps.Size(0, -50),
-            }}
-            onClose={() => setIsOpenInfoWindow(false)}
-          >
-            <Flex alignItems="center" gap="3">
-              <img src={reactIcon} width={40} height={40} alt="car_icon" />
-              <Text>ここに車両名を入れる</Text>
-            </Flex>
-            <p>{`selectInfoWindow: ${selectInfoWindow?.lat} / ${selectInfoWindow?.lng}`}</p>
-          </InfoWindow>
-        )}
-      </div>
-    </APIProvider>
+      {isOpenInfoWindow && (
+        <InfoWindow
+          position={selectInfoWindow}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          options={{
+            // pinが隠れるので上にオフセットさせる
+            pixelOffset: new google.maps.Size(0, -50),
+          }}
+          onClose={() => setIsOpenInfoWindow(false)}
+        >
+          <Flex alignItems="center" gap="3">
+            <img src={reactIcon} width={40} height={40} alt="car_icon" />
+            <Text>ここに車両名を入れる</Text>
+          </Flex>
+          <p>{`selectInfoWindow: ${selectInfoWindow?.lat} / ${selectInfoWindow?.lng}`}</p>
+        </InfoWindow>
+      )}
+    </div>
   );
 }
