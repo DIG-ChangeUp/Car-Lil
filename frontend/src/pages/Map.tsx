@@ -9,15 +9,8 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Card,
   Center,
-  Container,
   Float,
-  HStack,
-  ScrollArea,
-  Spacer,
-  Text,
-  VStack,
   ZStack,
 } from '@yamada-ui/react';
 import { MdLogout } from 'react-icons/md';
@@ -26,6 +19,7 @@ import { MdLocationPin } from 'react-icons/md';
 import { useAtom } from 'jotai/index';
 import { locationAtom } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
+import DistanceCardList from '../components/DistanceCardList.tsx';
 
 const Map = () => {
   const navigate = useNavigate();
@@ -151,48 +145,7 @@ const Map = () => {
               {viewMode === 'map' ? (
                 <GoogleMap />
               ) : (
-                <Container marginTop="90px">
-                  <ScrollArea h="calc(100vh - 80px - 120px)" w="100%">
-                    <Container>
-                      {distanceData.map((distance, index) => {
-                        return (
-                          <Card
-                            marginTop="3px"
-                            key={index + 1}
-                            sx={{
-                              padding: '3',
-                            }}
-                            backgroundColor="#F3F7F7"
-                          >
-                            <HStack>
-                              <VStack>
-                                <Text fontSize="14px">
-                                  {
-                                    distance.routes[0].legs[0].end_address
-                                      .replace('日本、', '')
-                                      .split(' ')[1]
-                                  }
-                                </Text>
-                                <HStack>
-                                  <Text>
-                                    {distance.routes[0].legs[0].distance.text}
-                                  </Text>
-                                  <Spacer />
-                                  <Text>
-                                    {distance.routes[0].legs[0].distance.text}
-                                  </Text>
-                                </HStack>
-                              </VStack>
-                              <Button rounded="full" w="50px" h="46px">
-                                予約
-                              </Button>
-                            </HStack>
-                          </Card>
-                        );
-                      })}
-                    </Container>
-                  </ScrollArea>
-                </Container>
+                <DistanceCardList distanceData={distanceData} />
               )}
               <Float offset="xl" placement="end-start">
                 <Button
