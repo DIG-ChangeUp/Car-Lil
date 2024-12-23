@@ -9,13 +9,13 @@ import { AuthProvider } from './components/AuthContext.tsx';
 
 import OwnerTop from './pages/OwnerTop.tsx';
 import Map from './pages/Map.tsx';
-import NewLogin from './pages/NewLogin.tsx';
+import Login from './pages/Login.tsx';
 import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import SampleCalendar from './pages/SampleCalendar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
-import NewSignUp from './pages/NewSignUp.tsx';
+import NewSignUp from './pages/SignUp.tsx';
 import { PositionTest } from './pages/PositionTest.tsx';
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<NewLogin />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<NewSignUp />} />
         <Route path="/map" element={<Map />} />
         <Route path="/ownerTop" element={<OwnerTop />} />
