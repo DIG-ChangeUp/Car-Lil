@@ -14,12 +14,38 @@ module.exports = {
     res.status(200).send({ data: carport });
   },
   async getDistance(req, res) {
-    console.log('reqbody-----', req.body);
-    // const testPosition = { latitude: 35, longitude: 136 };//テスト用
     const currentPosition = req.body.currentPosition;
-    // const distanceData = await carportsModel.calcDistance(testPosition);//テスト用
     const distanceData = await carportsModel.calcDistance(currentPosition); //本番用
-    res.status(200).send({ data: distanceData });
-    console.log('distanceData:', distanceData);
+    //GoogleAPIへのデータ送信
+    async function getRootDistance(calculatedData) {
+      const _destLat = calculatedData.latitude;
+      const _destLng = calculatedData.longitude;
+      const _originLat = currentPosition.latitude;
+      const _originLng = currentPosition.longitude;
+
+      let API_URL =
+        'https://maps.googleapis.com/maps/api/directions/json?avoid=highways';
+      API_URL += '&destination=' + _destLat + ',' + _destLng;
+      API_URL += '&mode=walking';
+      API_URL += '&origin=' + _originLat + ',' + _originLng;
+      //import.meta.envはESモジュールで利用できないためprocess.envを使う
+      API_URL += '&key=' + process.env.VITE_GOOGLE_API_KEY;
+
+      const _resultRootDistance = await fetch(API_URL);
+      const _aryRootDistance = await _resultRootDistance.json();
+      // console.log('_aryRootDistance-----', _aryRootDistance);
+      return _aryRootDistance;
+    }
+    // GoogleAPIからのレスポンスをクライアントにsendする
+    const dataToSend = [];
+    //
+    await Promise.all(
+      distanceData.map(async (data, _) => {
+        const apiResponseData = await getRootDistance(data);
+        dataToSend.push(apiResponseData);
+      })
+    );
+    console.log('dataToSend----------', dataToSend);
+    res.status(200).send({ data: dataToSend });
   },
 };
