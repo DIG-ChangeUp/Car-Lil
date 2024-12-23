@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, memo } from 'react';
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import type { Marker } from '@googlemaps/markerclusterer';
@@ -9,7 +9,7 @@ import {
 } from './atom/globalState.ts';
 import { useSetAtom } from 'jotai/index';
 
-export const Markers = () => {
+const Markers = () => {
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
@@ -81,6 +81,8 @@ export const Markers = () => {
     </>
   );
 };
+
+export default memo(Markers);
 
 type Poi = { key: string; location: google.maps.LatLngLiteral };
 const locations: Poi[] = [

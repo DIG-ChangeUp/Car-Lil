@@ -9,9 +9,7 @@ export const getGeolocation = (): position => {
     timeout: 5000,
     maximumAge: 0,
   };
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  function success(pos) {
+  function success(pos: GeolocationPosition) {
     const crd = pos.coords;
 
     console.log('Your current position is:');
@@ -23,9 +21,8 @@ export const getGeolocation = (): position => {
     resultPosition.longitude = crd.longitude;
     console.log('resultPosition: ', resultPosition);
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  function error(err) {
+
+  function error(err: GeolocationPositionError) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
