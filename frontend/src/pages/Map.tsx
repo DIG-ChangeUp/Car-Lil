@@ -14,6 +14,7 @@ import {
 } from '@yamada-ui/react';
 import { getGeolocation } from '../components/geolocation.ts';
 import { MdLogout } from 'react-icons/md';
+import { MdLocationPin } from 'react-icons/md';
 
 import axios from 'axios';
 //import { google } from '@googlemaps/google-maps-services-js';
@@ -57,8 +58,7 @@ const Map = () => {
     (async () => {
       await getCarPortList();
       await getRootDistance();
-      const userPosition = getGeolocation();
-      setLocation(userPosition);
+      handleGetGeolocation();
     })();
   }, []);
 
@@ -100,6 +100,12 @@ const Map = () => {
     setViewMode(mode);
   }
 
+  function handleGetGeolocation() {
+    console.log('handleGetGeolocationが動いた！');
+    const userPosition = getGeolocation();
+    setLocation(userPosition);
+  }
+
   console.log('location: ', location);
   console.log('carPortList: ', carPortList);
 
@@ -128,6 +134,20 @@ const Map = () => {
                 border="solid #F3F7F7 2px"
               >
                 <MdLogout />
+              </Button>
+            </Float>
+            <Float offset="xl" placement="end-end">
+              <Button
+                onClick={handleGetGeolocation}
+                rounded="100%"
+                width="60px"
+                height="60px"
+                fontSize="4xl"
+                marginBottom="10"
+                marginRight="10"
+                border="solid #F3F7F7 2px"
+              >
+                <MdLocationPin color="blue" />
               </Button>
             </Float>
           </Box>
