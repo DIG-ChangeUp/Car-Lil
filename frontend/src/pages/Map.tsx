@@ -33,6 +33,10 @@ const Map = () => {
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [distanceData, setDistanceData] = useState<DistanceData[]>([]);
   const [location, setLocation] = useAtom(locationAtom);
+  const [prevLocation, setPrevLocation] = useState<location>({
+    latitude: null,
+    longitude: null,
+  });
 
   type DistanceData = {
     routes: Route[];
@@ -70,7 +74,7 @@ const Map = () => {
   }, [user, navigate]); // user または navigate が変更された場合にのみ実行
 
   useEffect(() => {
-    getGeolocation();
+    getGeolocation('first');
   }, []);
 
   if (!user) {
@@ -80,12 +84,16 @@ const Map = () => {
 
   function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
+    if (mode === 'list') {
+      getGeolocation(null);
+      if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
+        getDataAroundCurrentPosition(location);
+      }
+    }
   }
 
   function handleGetGeolocation() {
-    getGeolocation();
-    getDataAroundCurrentPosition(location);
-    setLocation(location);
+    getGeolocation(null);
   }
 
   //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
@@ -106,11 +114,12 @@ const Map = () => {
       // @ts-ignore
       const jsonResponse = await response.json();
       setDistanceData(jsonResponse.data);
+      console.log('getDataAroundCurrentPositionが実行');
     }
   }
 
   //位置情報取得、ステートに保持
-  function getGeolocation(): void {
+  function getGeolocation(calledTimng: string | null): void {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -118,6 +127,15 @@ const Map = () => {
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
+      // (() => setPrevLocation((prev) => prev))();
+      console.log('location prev: ', location);
+      if (!calledTimng) {
+        setPrevLocation(location);
+      }
+      console.log('location now: ', {
+        latitude: crd.latitude,
+        longitude: crd.longitude,
+      });
       setLocation({ latitude: crd.latitude, longitude: crd.longitude });
     }
     function error(err: GeolocationPositionError) {
