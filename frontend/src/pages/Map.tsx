@@ -212,47 +212,41 @@ const Map = () => {
               )}
             </Box>
             <Center w="100%">
-              <Box
-                width="180px"
-                height="80px"
-                bg="#F3F7F7"
-                rounded="20px"
+              <ButtonGroup
+                variant="outline"
+                w="160px"
+                h="40px"
+                marginTop="3px"
+                border="solid #c9c9c9 1px"
+                rounded="full"
                 boxShadow="0px 0px 15px -5px #777777"
+                bg="white"
               >
-                <Text textAlign="center" marginTop="6px" fontWeight="bold">
-                  表示切替え
-                </Text>
-                <Center>
-                  <ButtonGroup
-                    variant="outline"
-                    w="160px"
-                    marginTop="3px"
-                    border="solid #c9c9c9 1px"
-                    rounded="12px"
-                  >
-                    <Button
-                      colorScheme="gray"
-                      w="80px"
-                      color={viewMode === 'map' ? 'black' : '#c9c9c9'}
-                      bg={viewMode === 'map' ? 'gray.100' : 'none'}
-                      border={viewMode === 'map' ? 'solid black 1px' : 'none'}
-                      onClick={() => handleViewModeClick('map')}
-                    >
-                      Map
-                    </Button>
-                    <Button
-                      colorScheme="gray"
-                      w="80px"
-                      color={viewMode === 'list' ? 'black' : '#c9c9c9'}
-                      bg={viewMode === 'list' ? 'gray.100' : 'none'}
-                      border={viewMode === 'list' ? 'solid black 1px' : 'none'}
-                      onClick={() => handleViewModeClick('list')}
-                    >
-                      List
-                    </Button>
-                  </ButtonGroup>
-                </Center>
-              </Box>
+                <Button
+                  colorScheme="gray"
+                  w="80px"
+                  h="40px"
+                  color={viewMode === 'map' ? 'black' : '#c9c9c9'}
+                  bg={viewMode === 'map' ? 'gray.100' : 'none'}
+                  border={viewMode === 'map' ? 'solid black 1px' : 'none'}
+                  onClick={() => handleViewModeClick('map')}
+                  rounded="full"
+                >
+                  Map
+                </Button>
+                <Button
+                  colorScheme="gray"
+                  w="80px"
+                  h="40px"
+                  color={viewMode === 'list' ? 'black' : '#c9c9c9'}
+                  bg={viewMode === 'list' ? 'gray.100' : 'none'}
+                  border={viewMode === 'list' ? 'solid black 1px' : 'none'}
+                  onClick={() => handleViewModeClick('list')}
+                  rounded="full"
+                >
+                  List
+                </Button>
+              </ButtonGroup>
             </Center>
           </ZStack>
         </Center>
