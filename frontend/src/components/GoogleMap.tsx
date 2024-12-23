@@ -32,7 +32,6 @@ export default function GoogleMap() {
   };
 
   map?.panTo(position);
-  console.log('panToの後ろ');
 
   return (
     <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>

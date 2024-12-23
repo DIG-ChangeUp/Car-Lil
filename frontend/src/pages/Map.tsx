@@ -126,7 +126,6 @@ const Map = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  console.log('distanceData: ', distanceData);
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
 
