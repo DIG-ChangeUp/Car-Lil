@@ -3,7 +3,7 @@ import Footer from '../components/Footer.tsx';
 import { Box, Button, Container, Text } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 
-export default function OwnerRegistrationSuccess() {
+export default function OwnerRegistrationCompleted() {
   return (
     <>
       <Header />
