@@ -127,15 +127,10 @@ const Map = () => {
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
-      // (() => setPrevLocation((prev) => prev))();
-      console.log('location prev: ', location);
+      // 不要な routes api の呼び出しを回避するための処理
       if (!calledTimng) {
         setPrevLocation(location);
       }
-      console.log('location now: ', {
-        latitude: crd.latitude,
-        longitude: crd.longitude,
-      });
       setLocation({ latitude: crd.latitude, longitude: crd.longitude });
     }
     function error(err: GeolocationPositionError) {
