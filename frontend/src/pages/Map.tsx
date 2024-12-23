@@ -203,7 +203,6 @@ const Map = () => {
                     height="60px"
                     fontSize="4xl"
                     marginBottom="10"
-                    marginRight="10"
                     border="solid #F3F7F7 2px"
                   >
                     <MdLocationPin color="blue" />
