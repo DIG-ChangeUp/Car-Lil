@@ -17,6 +17,9 @@ import SampleCalendar from './pages/SampleCalendar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
 import NewSignUp from './pages/SignUp.tsx';
 import { PositionTest } from './pages/PositionTest.tsx';
+import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
+import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
+import { Provider } from 'jotai';
 
 export default function App() {
   useEffect(() => {
@@ -29,19 +32,26 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<NewSignUp />} />
-        <Route path="/map" element={<Map />} />
-        <Route path="/ownerTop" element={<OwnerTop />} />
-        <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
-        <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
-        <Route path="/calendar" element={<OwnerDateRegistration />} />
-        <Route path="/selectTime" element={<OwnerSelectTime />} />
-        <Route path="/position" element={<PositionTest />} />
-        <Route path="/sample" element={<SampleCalendar />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Provider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<NewSignUp />} />
+          <Route path="/map" element={<Map />} />
+          <Route path="/ownerTop" element={<OwnerTop />} />
+          <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
+          <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
+          <Route path="/ownerConfirmation" element={<OwnerConfirmation />} />
+          <Route
+            path="/ownerRegistrationCompleted"
+            element={<OwnerRegistrationCompleted />}
+          />
+          <Route path="/calendar" element={<OwnerDateRegistration />} />
+          <Route path="/selectTime" element={<OwnerSelectTime />} />
+          <Route path="/position" element={<PositionTest />} />
+          <Route path="/sample" element={<SampleCalendar />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Provider>
     </AuthProvider>
   );
 }

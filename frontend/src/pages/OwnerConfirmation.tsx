@@ -11,7 +11,6 @@ import {
   VStack,
   Wrap,
 } from '@yamada-ui/react';
-
 export default function OwnerConfirmation() {
   return (
     <>
@@ -29,11 +28,9 @@ export default function OwnerConfirmation() {
           </BreadcrumbItem>
           <BreadcrumbItem>
             <BreadcrumbLink
-              sx={{
-                href: '/ownerSelectCar',
-                color: '#4C70E5',
-                textDecoration: 'underline',
-              }}
+              href="/ownerSelectCar"
+              color="#4C70E5"
+              textDecoration="underline"
             >
               貸出車両選択
             </BreadcrumbLink>
