@@ -22,16 +22,14 @@ import {
   Container,
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
-import { userEmailAtom, userDataAtom } from '../components/atom/globalState.ts';
+import { userEmailAtom } from '../components/atom/globalState.ts';
 import { useAtom } from 'jotai';
 
 const Login = () => {
   // login ----------------------------
   //認証時のemailアドレスを保持
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
-  //シェアカーを保持
-  const [userData, setUserData] = useAtom(userDataAtom);
-
+  console.log('エラー解除用にメールアドレス表示:', emailAddress);
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
   const auth = getAuth(); // Firebase Auth インスタンスを取得
@@ -44,7 +42,9 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('ログイン成功');
-      navigate('/map');
+      // navigate('/map');
+      //!!!変更箇所------------------
+      navigate('/select');
     } catch (error) {
       console.error('ログインエラー:', error);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -80,22 +80,6 @@ const Login = () => {
       }
     });
   }, []);
-
-  //オーナーのメールアドレスからオーナーに紐づくすべてのデータを取得
-  async function getOwnerData(email: string) {
-    //emailからusersテーブルのユーザーID(id)を取得
-    const Response = await fetch('/api/users/owner/email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email }),
-    });
-    if (Response.ok) {
-      const jsonResponse = await Response.json();
-      console.log('jsonResponse', jsonResponse);
-      setUserData(jsonResponse.data);
-      console.log('userData', userData);
-    }
-  }
 
   return (
     <Container centerContent margin="0 auto">
@@ -141,11 +125,7 @@ const Login = () => {
             />
           </FormControl>
 
-          <Button
-            type="submit"
-            marginTop="6"
-            onClick={() => getOwnerData(emailAddress)}
-          >
+          <Button type="submit" marginTop="6">
             Login
           </Button>
           <HStack marginTop="6">

@@ -44,7 +44,7 @@ module.exports = {
       .where({ email });
   },
   //emailからユーザーに紐づくすべての情報を取得
-  async findUserByEmail(email) {
+  async findTenantByEmail(email) {
     return await db(USERS_TABLE)
       .leftJoin('reservations', 'users.id', 'reservations.user_id')
       .leftJoin('share_cars', 'reservations.share_car_id', 'share_cars.id')

@@ -14,16 +14,16 @@ module.exports = {
     const user = await userModel.findById(userId);
     res.status(200).send({ data: user });
   },
-  //ユーザメールアドレスからユーザデータを取得してレスポンスとして送る
+  //ユーザメールアドレスからユーザ（オーナーorテナント）データを取得してレスポンスとして送る
   //!!!paramsではなくPOSTされたメールアドレスから取得
   async viewOfOwnerByEmail(req, res) {
     const email = req.body.email;
     const user = await userModel.findOwnerByEmail(email);
     res.status(200).send({ data: user });
   },
-  async viewOfUserByEmail(req, res) {
+  async viewOfTenantByEmail(req, res) {
     const email = req.body.email;
-    const user = await userModel.findUserByEmail(email);
+    const user = await userModel.findTenantByEmail(email);
     res.status(200).send({ data: user });
   },
 };

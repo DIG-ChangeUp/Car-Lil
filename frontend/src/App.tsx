@@ -20,6 +20,7 @@ import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
 import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
 import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
+import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/signup" element={<NewSignUp />} />
           <Route path="/map" element={<Map />} />
           <Route path="/ownerTop" element={<OwnerTop />} />
+          <Route path="/select" element={<SelectUserOrOwner />} />
           <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route path="/ownerConfirmation" element={<OwnerConfirmation />} />

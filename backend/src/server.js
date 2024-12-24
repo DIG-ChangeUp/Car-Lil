@@ -20,7 +20,7 @@ function setupServer() {
   app.get('/api/users', usersController.index); //全ユーザー取得
   app.post('/api/users/id', usersController.viewById); //ユーザーIDからユーザー取得
   app.post('/api/users/owner/email/', usersController.viewOfOwnerByEmail); //emailからオーナー全情報取得
-  app.post('/api/users/user/email/', usersController.viewOfUserByEmail); //emailからユーザー全情報取得
+  app.post('/api/users/tenant/email/', usersController.viewOfTenantByEmail); //emailからテナント全情報取得
   app.get('/api/cars', carsController.index); //全車種取得
   app.get('/api/carports', carportsController.index); //全駐車場取得
   app.get('/api/shareCars', shareCarsController.index); //全シェアカー取得
