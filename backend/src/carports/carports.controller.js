@@ -14,12 +14,49 @@ module.exports = {
     res.status(200).send({ data: carport });
   },
   async getDistance(req, res) {
-    console.log('reqbody-----', req.body);
-    // const testPosition = { latitude: 35, longitude: 136 };//テスト用
     const currentPosition = req.body.currentPosition;
-    // const distanceData = await carportsModel.calcDistance(testPosition);//テスト用
     const distanceData = await carportsModel.calcDistance(currentPosition); //本番用
-    res.status(200).send({ data: distanceData });
-    console.log('distanceData:', distanceData);
+    //GoogleAPIへのデータ送信
+    async function getRootDistance(calculatedData) {
+      const _destLat = calculatedData.latitude;
+      const _destLng = calculatedData.longitude;
+      const _originLat = currentPosition.latitude;
+      const _originLng = currentPosition.longitude;
+
+      let API_URL =
+        'https://maps.googleapis.com/maps/api/directions/json?avoid=highways';
+      API_URL += '&destination=' + _destLat + ',' + _destLng;
+      API_URL += '&mode=walking';
+      API_URL += '&origin=' + _originLat + ',' + _originLng;
+      API_URL += '&language=ja'; // 帰値の住所を日本語表示にする
+      //import.meta.envはESモジュールで利用できないためprocess.envを使う
+      API_URL += '&key=' + process.env.GOOGLE_API_KEY;
+
+      const _resultRootDistance = await fetch(API_URL);
+      const _aryRootDistance = await _resultRootDistance.json();
+      // console.log('_aryRootDistance-----', _aryRootDistance);
+      return _aryRootDistance;
+    }
+    // GoogleAPIからのレスポンスをクライアントにsendする
+    const dataToSend = [];
+    //
+    await Promise.all(
+      distanceData.map(async (data, _) => {
+        const apiResponseData = await getRootDistance(data);
+        dataToSend.push(apiResponseData);
+      })
+    );
+
+    function ascDistanceSort(a, b) {
+      return a > b ? 1 : -1;
+    }
+    dataToSend.sort((a, b) =>
+      ascDistanceSort(
+        a.routes[0].legs[0].distance.value,
+        b.routes[0].legs[0].distance.value
+      )
+    );
+    console.log('dataToSend----------', dataToSend);
+    res.status(200).send({ data: dataToSend });
   },
 };

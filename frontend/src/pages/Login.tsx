@@ -5,7 +5,6 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
-import { getGeolocation } from '../components/geolocation.ts';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -23,11 +22,8 @@ import {
   Container,
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
-import { useSetAtom } from 'jotai/index';
-import { locationAtom } from '../components/atom/globalState.ts';
 
 const Login = () => {
-  const setLocation = useSetAtom(locationAtom);
   // login ----------------------------
 
   const navigate = useNavigate();
@@ -69,12 +65,6 @@ const Login = () => {
   const RegistrationNewUser = () => {
     navigate('/signup');
   };
-
-  // 現在位置取得
-  useEffect(() => {
-    const userPosition = getGeolocation();
-    setLocation(userPosition);
-  }, []);
 
   // ログイン状態なら、画面遷移させる
   useEffect(() => {

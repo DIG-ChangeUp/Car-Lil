@@ -16,7 +16,6 @@ import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import SampleCalendar from './pages/SampleCalendar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
 import NewSignUp from './pages/SignUp.tsx';
-import { PositionTest } from './pages/PositionTest.tsx';
 import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
 import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
 import { Provider } from 'jotai';
@@ -47,7 +46,6 @@ export default function App() {
           />
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
-          <Route path="/position" element={<PositionTest />} />
           <Route path="/sample" element={<SampleCalendar />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
