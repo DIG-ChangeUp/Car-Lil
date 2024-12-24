@@ -109,7 +109,7 @@ const Map = () => {
       setDistanceData(jsonResponse.data);
     }
   }
-
+  console.log('🚀🚀🚀🚀 distanceData--->> ', distanceData);
   //位置情報取得、ステートに保持
   function getGeolocation(calledTiming: string | null): void {
     const options = {
