@@ -16,13 +16,7 @@ export type ShareCar = {
   share_prise: number;
   share_state: string;
 };
-export type SelectedCar = {
-  user_id: number;
-  carport_id: number;
-  share_car_id: number;
-  start_at: string;
-  end_at: string;
-};
+
 export const cars: Car[] = [
   {
     id: 1,

@@ -14,7 +14,8 @@ const GoogleAuthButton: React.FC = () => {
       // google認証 帰値の残し
       // const result = await signInWithPopup(auth, googleProvider);
       // const user = result.user;
-      // console.log('user info:', user);
+      // const email = result.email;
+      // console.log('user email:', email);
       navigate('/map');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
