@@ -19,6 +19,7 @@ import NewSignUp from './pages/SignUp.tsx';
 import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
 import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
 import { Provider } from 'jotai';
+import { TimeBarSample } from './pages/TimeBarSample.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/sample" element={<SampleCalendar />} />
+          <Route path="/timeBarSample" element={<TimeBarSample />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Provider>
