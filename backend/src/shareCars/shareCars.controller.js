@@ -9,7 +9,7 @@ module.exports = {
   },
   //ユーザーIDからシェアカーデータを取得してレスポンスとして送る
   async view(req, res) {
-    const userId = req.body.user_id;
+    const userId = req.body.userId;
     const shareCars = await shareCarsModel.find(userId);
     res.status(200).send({ data: shareCars });
   },
