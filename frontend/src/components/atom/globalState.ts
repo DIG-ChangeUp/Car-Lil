@@ -35,3 +35,5 @@ export const prevLocationAtom = atom<PrevLocation>({
   latitude: null,
   longitude: null,
 });
+
+export const viewModeAtom = atom<'map' | 'list'>('map');

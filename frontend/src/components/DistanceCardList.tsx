@@ -59,7 +59,9 @@ const DistanceCardList: React.FC<DistanceCardListProps> = ({
                       }
                     </Text>
                     <HStack>
-                      <Text>{distance.routes[0].legs[0].distance.text}</Text>
+                      {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
+                      {/*@ts-ignore*/}
+                      <Text>{distance.carData.car_name}</Text>
                       <Spacer />
                       <Text>{distance.routes[0].legs[0].distance.text}</Text>
                     </HStack>

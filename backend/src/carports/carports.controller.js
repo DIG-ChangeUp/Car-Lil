@@ -16,6 +16,9 @@ module.exports = {
   async getDistance(req, res) {
     const currentPosition = req.body.currentPosition;
     const distanceData = await carportsModel.calcDistance(currentPosition); //本番用
+
+    // console.log('distanceData ---->', distanceData);
+
     //GoogleAPIへのデータ送信
     async function getRootDistance(calculatedData) {
       const _destLat = calculatedData.latitude;
@@ -42,7 +45,9 @@ module.exports = {
     //
     await Promise.all(
       distanceData.map(async (data, _) => {
+        console.log('distanceData.map data/', data);
         const apiResponseData = await getRootDistance(data);
+        apiResponseData.carData = data;
         dataToSend.push(apiResponseData);
       })
     );
