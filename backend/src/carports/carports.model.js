@@ -1,3 +1,4 @@
+const { calcDistance } = require('../calcDistance');
 require('dotenv').config({ path: '../../.env' });
 
 const environment = process.env.NODE_ENV;
@@ -19,7 +20,9 @@ module.exports = {
     return this.find(data.id);
   },
   async calcDistance(currentPosition) {
-    return await db(CARPORTS_TABLE)
+    return db(CARPORTS_TABLE)
+      .leftJoin('share_cars', 'carports.id', 'share_cars.carport_id')
+      .leftJoin('cars', 'share_cars.car_id', 'cars.id')
       .select(
         '*',
         //db.rawで計算式をクオーテーションで囲って直接入れる
