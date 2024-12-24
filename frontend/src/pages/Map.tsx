@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 import { useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
+import { APIProvider } from '@vis.gl/react-google-maps';
 
 import {
   Box,
@@ -13,12 +14,12 @@ import {
   ZStack,
 } from '@yamada-ui/react';
 import { MdLogout } from 'react-icons/md';
-import { MdLocationPin } from 'react-icons/md';
 
 import { useAtom } from 'jotai/index';
 import {
   locationAtom,
   prevLocationAtom,
+  viewModeAtom,
 } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
 import DistanceCardList from '../components/DistanceCardList.tsx';
@@ -26,10 +27,13 @@ import DistanceCardList from '../components/DistanceCardList.tsx';
 const Map = () => {
   const navigate = useNavigate();
   const { user } = UseAuthContext();
-  const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
+  const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [distanceData, setDistanceData] = useState<DistanceData[]>([]);
   const [location, setLocation] = useAtom(locationAtom);
   const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
+
+  const GOOGLE_API_KEY =
+    import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
 
   type DistanceData = {
     routes: Route[];
@@ -85,10 +89,6 @@ const Map = () => {
     }
   }
 
-  function handleGetGeolocation() {
-    getGeolocation(null);
-  }
-
   //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
   type location = {
     latitude: number | null;
@@ -133,31 +133,18 @@ const Map = () => {
 
   return (
     <>
-      <Center height="calc(100vh - 80px)" maxWidth="100vw">
-        <ZStack width="100%">
-          <Box height="calc(100vh - 80px)" width="100%">
-            {viewMode === 'map' ? (
-              <GoogleMap />
-            ) : (
-              <DistanceCardList distanceData={distanceData} />
-            )}
-            <Float offset="xl" placement="end-start">
-              <Button
-                onClick={handleLogout}
-                rounded="100%"
-                width="60px"
-                height="60px"
-                fontSize="4xl"
-                marginBottom="10"
-                border="solid #F3F7F7 2px"
-              >
-                <MdLogout />
-              </Button>
-            </Float>
-            {viewMode === 'map' && (
-              <Float offset="xl" placement="end-end">
+      <APIProvider apiKey={GOOGLE_API_KEY}>
+        <Center height="calc(100vh - 80px)" maxWidth="100vw">
+          <ZStack width="100%">
+            <Box height="calc(100vh - 80px)" width="100%">
+              {viewMode === 'map' ? (
+                <GoogleMap />
+              ) : (
+                <DistanceCardList distanceData={distanceData} />
+              )}
+              <Float offset="xl" placement="end-start">
                 <Button
-                  onClick={handleGetGeolocation}
+                  onClick={handleLogout}
                   rounded="100%"
                   width="60px"
                   height="60px"
@@ -165,50 +152,51 @@ const Map = () => {
                   marginBottom="10"
                   border="solid #F3F7F7 2px"
                 >
-                  <MdLocationPin color="blue" />
+                  <MdLogout />
                 </Button>
               </Float>
-            )}
-          </Box>
-          <Center w="100%">
-            <ButtonGroup
-              variant="outline"
-              w="160px"
-              h="40px"
-              marginTop="3px"
-              border="solid #c9c9c9 1px"
-              rounded="full"
-              boxShadow="0px 0px 15px -5px #777777"
-              bg="white"
-            >
-              <Button
-                colorScheme="gray"
-                w="80px"
+            </Box>
+            <Center w="100%">
+              <ButtonGroup
+                variant="outline"
+                w="160px"
                 h="40px"
-                color={viewMode === 'map' ? 'black' : '#c9c9c9'}
-                bg={viewMode === 'map' ? 'gray.100' : 'none'}
-                border={viewMode === 'map' ? 'solid black 1px' : 'none'}
-                onClick={() => handleViewModeClick('map')}
+                marginTop="3px"
+                border="solid #c9c9c9 1px"
                 rounded="full"
+                boxShadow="0px 0px 15px -5px #777777"
+                bg="white"
               >
-                Map
-              </Button>
-              <Button
-                colorScheme="gray"
-                w="80px"
-                h="40px"
-                color={viewMode === 'list' ? 'black' : '#c9c9c9'}
-                bg={viewMode === 'list' ? 'gray.100' : 'none'}
-                border={viewMode === 'list' ? 'solid black 1px' : 'none'}
-                onClick={() => handleViewModeClick('list')}
-                rounded="full"
-              >
-                List
-              </Button>
-            </ButtonGroup>
-          </Center>
-        </ZStack>
-      </Center>
+                <Button
+                  colorScheme="gray"
+                  w="80px"
+                  h="40px"
+                  color={viewMode === 'map' ? 'black' : '#c9c9c9'}
+                  bg={viewMode === 'map' ? 'gray.100' : 'none'}
+                  border={viewMode === 'map' ? 'solid black 1px' : 'none'}
+                  onClick={() => handleViewModeClick('map')}
+                  rounded="full"
+                >
+                  Map
+                </Button>
+                <Button
+                  colorScheme="gray"
+                  w="80px"
+                  h="40px"
+                  color={viewMode === 'list' ? 'black' : '#c9c9c9'}
+                  bg={viewMode === 'list' ? 'gray.100' : 'none'}
+                  border={viewMode === 'list' ? 'solid black 1px' : 'none'}
+                  onClick={() => handleViewModeClick('list')}
+                  rounded="full"
+                >
+                  List
+                </Button>
+              </ButtonGroup>
+            </Center>
+          </ZStack>
+        </Center>
+      </APIProvider>
+
       <Footer />
     </>
   );
