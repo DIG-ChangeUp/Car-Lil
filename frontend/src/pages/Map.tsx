@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 import { useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
-import { APIProvider } from '@vis.gl/react-google-maps';
 
 import {
   Box,
@@ -17,7 +16,10 @@ import { MdLogout } from 'react-icons/md';
 import { MdLocationPin } from 'react-icons/md';
 
 import { useAtom } from 'jotai/index';
-import { locationAtom } from '../components/atom/globalState.ts';
+import {
+  locationAtom,
+  prevLocationAtom,
+} from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
 import DistanceCardList from '../components/DistanceCardList.tsx';
 
@@ -27,10 +29,7 @@ const Map = () => {
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [distanceData, setDistanceData] = useState<DistanceData[]>([]);
   const [location, setLocation] = useAtom(locationAtom);
-  const [prevLocation, setPrevLocation] = useState<location>({
-    latitude: null,
-    longitude: null,
-  });
+  const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
 
   type DistanceData = {
     routes: Route[];
@@ -108,12 +107,11 @@ const Map = () => {
       // @ts-ignore
       const jsonResponse = await response.json();
       setDistanceData(jsonResponse.data);
-      console.log('getDataAroundCurrentPositionが実行');
     }
   }
 
   //位置情報取得、ステートに保持
-  function getGeolocation(calledTimng: string | null): void {
+  function getGeolocation(calledTiming: string | null): void {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -122,7 +120,7 @@ const Map = () => {
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
       // 不要な routes api の呼び出しを回避するための処理
-      if (!calledTimng) {
+      if (!calledTiming) {
         setPrevLocation(location);
       }
       setLocation({ latitude: crd.latitude, longitude: crd.longitude });
@@ -133,23 +131,33 @@ const Map = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  const GOOGLE_API_KEY =
-    import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
-
   return (
     <>
-      <APIProvider apiKey={GOOGLE_API_KEY}>
-        <Center height="calc(100vh - 80px)" maxWidth="100vw">
-          <ZStack width="100%">
-            <Box height="calc(100vh - 80px)" width="100%">
-              {viewMode === 'map' ? (
-                <GoogleMap />
-              ) : (
-                <DistanceCardList distanceData={distanceData} />
-              )}
-              <Float offset="xl" placement="end-start">
+      <Center height="calc(100vh - 80px)" maxWidth="100vw">
+        <ZStack width="100%">
+          <Box height="calc(100vh - 80px)" width="100%">
+            {viewMode === 'map' ? (
+              <GoogleMap />
+            ) : (
+              <DistanceCardList distanceData={distanceData} />
+            )}
+            <Float offset="xl" placement="end-start">
+              <Button
+                onClick={handleLogout}
+                rounded="100%"
+                width="60px"
+                height="60px"
+                fontSize="4xl"
+                marginBottom="10"
+                border="solid #F3F7F7 2px"
+              >
+                <MdLogout />
+              </Button>
+            </Float>
+            {viewMode === 'map' && (
+              <Float offset="xl" placement="end-end">
                 <Button
-                  onClick={handleLogout}
+                  onClick={handleGetGeolocation}
                   rounded="100%"
                   width="60px"
                   height="60px"
@@ -157,66 +165,51 @@ const Map = () => {
                   marginBottom="10"
                   border="solid #F3F7F7 2px"
                 >
-                  <MdLogout />
+                  <MdLocationPin color="blue" />
                 </Button>
               </Float>
-              {viewMode === 'map' && (
-                <Float offset="xl" placement="end-end">
-                  <Button
-                    onClick={handleGetGeolocation}
-                    rounded="100%"
-                    width="60px"
-                    height="60px"
-                    fontSize="4xl"
-                    marginBottom="10"
-                    border="solid #F3F7F7 2px"
-                  >
-                    <MdLocationPin color="blue" />
-                  </Button>
-                </Float>
-              )}
-            </Box>
-            <Center w="100%">
-              <ButtonGroup
-                variant="outline"
-                w="160px"
+            )}
+          </Box>
+          <Center w="100%">
+            <ButtonGroup
+              variant="outline"
+              w="160px"
+              h="40px"
+              marginTop="3px"
+              border="solid #c9c9c9 1px"
+              rounded="full"
+              boxShadow="0px 0px 15px -5px #777777"
+              bg="white"
+            >
+              <Button
+                colorScheme="gray"
+                w="80px"
                 h="40px"
-                marginTop="3px"
-                border="solid #c9c9c9 1px"
+                color={viewMode === 'map' ? 'black' : '#c9c9c9'}
+                bg={viewMode === 'map' ? 'gray.100' : 'none'}
+                border={viewMode === 'map' ? 'solid black 1px' : 'none'}
+                onClick={() => handleViewModeClick('map')}
                 rounded="full"
-                boxShadow="0px 0px 15px -5px #777777"
-                bg="white"
               >
-                <Button
-                  colorScheme="gray"
-                  w="80px"
-                  h="40px"
-                  color={viewMode === 'map' ? 'black' : '#c9c9c9'}
-                  bg={viewMode === 'map' ? 'gray.100' : 'none'}
-                  border={viewMode === 'map' ? 'solid black 1px' : 'none'}
-                  onClick={() => handleViewModeClick('map')}
-                  rounded="full"
-                >
-                  Map
-                </Button>
-                <Button
-                  colorScheme="gray"
-                  w="80px"
-                  h="40px"
-                  color={viewMode === 'list' ? 'black' : '#c9c9c9'}
-                  bg={viewMode === 'list' ? 'gray.100' : 'none'}
-                  border={viewMode === 'list' ? 'solid black 1px' : 'none'}
-                  onClick={() => handleViewModeClick('list')}
-                  rounded="full"
-                >
-                  List
-                </Button>
-              </ButtonGroup>
-            </Center>
-          </ZStack>
-        </Center>
-        <Footer />
-      </APIProvider>
+                Map
+              </Button>
+              <Button
+                colorScheme="gray"
+                w="80px"
+                h="40px"
+                color={viewMode === 'list' ? 'black' : '#c9c9c9'}
+                bg={viewMode === 'list' ? 'gray.100' : 'none'}
+                border={viewMode === 'list' ? 'solid black 1px' : 'none'}
+                onClick={() => handleViewModeClick('list')}
+                rounded="full"
+              >
+                List
+              </Button>
+            </ButtonGroup>
+          </Center>
+        </ZStack>
+      </Center>
+      <Footer />
     </>
   );
 };

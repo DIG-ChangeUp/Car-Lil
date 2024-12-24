@@ -27,3 +27,11 @@ type position = {
 };
 export const selectInfoWindowAtom = atom<position | null>(null);
 export const isOpenInfoWindowAtom = atom<boolean>(false);
+type PrevLocation = {
+  latitude: number | null;
+  longitude: number | null;
+};
+export const prevLocationAtom = atom<PrevLocation>({
+  latitude: null,
+  longitude: null,
+});
