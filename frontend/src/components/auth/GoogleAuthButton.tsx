@@ -10,10 +10,11 @@ const GoogleAuthButton: React.FC = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      //google認証
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      console.log('user info:', user);
+      await signInWithPopup(auth, googleProvider);
+      // google認証 帰値の残し
+      // const result = await signInWithPopup(auth, googleProvider);
+      // const user = result.user;
+      // console.log('user info:', user);
       navigate('/map');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {

@@ -28,8 +28,9 @@ module.exports = {
       API_URL += '&destination=' + _destLat + ',' + _destLng;
       API_URL += '&mode=walking';
       API_URL += '&origin=' + _originLat + ',' + _originLng;
+      API_URL += '&language=ja'; // 帰値の住所を日本語表示にする
       //import.meta.envはESモジュールで利用できないためprocess.envを使う
-      API_URL += '&key=' + process.env.VITE_GOOGLE_API_KEY;
+      API_URL += '&key=' + process.env.GOOGLE_API_KEY;
 
       const _resultRootDistance = await fetch(API_URL);
       const _aryRootDistance = await _resultRootDistance.json();
@@ -44,6 +45,16 @@ module.exports = {
         const apiResponseData = await getRootDistance(data);
         dataToSend.push(apiResponseData);
       })
+    );
+
+    function ascDistanceSort(a, b) {
+      return a > b ? 1 : -1;
+    }
+    dataToSend.sort((a, b) =>
+      ascDistanceSort(
+        a.routes[0].legs[0].distance.value,
+        b.routes[0].legs[0].distance.value
+      )
     );
     console.log('dataToSend----------', dataToSend);
     res.status(200).send({ data: dataToSend });
