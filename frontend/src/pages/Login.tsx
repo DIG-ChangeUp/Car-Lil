@@ -22,22 +22,15 @@ import {
   Container,
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
-import {
-  userDataAtom,
-  shareCarsDataAtom,
-  shareDataAtom,
-} from '../components/atom/globalState.ts';
+import { userEmailAtom, userDataAtom } from '../components/atom/globalState.ts';
 import { useAtom } from 'jotai';
-import { shareCars } from './sampleData.tsx';
 
 const Login = () => {
   // login ----------------------------
   //認証時のemailアドレスを保持
-  const [emailAddress, setEmailAddress] = useAtom(userDataAtom);
+  const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
   //シェアカーを保持
-  const [shareCarsData, setShareCarsData] = useAtom(shareCarsDataAtom);
-  //shareテーブルに登録するデータを保持
-  const [shareData, setShareData] = useAtom(shareDataAtom);
+  const [userData, setUserData] = useAtom(userDataAtom);
 
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
@@ -47,7 +40,7 @@ const Login = () => {
     const email: string = data.email;
     const password: string = data.password;
     console.log('email: ', email, ' / password: ', password);
-    setEmailAddress({ email });
+    setEmailAddress(email);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('ログイン成功');
@@ -88,30 +81,21 @@ const Login = () => {
     });
   }, []);
 
-  //オーナーのユーザーIDからシェアカーデータを取得
-  async function getShareCarsData(email: string) {
+  //オーナーのメールアドレスからオーナーに紐づくすべてのデータを取得
+  async function getOwnerData(email: string) {
     //emailからusersテーブルのユーザーID(id)を取得
-    const usersResponse = await fetch('/api/users/email', {
+    const Response = await fetch('/api/users/owner/email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email }),
     });
-    if (usersResponse.ok) {
-      const [jsonUser] = await usersResponse.json();
-      const userId = jsonUser.id;
-      //usersテーブルから取得したユーザーIDでシェアカー情報を取得
-      const shareCarsResponse = await fetch('/api/shareCars/userId', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: userId }),
-      });
-      if (shareCarsResponse.ok) {
-        const jsonShareCars = await shareCarsResponse.json();
-        setShareCarsData(jsonShareCars);
-      }
+    if (Response.ok) {
+      const jsonResponse = await Response.json();
+      console.log('jsonResponse', jsonResponse);
+      setUserData(jsonResponse.data);
+      console.log('userData', userData);
     }
   }
-  getShareCarsData('mochiokaneda@mail.com');
 
   return (
     <Container centerContent margin="0 auto">
@@ -157,7 +141,11 @@ const Login = () => {
             />
           </FormControl>
 
-          <Button type="submit" marginTop="6">
+          <Button
+            type="submit"
+            marginTop="6"
+            onClick={() => getOwnerData(emailAddress)}
+          >
             Login
           </Button>
           <HStack marginTop="6">
