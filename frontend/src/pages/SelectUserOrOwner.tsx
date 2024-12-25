@@ -1,10 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Container, HStack, Text } from '@yamada-ui/react';
 import { GrUserAdmin, GrUser } from 'react-icons/gr';
-import { userEmailAtom, userDataAtom } from '../components/atom/globalState.ts';
-import { useAtom } from 'jotai/index';
+import {
+  userEmailAtom,
+  userDataAtom,
+  allCarPorteAtom,
+  locationAtom,
+  prevLocationAtom,
+} from '../components/atom/globalState.ts';
+import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
-
 const SelectUserOrOwner = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
@@ -12,6 +17,9 @@ const SelectUserOrOwner = () => {
   console.log('取得してるはずのemail-------->', emailAddress);
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
+  const setAllCarPorte = useSetAtom(allCarPorteAtom);
+  const [location, setLocation] = useAtom(locationAtom);
+  const setPrevLocation = useSetAtom(prevLocationAtom);
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
   async function getOwnerData(email: string) {
@@ -27,18 +35,31 @@ const SelectUserOrOwner = () => {
       console.log('userData', userData);
     }
   }
-  //メールアドレスからテナントに紐づくすべてのデータを取得
-  async function getTenantData(email: string) {
-    //emailからusersテーブルのユーザーID(id)を取得
-    const Response = await fetch('/api/users/tenant/email', {
+  // //メールアドレスからテナントに紐づくすべてのデータを取得
+  // async function getTenantData(email: string) {
+  //   //emailからusersテーブルのユーザーID(id)を取得
+  //   const Response = await fetch('/api/users/tenant/email', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ email: email }),
+  //   });
+  //   if (Response.ok) {
+  //     const jsonResponse = await Response.json();
+  //     setUserData(jsonResponse.data);
+  //     console.log('userData', userData);
+  //   }
+  // }
+  async function getCars() {
+    const response = await fetch('/api/allCarports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email }),
+      body: JSON.stringify({ currentPosition: location }),
     });
-    if (Response.ok) {
-      const jsonResponse = await Response.json();
-      setUserData(jsonResponse.data);
-      console.log('userData', userData);
+    if (response.ok) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const jsonResponse = await response.json();
+      setAllCarPorte(jsonResponse.data);
     }
   }
   //ログアウト
@@ -51,6 +72,27 @@ const SelectUserOrOwner = () => {
       console.log('ログアウト エラー');
     }
   };
+
+  //位置情報取得、ステートに保持
+  function getGeolocation(calledTiming: string | null): void {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+    function success(pos: GeolocationPosition) {
+      const crd = pos.coords;
+      // 不要な routes api の呼び出しを回避するための処理
+      if (!calledTiming) {
+        setPrevLocation(location);
+      }
+      setLocation({ latitude: crd.latitude, longitude: crd.longitude });
+    }
+    function error(err: GeolocationPositionError) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  }
 
   return (
     <div>
@@ -90,7 +132,8 @@ const SelectUserOrOwner = () => {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
             onClick={async () => {
-              await getTenantData(emailAddress);
+              await getGeolocation('first');
+              await getCars();
               navigate('/map');
             }}
           >
