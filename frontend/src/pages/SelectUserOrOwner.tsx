@@ -23,7 +23,6 @@ const SelectUserOrOwner = () => {
     });
     if (Response.ok) {
       const jsonResponse = await Response.json();
-      console.log('jsonResponse', jsonResponse);
       setUserData(jsonResponse.data);
       console.log('userData', userData);
     }
@@ -38,7 +37,6 @@ const SelectUserOrOwner = () => {
     });
     if (Response.ok) {
       const jsonResponse = await Response.json();
-      console.log('jsonResponse', jsonResponse);
       setUserData(jsonResponse.data);
       console.log('userData', userData);
     }
@@ -76,7 +74,10 @@ const SelectUserOrOwner = () => {
               rounded: 'md',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
-            onClick={() => getOwnerData(emailAddress)}
+            onClick={async () => {
+              await getOwnerData(emailAddress);
+              navigate('/ownerSelectCar');
+            }}
           >
             <GrUserAdmin size="40" />
             <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
@@ -88,7 +89,10 @@ const SelectUserOrOwner = () => {
               rounded: 'md',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
-            onClick={() => getTenantData(emailAddress)}
+            onClick={async () => {
+              await getTenantData(emailAddress);
+              navigate('/map');
+            }}
           >
             <GrUser size="40" />
             <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>

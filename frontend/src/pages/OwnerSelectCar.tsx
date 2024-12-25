@@ -13,29 +13,14 @@ import {
 } from '@yamada-ui/react';
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
-///////!!!テスト用、share_carsデータがテストデータ決め打ち
-import { Car, ShareCar, cars, shareCars } from './sampleData.tsx';
-///////
+import { userDataAtom } from '../components/atom/globalState.ts';
+import { useAtom } from 'jotai/index';
+
 import { useNavigate } from 'react-router-dom';
 
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
-
-  ///////!!!テスト用、オーナーID決め打ち
-  const ownerId = 8;
-  ///////
-  const carsData: Car[] = [];
-  const carsOfUser1: ShareCar[] = shareCars.filter(
-    (shareCar) => shareCar.user_id === ownerId
-  );
-
-  cars.forEach((car: Car) => {
-    carsOfUser1.forEach((carOfUser1) => {
-      if (car.id === carOfUser1.car_id) {
-        carsData.push(car);
-      }
-    });
-  });
+  const [userData] = useAtom(userDataAtom);
 
   return (
     <>
@@ -57,7 +42,7 @@ const OwnerSelectCar = () => {
         </Breadcrumb>
         <ScrollArea h="calc(100vh - 180px)" w="100%">
           <Container>
-            {carsData.map((car, index) => {
+            {userData.map((data, index) => {
               return (
                 <Container key={index + 1}>
                   <Card
@@ -71,23 +56,23 @@ const OwnerSelectCar = () => {
                       <Image src="../../src/assets/react.svg" />
                       <Image src="../../src/assets/react.svg" />
                     </HStack>
-                    <Text>{`メーカー：${car.maker}`}</Text>
+                    <Text>{`メーカー：${data.maker}`}</Text>
                     <Separator />
-                    <Text>{`車名：${car.car_name}`}</Text>
+                    <Text>{`車名：${data.car_name}`}</Text>
                     <Separator />
-                    <Text>{`タイプ：${car.car_type}`}</Text>
+                    <Text>{`タイプ：${data.car_type}`}</Text>
                     <Separator />
-                    <Text>{`定員：${car.capacity}`}</Text>
+                    <Text>{`定員：${data.capacity}`}</Text>
                     <Separator />
-                    <Text>{`貸出料金：330円`}</Text>
+                    <Text>{`貸出料金：${data.share_prise}`}</Text>
                     <Button
                       backgroundColor="#289FAB"
                       color="#FEFEFE"
                       onClick={() => {
-                        navigate('/ownerConfirmation');
+                        navigate('/selectTime');
                       }}
                     >
-                      確認画面へ進む
+                      日時選択へ進む
                     </Button>
                   </Card>
                 </Container>
