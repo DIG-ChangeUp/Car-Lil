@@ -1,7 +1,7 @@
 import { auth } from '../components/auth/firebase';
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
@@ -17,41 +17,25 @@ import { MdLogout } from 'react-icons/md';
 
 import { useAtom } from 'jotai/index';
 import {
+  distanceDataAtom,
   locationAtom,
   prevLocationAtom,
   viewModeAtom,
 } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
 import DistanceCardList from '../components/DistanceCardList.tsx';
+import tempGetDataAroundCurrentPosition from '../components/utils/getDataAroundCurrentPosition.ts';
 
 const Map = () => {
   const navigate = useNavigate();
   const { user } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
-  const [distanceData, setDistanceData] = useState<DistanceData[]>([]);
+  const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
-
-  type DistanceData = {
-    routes: Route[];
-  };
-
-  type Route = {
-    legs: Leg[];
-  };
-
-  type Leg = {
-    end_address: string;
-    distance: Distance;
-  };
-
-  type Distance = {
-    text: string;
-    value: number;
-  };
 
   const handleLogout = async () => {
     try {
@@ -75,34 +59,14 @@ const Map = () => {
     return null;
   }
 
-  function handleViewModeClick(mode: 'map' | 'list') {
+  async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
     if (mode === 'list') {
       getGeolocation(null);
+      // 位置情報の変更がなければ、apiへの再取得はしない
       if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
-        getDataAroundCurrentPosition(location);
-      }
-    }
-  }
-
-  //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
-  type location = {
-    latitude: number | null;
-    longitude: number | null;
-  };
-  async function getDataAroundCurrentPosition(position: location) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const response: ResponseContents = await fetch('/api/distance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: position }),
-    });
-    if (response.ok) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const jsonResponse = await response.json();
-      setDistanceData(jsonResponse.data);
+        const result = await tempGetDataAroundCurrentPosition(location);
+        setDistanceData(result);
     }
   }
 

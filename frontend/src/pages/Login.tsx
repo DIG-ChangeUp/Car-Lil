@@ -76,7 +76,7 @@ const Login = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/map');
+        navigate('/selectUserType');
       }
     });
   }, []);

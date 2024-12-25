@@ -7,9 +7,12 @@ import {
   allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
+  distanceDataAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
+import { useEffect } from 'react';
+import tempGetDataAroundCurrentPosition from '../components/utils/getDataAroundCurrentPosition.ts';
 const SelectUserOrOwner = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
@@ -20,6 +23,7 @@ const SelectUserOrOwner = () => {
   const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
+  const setDistanceData = useSetAtom(distanceDataAtom);
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
   async function getOwnerData(email: string) {
@@ -94,6 +98,14 @@ const SelectUserOrOwner = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
+  useEffect(() => {
+    (async () => {
+      await getGeolocation('first');
+      const result = await tempGetDataAroundCurrentPosition(location);
+      setDistanceData(result);
+    })();
+  }, []);
+
   return (
     <div>
       <Container
@@ -132,7 +144,6 @@ const SelectUserOrOwner = () => {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
             onClick={async () => {
-              await getGeolocation('first');
               await getCars();
               navigate('/map');
             }}
@@ -151,7 +162,7 @@ const SelectUserOrOwner = () => {
           }}
           onClick={() => handleLogout()}
         >
-          サインアウト
+          ログアウト
         </Button>
       </Container>
     </div>
