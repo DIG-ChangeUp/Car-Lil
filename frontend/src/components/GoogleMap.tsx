@@ -16,7 +16,6 @@ import {
   selectInfoWindowAtom,
   viewModeAtom,
 } from './atom/globalState.ts';
-import reactIcon from '../assets/react.svg';
 import { useAtom } from 'jotai';
 import { Button, Flex, Float, Text } from '@yamada-ui/react';
 import { useMemo } from 'react';
@@ -79,10 +78,12 @@ export default function GoogleMap() {
         // onClick={handleGetGeolocation}
       ></AdvancedMarker>
       <Markers />
-
-      {isOpenInfoWindow && (
+      {isOpenInfoWindow && selectInfoWindow && (
         <InfoWindow
-          position={selectInfoWindow}
+          position={{
+            lat: Number(selectInfoWindow.latitude),
+            lng: Number(selectInfoWindow.longitude),
+          }}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           options={{
@@ -92,10 +93,15 @@ export default function GoogleMap() {
           onClose={() => setIsOpenInfoWindow(false)}
         >
           <Flex alignItems="center" gap="3">
-            <img src={reactIcon} width={40} height={40} alt="car_icon" />
-            <Text>ここに車両名を入れる</Text>
+            <img
+              src="../../public/carImages/alphard.jpg"
+              width={40}
+              height={40}
+              alt="car_icon"
+            />
+            <Text>{selectInfoWindow.car_name}</Text>
           </Flex>
-          <p>{`selectInfoWindow: ${selectInfoWindow?.lat} / ${selectInfoWindow?.lng}`}</p>
+          <p>{selectInfoWindow.address}</p>
         </InfoWindow>
       )}
       {viewMode === 'map' && (

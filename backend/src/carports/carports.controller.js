@@ -13,6 +13,14 @@ module.exports = {
     const carport = await carportsModel.find(carportId);
     res.status(200).send({ data: carport });
   },
+
+  //google mapへのPin表示用のデータ取得 / google routes apiで距離計算しない
+  async getAllCarPorte(req, res) {
+    const currentPosition = req.body.currentPosition;
+    const distanceData = await carportsModel.calcDistance(currentPosition);
+    res.status(200).send({ data: distanceData });
+  },
+
   async getDistance(req, res) {
     const currentPosition = req.body.currentPosition;
     const distanceData = await carportsModel.calcDistance(currentPosition); //本番用
