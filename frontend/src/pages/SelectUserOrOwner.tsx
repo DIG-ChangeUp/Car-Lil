@@ -14,7 +14,7 @@ const SelectUserOrOwner = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress] = useAtom(userEmailAtom);
-  console.log('取得してるはずのemail-------->', emailAddress);
+  console.log('取得したemail-------->', emailAddress);
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
   const setAllCarPorte = useSetAtom(allCarPorteAtom);

@@ -3,13 +3,6 @@ import { atom } from 'jotai';
 // export const userDataAtom = atom({ email: '', userId: '' });
 //ユーザーの認証時にemailを保持、shareテーブルに登録するデータを作成
 export const userEmailAtom = atom('');
-// export type Share = {
-//   user_id: number;
-//   carport_id: number;
-//   share_car_id: number;
-//   start_at: string;
-//   end_at: string;
-// };
 // export const shareDataAtom = atom<object>({
 //   user_id: null,
 //   carport_id: null,
@@ -19,6 +12,9 @@ export const userEmailAtom = atom('');
 // });
 //ユーザー（オーナーorテナント）に紐づく全てのデータを保持
 export type User = {
+  user_id: number | null;
+  carport_id: number | null;
+  share_car_id: number | null;
   username: string | '';
   email: string | '';
   user_type: string | '';
@@ -41,7 +37,33 @@ export type User = {
   returned_at: string | '';
   evaluation: string | '';
 };
-export const userDataAtom = atom<User[]>([]);
+export type UserData = {
+  user?: User;
+};
+export const userDataAtom = atom<UserData[]>([]);
+//shareテーブルに登録するデータ
+export type Share = {
+  user_id: number | null;
+  carport_id: number | null;
+  share_car_id: number | null;
+  start_at: string | '';
+  end_at: string | '';
+};
+export type ShareData = {
+  share?: Share;
+};
+export const shareDataAtom = atom<Share>({
+  user_id: null,
+  carport_id: null,
+  share_car_id: null,
+  start_at: '',
+  end_at: '',
+});
+//オーナー画面で選択された車両に紐づくデータ
+export type SelectedData = {
+  user?: User;
+};
+export const selectedDataAtom = atom<SelectedData>({});
 // オーナーが選択した貸出日の配列
 export const rentalDaysAtom = atom<string[]>([]);
 // 貸出登録用

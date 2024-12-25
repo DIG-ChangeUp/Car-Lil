@@ -13,14 +13,23 @@ import {
 } from '@yamada-ui/react';
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
-import { userDataAtom } from '../components/atom/globalState.ts';
-import { useAtom } from 'jotai/index';
+import {
+  userDataAtom,
+  selectedDataAtom,
+  shareDataAtom,
+  User,
+  Share,
+  UserData,
+} from '../components/atom/globalState.ts';
+import { useSetAtom, useAtomValue } from 'jotai';
 
 import { useNavigate } from 'react-router-dom';
 
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
-  const [userData] = useAtom(userDataAtom);
+  const setSelectedData = useSetAtom(selectedDataAtom);
+  const userData: UserData[] = useAtomValue(userDataAtom);
+  const shareData: Share = useAtomValue(shareDataAtom);
 
   return (
     <>
@@ -42,33 +51,42 @@ const OwnerSelectCar = () => {
         </Breadcrumb>
         <ScrollArea h="calc(100vh - 180px)" w="100%">
           <Container>
-            {userData.map((data, index) => {
+            {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
+            {/*@ts-ignore*/}
+            {userData.map((data: User, index: number) => {
               return (
                 <Container key={index + 1}>
                   <Card
                     sx={{
                       padding: '5',
+                      backgroundColor: '#F3F7F7',
                     }}
-                    backgroundColor="#F3F7F7"
                   >
                     <Text>{`登録車両 ${index + 1}`}</Text>
                     <HStack height="100">
                       <Image src="../../src/assets/react.svg" />
                       <Image src="../../src/assets/react.svg" />
                     </HStack>
-                    <Text>{`メーカー：${data.maker}`}</Text>
+                    <Text>メーカー：{data.maker}</Text>
                     <Separator />
-                    <Text>{`車名：${data.car_name}`}</Text>
+                    <Text>車名：{data.car_name}</Text>
                     <Separator />
-                    <Text>{`タイプ：${data.car_type}`}</Text>
+                    <Text>タイプ：{data.car_type}</Text>
                     <Separator />
-                    <Text>{`定員：${data.capacity}`}</Text>
+                    <Text>定員：{data.capacity}</Text>
                     <Separator />
-                    <Text>{`貸出料金：${data.share_prise}`}</Text>
+                    <Text>貸出料金：{data.share_prise}</Text>
                     <Button
                       backgroundColor="#289FAB"
                       color="#FEFEFE"
                       onClick={() => {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        setSelectedData(data);
+                        shareData.user_id = data.user_id;
+                        shareData.carport_id = data.carport_id;
+                        shareData.share_car_id = data.share_car_id;
+                        console.log('shareData-----', shareData);
                         navigate('/calendar');
                       }}
                     >
