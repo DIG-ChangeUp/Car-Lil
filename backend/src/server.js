@@ -22,6 +22,7 @@ function setupServer() {
   app.post('/api/users/email', usersController.viewByEmail); //emailからユーザー取得
   app.get('/api/cars', carsController.index); //全車種取得
   app.get('/api/carports', carportsController.index); //全駐車場取得
+  app.post('/api/allCarports', carportsController.getAllCarPorte); //map pin用駐車場取得
   app.get('/api/shareCars', shareCarsController.index); //全シェアカー取得
   app.post('/api/shareCars/userId', shareCarsController.view); //ユーザーIDから全シェアカー取得
   app.post('/api/distance', carportsController.getDistance); //DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
