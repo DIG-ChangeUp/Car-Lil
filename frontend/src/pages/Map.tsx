@@ -15,9 +15,8 @@ import {
 } from '@yamada-ui/react';
 import { MdLogout } from 'react-icons/md';
 
-import { useAtom, useSetAtom } from 'jotai/index';
+import { useAtom } from 'jotai/index';
 import {
-  allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
   viewModeAtom,
@@ -32,7 +31,6 @@ const Map = () => {
   const [distanceData, setDistanceData] = useState<DistanceData[]>([]);
   const [location, setLocation] = useAtom(locationAtom);
   const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
-  const setAllCarPorte = useSetAtom(allCarPorteAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -72,28 +70,9 @@ const Map = () => {
     }
   }, [user, navigate]); // user または navigate が変更された場合にのみ実行
 
-  useEffect(() => {
-    getGeolocation('first');
-    getCars();
-  }, []);
-
   if (!user) {
     // navigateによるリダイレクトが完了するまで何もレンダリングしない
     return null;
-  }
-
-  async function getCars() {
-    const response = await fetch('/api/allCarports', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: location }),
-    });
-    if (response.ok) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const jsonResponse = await response.json();
-      setAllCarPorte(jsonResponse.data);
-    }
   }
 
   function handleViewModeClick(mode: 'map' | 'list') {
