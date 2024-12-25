@@ -69,7 +69,7 @@ const OwnerSelectCar = () => {
                       backgroundColor="#289FAB"
                       color="#FEFEFE"
                       onClick={() => {
-                        navigate('/selectTime');
+                        navigate('/calendar');
                       }}
                     >
                       日時選択へ進む
