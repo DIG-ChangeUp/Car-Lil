@@ -45,28 +45,25 @@ export const userDataAtom = atom<User[]>([]);
 // オーナーが選択した貸出日の配列
 export const rentalDaysAtom = atom<string[]>([]);
 // 貸出登録用
-type rentalDateAndTime = {
+type RentalDateAndTime = {
   date: string;
   start_at: string | null;
   end_at: string | null;
 };
-export const rentalDateAndTimesAtom = atom<rentalDateAndTime[]>([]);
+export const rentalDateAndTimesAtom = atom<RentalDateAndTime[]>([]);
 export const rentalStartTimeAtom = atom<string | null>('10:00');
 export const rentalEndTimeAtom = atom<string | null>('16:00');
 
-type location = {
+type Location = {
   latitude: number;
   longitude: number;
 };
-export const locationAtom = atom<location>({
+export const locationAtom = atom<Location>({
   latitude: 35.1704169,
   longitude: 136.8849973,
 });
-type position = {
-  lat: number;
-  lng: number;
-};
-export const selectInfoWindowAtom = atom<position | null>(null);
+
+export const selectInfoWindowAtom = atom<AllCarPort | null>(null);
 export const isOpenInfoWindowAtom = atom<boolean>(false);
 type PrevLocation = {
   latitude: number | null;
@@ -77,4 +74,25 @@ export const prevLocationAtom = atom<PrevLocation>({
   longitude: null,
 });
 
+// mapページの表示切替え
 export const viewModeAtom = atom<'map' | 'list'>('map');
+
+// map pin用
+export type AllCarPort = {
+  address: string;
+  capacity: number;
+  car_id: number;
+  car_name: string;
+  car_type: string;
+  carport_id: number;
+  distance: number;
+  id: number;
+  latitude: string;
+  longitude: string;
+  maker: string;
+  photo_url: string;
+  share_prise: number;
+  share_state: string;
+  user_id: number;
+};
+export const allCarPorteAtom = atom<AllCarPort[]>([]);
