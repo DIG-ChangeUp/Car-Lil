@@ -39,7 +39,7 @@ export default function App() {
           <Route path="/signup" element={<NewSignUp />} />
           <Route path="/map" element={<Map />} />
           <Route path="/ownerTop" element={<OwnerTop />} />
-          <Route path="/select" element={<SelectUserOrOwner />} />
+          <Route path="/selectUserType" element={<SelectUserOrOwner />} />
           <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route path="/ownerConfirmation" element={<OwnerConfirmation />} />

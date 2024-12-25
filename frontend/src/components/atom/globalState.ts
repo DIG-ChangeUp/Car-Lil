@@ -24,6 +24,7 @@ export type User = {
   user_type: string | '';
   car_name: string | '';
   maker: string | '';
+  car_type: string | '';
   capacity: number | null;
   share_prise: number | null;
   share_state: string | '';

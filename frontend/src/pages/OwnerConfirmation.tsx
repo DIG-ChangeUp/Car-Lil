@@ -11,7 +11,9 @@ import {
   VStack,
   Wrap,
 } from '@yamada-ui/react';
+import { useNavigate } from 'react-router-dom';
 export default function OwnerConfirmation() {
+  const navigate = useNavigate();
   return (
     <>
       <Header />
@@ -132,6 +134,9 @@ export default function OwnerConfirmation() {
                 backgroundColor: '#F4F4F5',
                 margin: '0 10px',
               }}
+              onClick={() => {
+                navigate('/selectTime');
+              }}
             >
               戻る
             </Button>
@@ -143,6 +148,9 @@ export default function OwnerConfirmation() {
                 backgroundColor: '#289FAB',
                 color: '#FEFEFE',
                 margin: '0 10px',
+              }}
+              onClick={() => {
+                navigate('/ownerRegistrationCompleted');
               }}
             >
               はい

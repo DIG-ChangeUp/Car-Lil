@@ -2,14 +2,16 @@ import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import { Box, Button, Container, Text } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 export default function OwnerRegistrationCompleted() {
+  const navigate = useNavigate();
   return (
     <>
       <Header />
       <Container
-        h="calc(100vh - 180px)"
         sx={{
+          h: 'calc(100vh - 180px)',
           textAlign: 'center',
           display: 'flex',
           justifyContent: 'center',
@@ -25,11 +27,16 @@ export default function OwnerRegistrationCompleted() {
           <br></br>
 
           <Button
-            w="230"
-            h="55"
-            fontSize="2xl"
-            backgroundColor="#289FAB"
-            color="#FEFEFE"
+            sx={{
+              w: '230',
+              h: '55',
+              fontSize: '2xl',
+              backgroundColor: '#289FAB',
+              color: '#FEFEFE',
+            }}
+            onClick={() => {
+              navigate('/ownerSelectCar');
+            }}
           >
             トップへ戻る
           </Button>

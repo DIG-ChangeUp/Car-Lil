@@ -44,7 +44,7 @@ const Login = () => {
       console.log('ログイン成功');
       // navigate('/map');
       //!!!変更箇所------------------
-      navigate('/select');
+      navigate('/selectUserType');
     } catch (error) {
       console.error('ログインエラー:', error);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

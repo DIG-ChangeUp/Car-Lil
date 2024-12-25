@@ -11,8 +11,11 @@ import {
   Switch,
   Text,
 } from '@yamada-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const OwnerSelectTime = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Header />
@@ -62,7 +65,9 @@ const OwnerSelectTime = () => {
             </HStack>
           </Container>
         </Center>
-        <Button marginTop="6">確認画面に進む</Button>
+        <Button marginTop="6" onClick={() => navigate('/ownerConfirmation')}>
+          確認画面に進む
+        </Button>
       </Container>
       <Footer />
     </>
