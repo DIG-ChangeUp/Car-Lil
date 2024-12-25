@@ -22,23 +22,14 @@ import {
   Container,
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
-// import {
-//   userDataAtom,
-//   shareCarsDataAtom,
-//   shareDataAtom,
-// } from '../components/atom/globalState.ts';
-// import { useAtom } from 'jotai';
-// import { shareCars } from './sampleData.tsx';
+import { userEmailAtom } from '../components/atom/globalState.ts';
+import { useAtom } from 'jotai';
 
 const Login = () => {
   // login ----------------------------
   //認証時のemailアドレスを保持
-  // const [emailAddress, setEmailAddress] = useAtom(userDataAtom);
-  //シェアカーを保持
-  // const [shareCarsData, setShareCarsData] = useAtom(shareCarsDataAtom);
-  //shareテーブルに登録するデータを保持
-  // const [shareData, setShareData] = useAtom(shareDataAtom);
-
+  const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
+  console.log('エラー解除用にメールアドレス表示:', emailAddress);
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
   const auth = getAuth(); // Firebase Auth インスタンスを取得
@@ -47,11 +38,13 @@ const Login = () => {
     const email: string = data.email;
     const password: string = data.password;
     console.log('email: ', email, ' / password: ', password);
-    // setEmailAddress({ email });
+    setEmailAddress(email);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('ログイン成功');
-      navigate('/map');
+      // navigate('/map');
+      //!!!変更箇所------------------
+      navigate('/selectUserType');
     } catch (error) {
       console.error('ログインエラー:', error);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -87,31 +80,6 @@ const Login = () => {
       }
     });
   }, []);
-
-  // //オーナーのユーザーIDからシェアカーデータを取得
-  // async function getShareCarsData(email: string) {
-  //   //emailからusersテーブルのユーザーID(id)を取得
-  //   const usersResponse = await fetch('/api/users/email', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ email: email }),
-  //   });
-  //   if (usersResponse.ok) {
-  //     const [jsonUser] = await usersResponse.json();
-  //     const userId = jsonUser.id;
-  //     //usersテーブルから取得したユーザーIDでシェアカー情報を取得
-  //     const shareCarsResponse = await fetch('/api/shareCars/userId', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ userId: userId }),
-  //     });
-  //     if (shareCarsResponse.ok) {
-  //       const jsonShareCars = await shareCarsResponse.json();
-  //       setShareCarsData(jsonShareCars);
-  //     }
-  //   }
-  // }
-  // getShareCarsData('mochiokaneda@mail.com');
 
   return (
     <Container centerContent margin="0 auto">
