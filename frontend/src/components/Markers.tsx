@@ -4,6 +4,7 @@ import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import type { Marker } from '@googlemaps/markerclusterer';
 import iconImage from '../assets/iconCar.svg';
 import {
+  AllCarPort,
   allCarPorteAtom,
   isOpenInfoWindowAtom,
   selectInfoWindowAtom,
@@ -45,18 +46,13 @@ const Markers = () => {
     });
   };
 
-  type position = {
-    lat: number;
-    lng: number;
-  };
   // クリックしたピンをmap中心にする処理
   const handleClick = useCallback(
-    (ev: google.maps.MapMouseEvent, location: position) => {
-      console.log(' Markers map: ', map);
+    (ev: google.maps.MapMouseEvent, carport: AllCarPort) => {
       if (!map) return;
       if (!ev.latLng) return;
       map.panTo(ev.latLng);
-      setSelectInfoWindow(location);
+      setSelectInfoWindow(carport);
       // 一旦閉じてから開く
       setIsOpenInfoWindow(false);
       setTimeout(() => {
@@ -65,7 +61,6 @@ const Markers = () => {
     },
     [map, setSelectInfoWindow, setIsOpenInfoWindow]
   );
-  console.log('allCarPorte: ', allCarPorte);
 
   return (
     <>
@@ -79,12 +74,7 @@ const Markers = () => {
             }}
             ref={(marker) => setMarkerRef(marker, data.address)}
             clickable={true}
-            onClick={(ev) =>
-              handleClick(ev, {
-                lat: Number(data.latitude),
-                lng: Number(data.longitude),
-              })
-            }
+            onClick={(ev) => handleClick(ev, data)}
           >
             <img src={iconImage} width={50} height={50} alt="car_icon" />
           </AdvancedMarker>

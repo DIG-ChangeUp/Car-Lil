@@ -47,11 +47,8 @@ export const locationAtom = atom<Location>({
   latitude: 35.1704169,
   longitude: 136.8849973,
 });
-type Position = {
-  lat: number;
-  lng: number;
-};
-export const selectInfoWindowAtom = atom<Position | null>(null);
+
+export const selectInfoWindowAtom = atom<AllCarPort | null>(null);
 export const isOpenInfoWindowAtom = atom<boolean>(false);
 type PrevLocation = {
   latitude: number | null;
@@ -66,7 +63,7 @@ export const prevLocationAtom = atom<PrevLocation>({
 export const viewModeAtom = atom<'map' | 'list'>('map');
 
 // map pin用
-type AllCarPort = {
+export type AllCarPort = {
   address: string;
   capacity: number;
   car_id: number;

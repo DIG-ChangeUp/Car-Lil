@@ -74,6 +74,7 @@ const Map = () => {
 
   useEffect(() => {
     getGeolocation('first');
+    getCars();
   }, []);
 
   if (!user) {
@@ -91,7 +92,6 @@ const Map = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const jsonResponse = await response.json();
-      console.log('jsonResponse: ', jsonResponse.data);
       setAllCarPorte(jsonResponse.data);
     }
   }
@@ -126,7 +126,7 @@ const Map = () => {
       setDistanceData(jsonResponse.data);
     }
   }
-  console.log('🚀🚀🚀🚀 distanceData--->> ', distanceData);
+
   //位置情報取得、ステートに保持
   function getGeolocation(calledTiming: string | null): void {
     const options = {
@@ -170,19 +170,6 @@ const Map = () => {
                   border="solid #F3F7F7 2px"
                 >
                   <MdLogout />
-                </Button>
-              </Float>
-              <Float offset="xl" placement="center-start">
-                <Button
-                  onClick={getCars}
-                  rounded="100%"
-                  width="60px"
-                  height="60px"
-                  fontSize="4xl"
-                  marginBottom="10"
-                  border="solid #F3F7F7 2px"
-                >
-                  test
                 </Button>
               </Float>
             </Box>
