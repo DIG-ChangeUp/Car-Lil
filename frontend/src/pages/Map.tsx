@@ -102,31 +102,31 @@ const Map = () => {
                 w="160px"
                 h="40px"
                 marginTop="3px"
-                border="solid #c9c9c9 1px"
+                // border="solid #c9c9c9 1px"
                 rounded="full"
                 boxShadow="0px 0px 15px -5px #777777"
                 bg="white"
               >
                 <Button
-                  colorScheme="gray"
+                  colorScheme="#289FAB"
                   w="80px"
                   h="40px"
-                  color={viewMode === 'map' ? 'black' : '#c9c9c9'}
-                  bg={viewMode === 'map' ? 'gray.100' : 'none'}
-                  border={viewMode === 'map' ? 'solid black 1px' : 'none'}
+                  color={viewMode === 'map' ? 'white' : '#c9c9c9'}
+                  bg={viewMode === 'map' ? '#289FAB' : 'none'}
                   onClick={() => handleViewModeClick('map')}
+                  border="none"
                   rounded="full"
                 >
                   Map
                 </Button>
                 <Button
-                  colorScheme="gray"
+                  colorScheme="#289FAB"
                   w="80px"
                   h="40px"
-                  color={viewMode === 'list' ? 'black' : '#c9c9c9'}
-                  bg={viewMode === 'list' ? 'gray.100' : 'none'}
-                  border={viewMode === 'list' ? 'solid black 1px' : 'none'}
+                  color={viewMode === 'list' ? 'white' : '#c9c9c9'}
+                  bg={viewMode === 'list' ? '#289FAB' : 'none'}
                   onClick={() => handleViewModeClick('list')}
+                  border="none"
                   rounded="full"
                 >
                   List

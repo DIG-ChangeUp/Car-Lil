@@ -113,10 +113,11 @@ export default function GoogleMap() {
             height="60px"
             fontSize="4xl"
             marginBottom="10"
-            border="solid #F3F7F7 2px"
             transform="rotate(45deg)"
+            bg="black"
+            opacity="0.5"
           >
-            <MdNavigation color="blue" />
+            <MdNavigation color="white" />
           </Button>
         </Float>
       )}
