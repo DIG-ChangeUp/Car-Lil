@@ -35,7 +35,7 @@ export default function OwnerRegistrationCompleted() {
           </Button>
         </Box>
       </Container>
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );
 }

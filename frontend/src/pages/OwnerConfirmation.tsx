@@ -150,7 +150,7 @@ export default function OwnerConfirmation() {
           </Box>
         </Container>
       </Container>
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );
 }
