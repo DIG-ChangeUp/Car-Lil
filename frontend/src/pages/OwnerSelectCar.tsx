@@ -99,7 +99,7 @@ const OwnerSelectCar = () => {
           </Container>
         </ScrollArea>
       </Container>
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );
 };
