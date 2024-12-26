@@ -11,8 +11,8 @@ module.exports = {
   async all(limit) {
     return await db(USERS_TABLE).limit(limit);
   },
-  async findById(id) {
-    return await db(USERS_TABLE).where({ id });
+  async findByEmail(email) {
+    return await db(USERS_TABLE).where({ email });
   },
   //emailからオーナーに紐づくすべての情報を取得
   async findOwnerByEmail(email) {

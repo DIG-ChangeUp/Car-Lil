@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 
 // export const userDataAtom = atom({ email: '', userId: '' });
 //ユーザーの認証時にemailを保持、shareテーブルに登録するデータを作成
-export const userEmailAtom = atom('');
+export const userEmailAtom = atom<string | null>('');
 // export const shareDataAtom = atom<object>({
 //   user_id: null,
 //   carport_id: null,
