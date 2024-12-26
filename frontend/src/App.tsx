@@ -22,6 +22,7 @@ import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 import DemoSelectCar from './pages/DemoSelectCar.tsx';
+import { UserCheckReservationAvailability, } from './pages/UserCheckReservationAvailability.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/sample" element={<SampleCalendar />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
+          <Route path="/checkReservationAvailability" element={<UserCheckReservationAvailability />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Provider>

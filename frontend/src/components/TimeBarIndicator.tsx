@@ -14,8 +14,8 @@ interface props {
 
 export function TimeBarIndicator(props:props) {
   const colCodeNormal = '#DDD';
-  const colCodeNG = '#F00';
-  const colCodeOK = '#5FCB5C';
+  const colCodeNG = '#F1AAAA';
+  const colCodeOK = '#AADCF1';
   const countBars = 48;
   const aryClockAM:string[] = ['00','01','02','03','04','05','06','07','08','09','10','11'];
   const aryClockPM:string[] = ['12','13','14','15','16','17','18','19','20','21','22','23'];
@@ -75,7 +75,7 @@ export function TimeBarIndicator(props:props) {
         <For each={aryClockAM}>
           {(bg, index) => (
             <GridItem key={index} w="full" h="18px">
-              <Center borderLeft={'1px solid #333'} borderRight={'1px solid #333'}>{bg}</Center>
+              <Center borderLeft={'1px solid #AFAFAF'} borderRight={'1px solid #AFAFAF'} color={'#0C0C0C'}>{bg}</Center>
             </GridItem>
           )}
         </For>
@@ -93,7 +93,7 @@ export function TimeBarIndicator(props:props) {
         <For each={aryClockPM}>
           {(bg, index) => (
             <GridItem key={index} w="full" h="18px">
-              <Center borderLeft={'1px solid #333'} borderRight={'1px solid #333'}>{bg}</Center>
+              <Center borderLeft={'1px solid #AFAFAF'} borderRight={'1px solid #AFAFAF'} color={'#0C0C0C'}>{bg}</Center>
             </GridItem>
           )}
         </For>
