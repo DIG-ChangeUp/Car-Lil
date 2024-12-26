@@ -26,4 +26,23 @@ module.exports = {
     const user = await userModel.findTenantByEmail(email);
     res.status(200).send({ data: user });
   },
+
+  async addUser(req, res) {
+    const addUserData = {
+      user_name: 'user',
+      email: req.body.email,
+      user_type: req.body.userType,
+    };
+    const user = await userModel.save(addUserData);
+    res.status(200).send({ data: user });
+  },
+
+  async editUserType(req, res) {
+    const editUserData = {
+      email: req.body.email,
+      user_type: req.body.userType,
+    };
+    const user = await userModel.save(editUserData);
+    res.status(200).send({ data: user });
+  },
 };
