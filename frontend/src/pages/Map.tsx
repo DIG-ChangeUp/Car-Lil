@@ -1,22 +1,14 @@
-import { auth } from '../components/auth/firebase';
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Center,
-  Float,
-  ZStack,
-} from '@yamada-ui/react';
-import { MdLogout } from 'react-icons/md';
+import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
 import { useAtom } from 'jotai/index';
 import {
+  distanceDataAtom,
   locationAtom,
   prevLocationAtom,
   viewModeAtom,
@@ -28,40 +20,12 @@ const Map = () => {
   const navigate = useNavigate();
   const { user } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
-  const [distanceData, setDistanceData] = useState<DistanceData[]>([]);
+  const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
-
-  type DistanceData = {
-    routes: Route[];
-  };
-
-  type Route = {
-    legs: Leg[];
-  };
-
-  type Leg = {
-    end_address: string;
-    distance: Distance;
-  };
-
-  type Distance = {
-    text: string;
-    value: number;
-  };
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      navigate('/');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      console.log('ログアウト エラー');
-    }
-  };
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
@@ -75,34 +39,27 @@ const Map = () => {
     return null;
   }
 
-  function handleViewModeClick(mode: 'map' | 'list') {
+  async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
     if (mode === 'list') {
       getGeolocation(null);
+      // 位置情報の変更がなければ、apiへの再取得はしない
       if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
-        getDataAroundCurrentPosition(location);
+        //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await fetch('/api/distance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentPosition: location }),
+        });
+        if (response.ok) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          const jsonResponse = await response.json();
+          setDistanceData(jsonResponse.data);
+        }
       }
-    }
-  }
-
-  //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
-  type location = {
-    latitude: number | null;
-    longitude: number | null;
-  };
-  async function getDataAroundCurrentPosition(position: location) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const response: ResponseContents = await fetch('/api/distance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: position }),
-    });
-    if (response.ok) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const jsonResponse = await response.json();
-      setDistanceData(jsonResponse.data);
     }
   }
 
@@ -138,19 +95,6 @@ const Map = () => {
               ) : (
                 <DistanceCardList distanceData={distanceData} />
               )}
-              <Float offset="xl" placement="end-start">
-                <Button
-                  onClick={handleLogout}
-                  rounded="100%"
-                  width="60px"
-                  height="60px"
-                  fontSize="4xl"
-                  marginBottom="10"
-                  border="solid #F3F7F7 2px"
-                >
-                  <MdLogout />
-                </Button>
-              </Float>
             </Box>
             <Center w="100%">
               <ButtonGroup
@@ -158,31 +102,31 @@ const Map = () => {
                 w="160px"
                 h="40px"
                 marginTop="3px"
-                border="solid #c9c9c9 1px"
+                // border="solid #c9c9c9 1px"
                 rounded="full"
                 boxShadow="0px 0px 15px -5px #777777"
                 bg="white"
               >
                 <Button
-                  colorScheme="gray"
+                  colorScheme="#289FAB"
                   w="80px"
                   h="40px"
-                  color={viewMode === 'map' ? 'black' : '#c9c9c9'}
-                  bg={viewMode === 'map' ? 'gray.100' : 'none'}
-                  border={viewMode === 'map' ? 'solid black 1px' : 'none'}
+                  color={viewMode === 'map' ? 'white' : '#c9c9c9'}
+                  bg={viewMode === 'map' ? '#289FAB' : 'none'}
                   onClick={() => handleViewModeClick('map')}
+                  border="none"
                   rounded="full"
                 >
                   Map
                 </Button>
                 <Button
-                  colorScheme="gray"
+                  colorScheme="#289FAB"
                   w="80px"
                   h="40px"
-                  color={viewMode === 'list' ? 'black' : '#c9c9c9'}
-                  bg={viewMode === 'list' ? 'gray.100' : 'none'}
-                  border={viewMode === 'list' ? 'solid black 1px' : 'none'}
+                  color={viewMode === 'list' ? 'white' : '#c9c9c9'}
+                  bg={viewMode === 'list' ? '#289FAB' : 'none'}
                   onClick={() => handleViewModeClick('list')}
+                  border="none"
                   rounded="full"
                 >
                   List
