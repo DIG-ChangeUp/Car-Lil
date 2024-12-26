@@ -69,7 +69,7 @@ const OwnerSelectTime = () => {
           確認画面に進む
         </Button>
       </Container>
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );
 };

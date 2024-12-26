@@ -157,7 +157,7 @@ const OwnerDateRegistration = () => {
           )}
         </Container>
       </Container>
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );
 };
