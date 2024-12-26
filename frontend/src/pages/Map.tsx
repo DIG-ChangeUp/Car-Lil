@@ -1,19 +1,10 @@
-import { auth } from '../components/auth/firebase';
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 import { useEffect } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Center,
-  Float,
-  ZStack,
-} from '@yamada-ui/react';
-import { MdLogout } from 'react-icons/md';
+import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
 import { useAtom } from 'jotai/index';
 import {
@@ -24,7 +15,6 @@ import {
 } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
 import DistanceCardList from '../components/DistanceCardList.tsx';
-import tempGetDataAroundCurrentPosition from '../components/utils/getDataAroundCurrentPosition.ts';
 
 const Map = () => {
   const navigate = useNavigate();
@@ -36,16 +26,6 @@ const Map = () => {
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      navigate('/');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      console.log('ログアウト エラー');
-    }
-  };
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
@@ -65,8 +45,21 @@ const Map = () => {
       getGeolocation(null);
       // 位置情報の変更がなければ、apiへの再取得はしない
       if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
-        const result = await tempGetDataAroundCurrentPosition(location);
-        setDistanceData(result);
+        //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await fetch('/api/distance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentPosition: location }),
+        });
+        if (response.ok) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          const jsonResponse = await response.json();
+          setDistanceData(jsonResponse.data);
+        }
+      }
     }
   }
 
@@ -102,19 +95,6 @@ const Map = () => {
               ) : (
                 <DistanceCardList distanceData={distanceData} />
               )}
-              <Float offset="xl" placement="end-start">
-                <Button
-                  onClick={handleLogout}
-                  rounded="100%"
-                  width="60px"
-                  height="60px"
-                  fontSize="4xl"
-                  marginBottom="10"
-                  border="solid #F3F7F7 2px"
-                >
-                  <MdLogout />
-                </Button>
-              </Float>
             </Box>
             <Center w="100%">
               <ButtonGroup

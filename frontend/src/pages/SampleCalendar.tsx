@@ -1,9 +1,6 @@
 import { Calendar } from '@yamada-ui/calendar';
-import { Box, Button, Center, Float, VStack } from '@yamada-ui/react';
+import { Box, Center, Float, VStack } from '@yamada-ui/react';
 import dayjs from 'dayjs';
-import tempGetDataAroundCurrentPosition from '../components/utils/getDataAroundCurrentPosition.ts';
-import { useAtomValue } from 'jotai/index';
-import { locationAtom } from '../components/atom/globalState.ts';
 
 const SampleCalendar = () => {
   const date = dayjs();
@@ -12,8 +9,6 @@ const SampleCalendar = () => {
   const date3 = date.add(3, 'day').format('YYYY-MM-DD');
   const date4 = date.add(4, 'day').format('YYYY-MM-DD');
   const dates = [date1, date2, date3, date4];
-
-  const location = useAtomValue(locationAtom);
 
   // const tomorrow = dayjs(new Date()).add(1, 'day');
 
@@ -71,14 +66,6 @@ const SampleCalendar = () => {
           ),
         }}
       />
-      <Button
-        onClick={async () => {
-          const result = await tempGetDataAroundCurrentPosition(location);
-          console.log(result);
-        }}
-      >
-        get data test
-      </Button>
     </>
   );
 };

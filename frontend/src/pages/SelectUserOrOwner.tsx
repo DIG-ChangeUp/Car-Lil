@@ -12,7 +12,6 @@ import {
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
-import tempGetDataAroundCurrentPosition from '../components/utils/getDataAroundCurrentPosition.ts';
 const SelectUserOrOwner = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
@@ -116,8 +115,17 @@ const SelectUserOrOwner = () => {
   useEffect(() => {
     (async () => {
       await getGeolocation('first');
-      const result = await tempGetDataAroundCurrentPosition(location);
-      setDistanceData(result);
+      const response = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPosition: location }),
+      });
+      if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const jsonResponse = await response.json();
+        setDistanceData(jsonResponse.data);
+      }
     })();
   }, []);
 
