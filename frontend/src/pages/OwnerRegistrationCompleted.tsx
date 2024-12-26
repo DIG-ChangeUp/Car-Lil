@@ -8,7 +8,7 @@ export default function OwnerRegistrationCompleted() {
   const navigate = useNavigate();
   return (
     <>
-      <Header />
+      <Header isOwnerMode={true} headerTitle={''} />
       <Container
         sx={{
           h: 'calc(100vh - 180px)',
