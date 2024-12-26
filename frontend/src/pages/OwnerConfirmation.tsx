@@ -16,7 +16,7 @@ export default function OwnerConfirmation() {
   const navigate = useNavigate();
   return (
     <>
-      <Header />
+      <Header isOwnerMode={true} headerTitle={''} />
       <Container sx={{ h: 'calc(100vh - 180px)' }}>
         <Breadcrumb sx={{ paddingTop: '5' }}>
           <BreadcrumbItem>

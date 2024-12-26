@@ -18,7 +18,7 @@ const OwnerSelectTime = () => {
 
   return (
     <>
-      <Header />
+      <Header isOwnerMode={true} headerTitle={''} />
       <Container h="calc(100vh - 180px)">
         <HStack justifyContent="start" marginTop="6" px="6">
           <Box rounded="full" bg="yellow.500" px="3" py="1">
