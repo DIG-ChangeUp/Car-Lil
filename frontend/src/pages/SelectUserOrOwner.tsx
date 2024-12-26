@@ -10,19 +10,35 @@ import {
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
+import { useEffect } from 'react';
 const SelectUserOrOwner = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress] = useAtom(userEmailAtom);
-  console.log('取得してるはずのemail-------->', emailAddress);
+  console.log('取得したemail-------->', emailAddress);
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
   const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
+  let isUserExist: boolean = false;
+
+  useEffect(() => {
+    (async () => {
+      const response: Response = await fetch('api/users/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailAddress }),
+      });
+      if (response.ok) {
+        isUserExist = await response.json();
+        console.log('exist-----', isUserExist);
+      }
+    })();
+  }, []);
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
-  async function getOwnerData(email: string) {
+  async function getOwnerData(email: string | null) {
     //emailからusersテーブルのユーザーID(id)を取得
     const Response = await fetch('/api/users/owner/email', {
       method: 'POST',
@@ -118,7 +134,8 @@ const SelectUserOrOwner = () => {
             }}
             onClick={async () => {
               await getOwnerData(emailAddress);
-              navigate('/ownerSelectCar');
+              if (userData.length !== 0) navigate('/ownerSelectCar');
+              navigate('/demoSelectCar');
             }}
           >
             <GrUserAdmin size="40" />

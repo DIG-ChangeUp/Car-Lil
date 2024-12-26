@@ -23,13 +23,12 @@ import {
 } from '@yamada-ui/react';
 import { useEffect, useState } from 'react';
 import { userEmailAtom } from '../components/atom/globalState.ts';
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 
 const Login = () => {
   // login ----------------------------
   //認証時のemailアドレスを保持
-  const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
-  console.log('エラー解除用にメールアドレス表示:', emailAddress);
+  const setEmailAddress = useSetAtom(userEmailAtom);
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
   const auth = getAuth(); // Firebase Auth インスタンスを取得
@@ -76,7 +75,7 @@ const Login = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/map');
+        navigate('/selectUserType');
       }
     });
   }, []);
