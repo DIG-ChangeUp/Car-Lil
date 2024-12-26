@@ -7,7 +7,7 @@ const OwnerTop = () => {
     <div className="display-container">
       <Header />
       <OwnerSelectMenu />
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={-1} />
     </div>
   );
 };

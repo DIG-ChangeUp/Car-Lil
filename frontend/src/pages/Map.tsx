@@ -157,7 +157,7 @@ const Map = () => {
         </Center>
       </APIProvider>
 
-      <Footer />
+      <Footer isOwnerMode={false} activeMenu={0} />
     </>
   );
 };

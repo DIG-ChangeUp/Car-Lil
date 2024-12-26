@@ -8,11 +8,11 @@ module.exports = {
     res.status(200).send({ data: allUsers });
   },
   //ユーザIDからユーザデータを取得してレスポンスとして送る
-  //!!!paramsではなくPOSTされたIDから取得
-  async viewById(req, res) {
-    const userId = req.body.id;
-    const user = await userModel.findById(userId);
-    res.status(200).send({ data: user });
+  //!!!ユーザーの存在確認用
+  async confirmationByEmail(req, res) {
+    const email = req.body.email;
+    const user = await userModel.findByEmail(email);
+    res.status(200).send(user.length === 1);
   },
   //ユーザメールアドレスからユーザ（オーナーorテナント）データを取得してレスポンスとして送る
   //!!!paramsではなくPOSTされたメールアドレスから取得

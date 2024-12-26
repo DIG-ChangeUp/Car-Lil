@@ -21,6 +21,7 @@ import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
 import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
+import DemoSelectCar from './pages/DemoSelectCar.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/ownerTop" element={<OwnerTop />} />
           <Route path="/selectUserType" element={<SelectUserOrOwner />} />
           <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
+          <Route path="/demoSelectCar" element={<DemoSelectCar />} />
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route path="/ownerConfirmation" element={<OwnerConfirmation />} />
           <Route

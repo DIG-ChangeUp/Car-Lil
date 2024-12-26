@@ -1,7 +1,4 @@
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Card,
   Container,
@@ -14,7 +11,6 @@ import {
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
-  userDataAtom,
   selectedDataAtom,
   shareDataAtom,
   User,
@@ -28,32 +24,47 @@ import { useNavigate } from 'react-router-dom';
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
   const setSelectedData = useSetAtom(selectedDataAtom);
-  const userData: UserData[] = useAtomValue(userDataAtom);
+  const demoData: UserData[] = [
+    {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      maker: 'トヨタ',
+      car_name: 'クラウン',
+      car_type: 'セダン',
+      capacity: 5,
+      share_prise: 330,
+    },
+    {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      maker: 'ホンダ',
+      car_name: 'N-B0X',
+      car_type: '軽自動車',
+      capacity: 4,
+      share_prise: 330,
+    },
+    {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      maker: 'トヨタ',
+      car_name: 'ノア',
+      car_type: 'ワンボックス',
+      capacity: 7,
+      share_prise: 330,
+    },
+  ];
   const shareData: Share = useAtomValue(shareDataAtom);
 
   return (
     <>
       <Header />
       <Container h="calc(100vh - 180px)">
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/ownerTop"
-              color="#4C70E5"
-              textDecoration="underline"
-            >
-              オーナーページ
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <BreadcrumbLink fontSize="larger">貸出車両選択</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+        <Text marginY="20">登録車両を選択してください</Text>
         <ScrollArea h="calc(100vh - 180px)" w="100%">
           <Container>
             {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
             {/*@ts-ignore*/}
-            {userData.map((data: User, index: number) => {
+            {demoData.map((data: User, index: number) => {
               return (
                 <Container key={index + 1}>
                   <Card
@@ -99,7 +110,7 @@ const OwnerSelectCar = () => {
           </Container>
         </ScrollArea>
       </Container>
-      <Footer isOwnerMode={true} activeMenu={-1} />
+      <Footer />
     </>
   );
 };

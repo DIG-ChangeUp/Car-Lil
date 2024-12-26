@@ -11,8 +11,8 @@ module.exports = {
   async all(limit) {
     return await db(USERS_TABLE).limit(limit);
   },
-  async findById(id) {
-    return await db(USERS_TABLE).where({ id });
+  async findByEmail(email) {
+    return await db(USERS_TABLE).where({ email });
   },
   //emailからオーナーに紐づくすべての情報を取得
   async findOwnerByEmail(email) {
@@ -27,7 +27,7 @@ module.exports = {
         'users.user_name',
         'users.email',
         'users.user_type',
-        // 'share_cars.car_id',
+        'share_cars.car_id',
         'cars.car_name',
         'cars.maker',
         'cars.car_type',
@@ -35,10 +35,11 @@ module.exports = {
         'share_cars.share_prise',
         'share_cars.share_state',
         'cars.photo_url',
-        // 'share_cars.carport_id',
+        'share_cars.carport_id',
         'carports.address',
         'carports.latitude',
         'carports.longitude',
+        'share.share_car_id',
         'share.start_at',
         'share.end_at'
       )
