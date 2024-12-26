@@ -22,6 +22,7 @@ import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 import DemoSelectCar from './pages/DemoSelectCar.tsx';
+import TenantConfirmReservation from './pages/TenantConfirmReservation.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -48,6 +49,10 @@ export default function App() {
           <Route
             path="/ownerRegistrationCompleted"
             element={<OwnerRegistrationCompleted />}
+          />
+          <Route
+            path="/tenantConfirmReservation"
+            element={<TenantConfirmReservation />}
           />
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
