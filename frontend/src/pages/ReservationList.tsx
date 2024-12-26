@@ -14,7 +14,7 @@ const ReservationList = () => {
 
   return (
     <>
-      <Header />
+      <Header isOwnerMode={false} headerTitle={'TOP'} />
 
       <Footer isOwnerMode={false} activeMenu={0} />
     </>

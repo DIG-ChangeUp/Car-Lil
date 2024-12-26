@@ -81,7 +81,7 @@ const OwnerDateRegistration = () => {
 
   return (
     <>
-      <Header />
+      <Header isOwnerMode={true} headerTitle={''} />
       <Container h="calc(100vh - 180px)" centerContent>
         <Calendar
           locale="ja"

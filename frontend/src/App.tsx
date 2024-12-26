@@ -23,7 +23,7 @@ import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 import DemoSelectCar from './pages/DemoSelectCar.tsx';
 import ReservationList from './pages/ReservationList.tsx';
-import { UserCheckReservationAvailability, } from './pages/UserCheckReservationAvailability.tsx';
+import { UserCheckReservationAvailability } from './pages/UserCheckReservationAvailability.tsx';
 import TenantConfirmReservation from './pages/TenantConfirmReservation.tsx';
 
 export default function App() {
@@ -56,18 +56,21 @@ export default function App() {
           />
           {/*使われていないページ*/}
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
-          <Route
-            path="/tenantConfirmReservation"
-            element={<TenantConfirmReservation />}
-          />
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/sample" element={<SampleCalendar />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
-          <Route path="/checkReservationAvailability" element={<UserCheckReservationAvailability />} />
+          <Route
+            path="/checkReservationAvailability"
+            element={<UserCheckReservationAvailability />}
+          />
           {/*テナントページ*/}
           <Route path="/map" element={<Map />} />
           <Route path="/reservationList" element={<ReservationList />} />
+          <Route
+            path="/tenantConfirmReservation"
+            element={<TenantConfirmReservation />}
+          />
           {/*Not foundページ*/}
           <Route path="*" element={<NotFound />} />
         </Routes>
