@@ -19,7 +19,7 @@ import {
 import { useAtom } from 'jotai';
 import { Button, Flex, Float, Text } from '@yamada-ui/react';
 import { useMemo } from 'react';
-import { MdLocationPin } from 'react-icons/md';
+import { MdNavigation } from 'react-icons/md';
 
 export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
@@ -113,9 +113,11 @@ export default function GoogleMap() {
             height="60px"
             fontSize="4xl"
             marginBottom="10"
-            border="solid #F3F7F7 2px"
+            transform="rotate(45deg)"
+            bg="black"
+            opacity="0.5"
           >
-            <MdLocationPin color="blue" />
+            <MdNavigation color="white" />
           </Button>
         </Float>
       )}

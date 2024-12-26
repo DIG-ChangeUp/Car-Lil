@@ -7,6 +7,7 @@ import {
   allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
+  distanceDataAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
@@ -21,6 +22,7 @@ const SelectUserOrOwner = () => {
   const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
+  const setDistanceData = useSetAtom(distanceDataAtom);
   let isUserExist: boolean = false;
 
   useEffect(() => {
@@ -110,6 +112,23 @@ const SelectUserOrOwner = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
+  useEffect(() => {
+    (async () => {
+      await getGeolocation('first');
+      const response = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPosition: location }),
+      });
+      if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const jsonResponse = await response.json();
+        setDistanceData(jsonResponse.data);
+      }
+    })();
+  }, []);
+
   return (
     <div>
       <Container
@@ -149,7 +168,6 @@ const SelectUserOrOwner = () => {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}
             onClick={async () => {
-              await getGeolocation('first');
               await getCars();
               navigate('/map');
             }}
@@ -168,7 +186,7 @@ const SelectUserOrOwner = () => {
           }}
           onClick={() => handleLogout()}
         >
-          サインアウト
+          ログアウト
         </Button>
       </Container>
     </div>
