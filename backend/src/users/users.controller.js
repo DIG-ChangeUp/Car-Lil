@@ -31,7 +31,7 @@ module.exports = {
     const addUserData = {
       user_name: 'user',
       email: req.body.email,
-      user_type: req.body.userType,
+      user_type: req.body.user_type,
     };
     const user = await userModel.save(addUserData);
     res.status(200).send({ data: user });
@@ -40,9 +40,9 @@ module.exports = {
   async editUserType(req, res) {
     const editUserData = {
       email: req.body.email,
-      user_type: req.body.userType,
+      user_type: req.body.user_type,
     };
-    const user = await userModel.save(editUserData);
+    const user = await userModel.edit(editUserData);
     res.status(200).send({ data: user });
   },
 };
