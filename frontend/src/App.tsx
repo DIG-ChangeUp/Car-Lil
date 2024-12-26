@@ -23,6 +23,7 @@ import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 import DemoSelectCar from './pages/DemoSelectCar.tsx';
 import ReservationList from './pages/ReservationList.tsx';
+import { UserCheckReservationAvailability, } from './pages/UserCheckReservationAvailability.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route path="/sample" element={<SampleCalendar />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
+          <Route path="/checkReservationAvailability" element={<UserCheckReservationAvailability />} />
           {/*テナントページ*/}
           <Route path="/map" element={<Map />} />
           <Route path="/reservationList" element={<ReservationList />} />
