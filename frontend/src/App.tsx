@@ -22,6 +22,8 @@ import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 import DemoSelectCar from './pages/DemoSelectCar.tsx';
+import ReservationList from './pages/ReservationList.tsx';
+import { UserCheckReservationAvailability, } from './pages/UserCheckReservationAvailability.tsx';
 import TenantConfirmReservation from './pages/TenantConfirmReservation.tsx';
 
 export default function App() {
@@ -37,19 +39,23 @@ export default function App() {
     <AuthProvider>
       <Provider>
         <Routes>
+          {/*共通ページ*/}
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<NewSignUp />} />
-          <Route path="/map" element={<Map />} />
-          <Route path="/ownerTop" element={<OwnerTop />} />
           <Route path="/selectUserType" element={<SelectUserOrOwner />} />
-          <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
+          {/*オーナーページ*/}
+          <Route path="/ownerTop" element={<OwnerTop />} />
           <Route path="/demoSelectCar" element={<DemoSelectCar />} />
-          <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
+          <Route path="/calendar" element={<OwnerDateRegistration />} />
+          <Route path="/selectTime" element={<OwnerSelectTime />} />
+          <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
           <Route path="/ownerConfirmation" element={<OwnerConfirmation />} />
           <Route
             path="/ownerRegistrationCompleted"
             element={<OwnerRegistrationCompleted />}
           />
+          {/*使われていないページ*/}
+          <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route
             path="/tenantConfirmReservation"
             element={<TenantConfirmReservation />}
@@ -58,6 +64,11 @@ export default function App() {
           <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/sample" element={<SampleCalendar />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
+          <Route path="/checkReservationAvailability" element={<UserCheckReservationAvailability />} />
+          {/*テナントページ*/}
+          <Route path="/map" element={<Map />} />
+          <Route path="/reservationList" element={<ReservationList />} />
+          {/*Not foundページ*/}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Provider>

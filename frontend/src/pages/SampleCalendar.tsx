@@ -15,50 +15,58 @@ const SampleCalendar = () => {
   console.log(dates);
 
   return (
-    <Calendar
-      locale="ja"
-      dateFormat="YYYY年 MM月"
-      fontSize="1xl"
-      // excludeDate={(date) => date < tomorrow}
-      firstDayOfWeek="sunday" // 日曜始まり
-      variant="subtle"
-      defaultValue={[]}
-      today
-      // onChange={(value) => createDays(value)}
-      // value={selectDate}
-      dayProps={{
-        h: 'auto',
-        p: 2,
-        // _selected: {},
-        _hover: {},
-        _active: {},
-        // _ripple: {
-        //   display: 'none',
-        // },
-        transitionProperty: 'none',
-        component: ({ date, isSelected }) => (
-          <VStack alignItems="center">
-            <Center
-              bg={isSelected ? 'primary' : undefined}
-              w={8}
-              lineHeight={8}
-              rounded="full"
-              color={isSelected ? 'white' : undefined}
-              transitionProperty="background"
-              transitionDuration="normal"
-              position="relative"
-            >
-              {date.getDate()}
-              <Float offset={['8', '0']} placement="start-center">
-                {dates.includes(dayjs(date).format('YYYY-MM-DD')) && (
-                  <Box w="1" py="1" px="1" bg="secondary" rounded="full"></Box>
-                )}
-              </Float>
-            </Center>
-          </VStack>
-        ),
-      }}
-    />
+    <>
+      <Calendar
+        locale="ja"
+        dateFormat="YYYY年 MM月"
+        fontSize="1xl"
+        // excludeDate={(date) => date < tomorrow}
+        firstDayOfWeek="sunday" // 日曜始まり
+        variant="subtle"
+        defaultValue={[]}
+        today
+        // onChange={(value) => createDays(value)}
+        // value={selectDate}
+        dayProps={{
+          h: 'auto',
+          p: 2,
+          // _selected: {},
+          _hover: {},
+          _active: {},
+          // _ripple: {
+          //   display: 'none',
+          // },
+          transitionProperty: 'none',
+          component: ({ date, isSelected }) => (
+            <VStack alignItems="center">
+              <Center
+                bg={isSelected ? 'primary' : undefined}
+                w={8}
+                lineHeight={8}
+                rounded="full"
+                color={isSelected ? 'white' : undefined}
+                transitionProperty="background"
+                transitionDuration="normal"
+                position="relative"
+              >
+                {date.getDate()}
+                <Float offset={['8', '0']} placement="start-center">
+                  {dates.includes(dayjs(date).format('YYYY-MM-DD')) && (
+                    <Box
+                      w="1"
+                      py="1"
+                      px="1"
+                      bg="secondary"
+                      rounded="full"
+                    ></Box>
+                  )}
+                </Float>
+              </Center>
+            </VStack>
+          ),
+        }}
+      />
+    </>
   );
 };
 

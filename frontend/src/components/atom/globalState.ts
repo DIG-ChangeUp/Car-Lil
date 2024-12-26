@@ -118,3 +118,23 @@ export type AllCarPort = {
   user_id: number;
 };
 export const allCarPorteAtom = atom<AllCarPort[]>([]);
+
+// 自分のルート距離リスト google routes api
+type DistanceData = {
+  routes: Route[];
+};
+
+type Route = {
+  legs: Leg[];
+};
+
+type Leg = {
+  end_address: string;
+  distance: Distance;
+};
+
+type Distance = {
+  text: string;
+  value: number;
+};
+export const distanceDataAtom = atom<DistanceData[]>([]);
