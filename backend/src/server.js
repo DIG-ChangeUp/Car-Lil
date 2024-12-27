@@ -19,7 +19,7 @@ function setupServer() {
 
   app.get('/api/users', usersController.index); //全ユーザー取得
   app.post('/api/addUser', usersController.addUser); //新規ユーザー登録
-  app.post('/api/addUser', usersController.addUser); //ユーザータイプ編集 ユーザーからオーナーへ
+  app.post('/api/editUserType', usersController.editUserType); //ユーザータイプ編集 ユーザーからオーナーへ
   app.post('/api/users/email', usersController.confirmationByEmail); //メールアドレスからユーザーの存在を確認
   app.post('/api/users/owner/email/', usersController.viewOfOwnerByEmail); //emailからオーナー全情報取得
   app.post('/api/users/tenant/email/', usersController.viewOfTenantByEmail); //emailからテナント全情報取得

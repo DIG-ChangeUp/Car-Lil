@@ -87,9 +87,13 @@ module.exports = {
     const [result] = await db.table(USERS_TABLE).insert(data).returning('*');
     return result;
   },
+
   async edit(data) {
-    // 編集中
-    // const [result] = await db.table(USERS_TABLE).where({ email: data.email });
-    // return result;
+    const [result] = await db
+      .table(USERS_TABLE)
+      .where({ email: data.email })
+      .update({ user_type: data.user_type })
+      .returning('*');
+    return result;
   },
 };

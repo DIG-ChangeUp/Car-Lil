@@ -22,6 +22,7 @@ import {
   rentalEndTimeAtom,
   rentalStartTimeAtom,
 } from '../components/atom/globalState.ts';
+import { useNavigate } from 'react-router-dom';
 
 const OwnerDateRegistration = () => {
   const [rentalDays, setRentalDays] = useAtom(rentalDaysAtom);
@@ -30,6 +31,7 @@ const OwnerDateRegistration = () => {
   );
   const rentalStartTime = useAtomValue(rentalStartTimeAtom);
   const rentalEndTime = useAtomValue(rentalEndTimeAtom);
+  const navigate = useNavigate();
 
   function dateFormat(date: Date): string {
     return date
@@ -71,6 +73,7 @@ const OwnerDateRegistration = () => {
       });
     });
     setRentalDateAndTimes(rentalData);
+    navigate('/selectTime');
   }
 
   console.log('rentalDays: ', rentalDays);
