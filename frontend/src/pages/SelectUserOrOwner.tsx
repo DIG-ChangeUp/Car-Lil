@@ -12,6 +12,7 @@ import {
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
+
 const SelectUserOrOwner = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
@@ -137,19 +138,31 @@ const SelectUserOrOwner = () => {
           justifyContent: 'center',
         }}
       >
-        <Text sx={{ fontSize: '5xl' }}>メニュー選択</Text>
+        <Text
+          sx={{
+            fontSize: '5xl',
+            marginTop: '3xl',
+            paddingLeft: 5,
+          }}
+        >
+          メニュー選択
+        </Text>
         <HStack
           sx={{
+            h: 'max-content',
             textAlign: 'center',
             marginX: 'auto',
+            marginY: 'xl',
           }}
         >
           <Box
             sx={{
+              w: 44,
+              h: 44,
               backgroundColor: '#F3F7F7',
-              padding: 5,
-              rounded: 'md',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              paddingTop: 'xl',
+              rounded: 'xl',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
             }}
             onClick={async () => {
               await getOwnerData(emailAddress);
@@ -157,36 +170,40 @@ const SelectUserOrOwner = () => {
               navigate('/demoSelectCar');
             }}
           >
-            <GrUserAdmin size="40" />
+            <GrUserAdmin size="50" />
             <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
           </Box>
           <Box
             sx={{
+              w: '44',
+              h: '44',
               backgroundColor: '#F3F7F7',
-              padding: 5,
-              rounded: 'md',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              paddingTop: 'xl',
+              rounded: 'xl',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
             }}
             onClick={async () => {
               await getCars();
               navigate('/map');
             }}
           >
-            <GrUser size="40" />
+            <GrUser size="50" />
             <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
           </Box>
         </HStack>
         <Button
           sx={{
-            w: 330,
-            h: 50,
+            w: 350,
+            h: 55,
+            fontSize: 'xl',
             backgroundColor: '#289FAB',
             color: '#FEFEFE',
-            margin: 'auto',
+            marginX: 'auto',
+            marginY: 160,
           }}
           onClick={() => handleLogout()}
         >
-          ログアウト
+          サインアウト
         </Button>
       </Container>
     </div>
