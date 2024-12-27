@@ -17,9 +17,10 @@ import {
   viewModeAtom,
 } from './atom/globalState.ts';
 import { useAtom } from 'jotai';
-import { Button, Flex, Float, Text } from '@yamada-ui/react';
+import { Button, Container, Flex, Float, Text } from '@yamada-ui/react';
 import { useMemo } from 'react';
 import { MdNavigation } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
@@ -27,6 +28,7 @@ export default function GoogleMap() {
   const [location, setLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const viewMode = useAtomValue(viewModeAtom);
+  const navigate = useNavigate();
 
   type positionType = { lat: number; lng: number };
 
@@ -61,6 +63,10 @@ export default function GoogleMap() {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
+  }
+
+  function handleNavigate() {
+    navigate('/tenantConfirmReservation');
   }
 
   const map = useMap();
@@ -102,6 +108,11 @@ export default function GoogleMap() {
             <Text>{selectInfoWindow.car_name}</Text>
           </Flex>
           <p>{selectInfoWindow.address}</p>
+          <Container minWidth="200px">
+            <Button rounded="full" onClick={handleNavigate}>
+              利用する
+            </Button>
+          </Container>
         </InfoWindow>
       )}
       {viewMode === 'map' && (
