@@ -57,7 +57,7 @@ const OwnerSelectCar = () => {
 
   return (
     <>
-      <Header />
+      <Header isOwnerMode={true} headerTitle={''} />
       <Container h="calc(100vh - 180px)">
         <Text marginY="20">登録車両を選択してください</Text>
         <ScrollArea h="calc(100vh - 180px)" w="100%">
@@ -110,7 +110,7 @@ const OwnerSelectCar = () => {
           </Container>
         </ScrollArea>
       </Container>
-      <Footer />
+      <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );
 };
