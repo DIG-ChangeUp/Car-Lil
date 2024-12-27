@@ -9,6 +9,7 @@ import {
   VStack,
 } from '@yamada-ui/react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type DistanceCardListProps = {
   distanceData: DistanceData[];
@@ -35,6 +36,12 @@ type Distance = {
 const DistanceCardList: React.FC<DistanceCardListProps> = ({
   distanceData,
 }) => {
+  const navigate = useNavigate();
+
+  function handleNavigate() {
+    navigate('/tenantConfirmReservation');
+  }
+
   return (
     <Container marginTop="40px">
       <ScrollArea h="calc(100vh - 80px - 90px)" w="100%">
@@ -66,7 +73,12 @@ const DistanceCardList: React.FC<DistanceCardListProps> = ({
                       <Text>{distance.routes[0].legs[0].distance.text}</Text>
                     </HStack>
                   </VStack>
-                  <Button rounded="full" w="50px" h="46px">
+                  <Button
+                    rounded="full"
+                    w="50px"
+                    h="46px"
+                    onClick={handleNavigate}
+                  >
                     予約
                   </Button>
                 </HStack>
