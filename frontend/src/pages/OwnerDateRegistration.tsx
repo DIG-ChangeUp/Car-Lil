@@ -54,9 +54,7 @@ const OwnerDateRegistration = () => {
   function createDays(days: Date[]) {
     const formattedDays: string[] = [];
     days.forEach((day) => {
-      if (day) {
-        formattedDays.push(dateFormat(day));
-      }
+      formattedDays.push(dateFormat(day));
     });
 
     formattedDays.sort((a: string, b: string) => descTimeSort(a, b));
