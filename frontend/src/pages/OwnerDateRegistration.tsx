@@ -1,5 +1,4 @@
 import { useAtom, useAtomValue } from 'jotai';
-import { Calendar } from '@yamada-ui/calendar';
 import {
   Box,
   Button,
@@ -26,40 +25,16 @@ import {
 } from '../components/atom/globalState.ts';
 import { useNavigate } from 'react-router-dom';
 import 'dayjs/locale/ja';
+import CustomCalendar from '../components/CustomCalendar.tsx';
 
 const OwnerDateRegistration = () => {
-  const [rentalDays, setRentalDays] = useAtom(rentalDaysAtom);
+  const rentalDays = useAtomValue(rentalDaysAtom);
   const [rentalDateAndTimes, setRentalDateAndTimes] = useAtom(
     rentalDateAndTimesAtom
   );
   const rentalStartTime = useAtomValue(rentalStartTimeAtom);
   const rentalEndTime = useAtomValue(rentalEndTimeAtom);
   const navigate = useNavigate();
-
-  function dateFormat(date: Date): string {
-    return date
-      .toLocaleDateString('ja-JP', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-      .split('/')
-      .join('-');
-  }
-
-  function descTimeSort(a: string, b: string) {
-    return a < b ? 1 : -1;
-  }
-
-  function createDays(days: Date[]) {
-    const formattedDays: string[] = [];
-    days.forEach((day) => {
-      formattedDays.push(dateFormat(day));
-    });
-
-    formattedDays.sort((a: string, b: string) => descTimeSort(a, b));
-    setRentalDays(formattedDays);
-  }
 
   function makeRentalData() {
     type rentalData = {
@@ -91,19 +66,7 @@ const OwnerDateRegistration = () => {
       <Container h="calc(100vh - 180px)" centerContent>
         <Box w="100%" h="85%">
           <Center>
-            <Calendar
-              locale="ja-JP"
-              dateFormat="YYYY年 MM月"
-              fontSize="1xl"
-              excludeDate={(date) => date < tomorrow}
-              firstDayOfWeek="sunday" // 日曜始まり
-              variant="solid"
-              defaultValue={[]}
-              maxSelectValues={5}
-              onChange={(value) => {
-                createDays(value);
-              }}
-            />
+            <CustomCalendar />
           </Center>
           <Container>
             <ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>

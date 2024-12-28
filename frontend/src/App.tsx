@@ -13,7 +13,6 @@ import Login from './pages/Login.tsx';
 import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
-import SampleCalendar from './pages/SampleCalendar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
 import NewSignUp from './pages/SignUp.tsx';
 import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
@@ -58,7 +57,6 @@ export default function App() {
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
-          <Route path="/sample" element={<SampleCalendar />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
           <Route
             path="/checkReservationAvailability"
