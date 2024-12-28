@@ -69,48 +69,49 @@ const OwnerDateRegistration = () => {
             <CustomCalendar />
           </Center>
           <Container>
+            <Text textAlign="center">貸出予定一覧</Text>
             <ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>
               <TableContainer>
                 <NativeTable variant="striped">
                   <Thead>
                     <Tr>
-                      <Th>車両</Th>
-                      <Th>貸出可能日時</Th>
+                      <Th>日付</Th>
+                      <Th>開始</Th>
+                      <Th></Th>
+                      <Th>終了</Th>
                     </Tr>
                   </Thead>
 
                   <Tbody>
                     <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
+                      <Td fontSize="16px">12月26日</Td>
+                      <Td fontSize="16px">10:30</Td>
+                      <Td fontSize="16px">~</Td>
+                      <Td fontSize="16px">14:30</Td>
                     </Tr>
                     <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
+                      <Td fontSize="16px">12月26日</Td>
+                      <Td fontSize="16px">10:30</Td>
+                      <Td fontSize="16px">~</Td>
+                      <Td fontSize="16px">14:30</Td>
                     </Tr>
                     <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
+                      <Td fontSize="16px">12月26日</Td>
+                      <Td fontSize="16px">10:30</Td>
+                      <Td fontSize="16px">~</Td>
+                      <Td fontSize="16px">14:30</Td>
                     </Tr>
                     <Tr>
-                      <Td>{'ハイラックスサーフ'.substring(0, 7) + '...'}</Td>
-                      <Td>12月26日 10:30-16:00</Td>
+                      <Td fontSize="16px">12月26日</Td>
+                      <Td fontSize="16px">10:30</Td>
+                      <Td fontSize="16px">~</Td>
+                      <Td fontSize="16px">14:30</Td>
                     </Tr>
                     <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>ヤリス</Td>
-                      <Td>12月26日 10:30-16:00</Td>
+                      <Td fontSize="16px">12月26日</Td>
+                      <Td fontSize="16px">10:30</Td>
+                      <Td fontSize="16px">~</Td>
+                      <Td fontSize="16px">14:30</Td>
                     </Tr>
                   </Tbody>
                 </NativeTable>
@@ -119,13 +120,17 @@ const OwnerDateRegistration = () => {
           </Container>
         </Box>
         <VStack w="100%" h="15%">
-          {rentalDays.length > 0 || (
-            <Text textAlign="center">カレンダーから日付を選択してください</Text>
-          )}
+          <Text
+            textAlign="center"
+            color={rentalDays.length > 0 ? 'white' : 'black'}
+          >
+            カレンダーから日付を選択してください
+          </Text>
           <Button
             colorScheme="primary"
             variant="solid"
             onClick={makeRentalData}
+            isDisabled={rentalDays.length < 1}
           >
             時間指定に進む
           </Button>

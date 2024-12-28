@@ -49,7 +49,7 @@ const CustomCalendar = () => {
         dateFormat="YYYY年 MM月"
         fontSize="1xl"
         excludeDate={(date) => date < tomorrow}
-        firstDayOfWeek="sunday" // 日曜始まり
+        firstDayOfWeek="monday"
         variant="solid"
         defaultValue={[]}
         onChange={(value) => createDays(value)}
@@ -64,7 +64,7 @@ const CustomCalendar = () => {
               <Center
                 bg={isSelected ? 'primary' : undefined}
                 w={8}
-                lineHeight={6}
+                lineHeight={5}
                 rounded="100px"
                 color={isSelected ? 'white' : undefined}
                 transitionProperty="background"
@@ -72,7 +72,7 @@ const CustomCalendar = () => {
                 position="relative"
               >
                 {date.getDate()}
-                <Float offset={['6.5', '0']} placement="start-center">
+                <Float offset={['5.5', '0']} placement="start-center">
                   {dates.includes(dayjs(date).format('YYYY-MM-DD')) && (
                     <Box w="1" py="1" px="1" bg="gray.200" rounded="full"></Box>
                   )}
