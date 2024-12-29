@@ -21,7 +21,7 @@ const ReservationList = () => {
 
   useEffect(() => {
     async function getReservationData() {
-      const response = await fetch('/api/reservations/2');
+      const response = await fetch('/api/reservations/tenant/2');
       if (response.ok) {
         const jsonResponse = await response.json();
         setReservationData(jsonResponse.data);

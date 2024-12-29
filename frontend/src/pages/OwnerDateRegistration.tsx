@@ -1,4 +1,11 @@
 import { useAtom, useAtomValue } from 'jotai';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+// UTCプラグインを読み込み
+dayjs.extend(utc);
+// timezoneプラグインを読み込み
+dayjs.extend(timezone);
 import {
   Box,
   Button,
@@ -18,6 +25,7 @@ import {
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
+  borrowDateAtom,
   rentalDateAndTimesAtom,
   rentalDaysAtom,
   rentalEndTimeAtom,
@@ -26,6 +34,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import 'dayjs/locale/ja';
 import CustomCalendar from '../components/CustomCalendar.tsx';
+import { useEffect } from 'react';
 
 const OwnerDateRegistration = () => {
   const rentalDays = useAtomValue(rentalDaysAtom);
@@ -34,6 +43,8 @@ const OwnerDateRegistration = () => {
   );
   const rentalStartTime = useAtomValue(rentalStartTimeAtom);
   const rentalEndTime = useAtomValue(rentalEndTimeAtom);
+  const [borrowDate, setBorrowDate] = useAtom(borrowDateAtom);
+
   const navigate = useNavigate();
 
   function makeRentalData() {
@@ -57,8 +68,18 @@ const OwnerDateRegistration = () => {
   console.log('rentalDays: ', rentalDays);
   console.log('rentalDateAndTimes: ', rentalDateAndTimes);
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() - 1);
+  // 🚨🚨🚨🚨🚨 注意！固定のshare_car_idでデータを取得しているので修正が必要！
+  useEffect(() => {
+    (async () => {
+      const response = await fetch('/api/share/1');
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        setBorrowDate(jsonResponse.data);
+      }
+    })();
+  }, []);
+
+  console.log('getBorrowDate: ', borrowDate);
 
   return (
     <>
@@ -83,36 +104,28 @@ const OwnerDateRegistration = () => {
                   </Thead>
 
                   <Tbody>
-                    <Tr>
-                      <Td fontSize="16px">12月26日</Td>
-                      <Td fontSize="16px">10:30</Td>
-                      <Td fontSize="16px">~</Td>
-                      <Td fontSize="16px">14:30</Td>
-                    </Tr>
-                    <Tr>
-                      <Td fontSize="16px">12月26日</Td>
-                      <Td fontSize="16px">10:30</Td>
-                      <Td fontSize="16px">~</Td>
-                      <Td fontSize="16px">14:30</Td>
-                    </Tr>
-                    <Tr>
-                      <Td fontSize="16px">12月26日</Td>
-                      <Td fontSize="16px">10:30</Td>
-                      <Td fontSize="16px">~</Td>
-                      <Td fontSize="16px">14:30</Td>
-                    </Tr>
-                    <Tr>
-                      <Td fontSize="16px">12月26日</Td>
-                      <Td fontSize="16px">10:30</Td>
-                      <Td fontSize="16px">~</Td>
-                      <Td fontSize="16px">14:30</Td>
-                    </Tr>
-                    <Tr>
-                      <Td fontSize="16px">12月26日</Td>
-                      <Td fontSize="16px">10:30</Td>
-                      <Td fontSize="16px">~</Td>
-                      <Td fontSize="16px">14:30</Td>
-                    </Tr>
+                    {borrowDate.map((borrow) => {
+                      return (
+                        <Tr key={borrow.id}>
+                          <Td fontSize="16px">
+                            {dayjs(borrow.start_at)
+                              .tz('Asia/Tokyo')
+                              .format('MM月DD日')}
+                          </Td>
+                          <Td fontSize="16px">
+                            {dayjs(borrow.start_at)
+                              .tz('Asia/Tokyo')
+                              .format('HH:mm')}
+                          </Td>
+                          <Td fontSize="16px">~</Td>
+                          <Td fontSize="16px">
+                            {dayjs(borrow.end_at)
+                              .tz('Asia/Tokyo')
+                              .format('HH:mm')}
+                          </Td>
+                        </Tr>
+                      );
+                    })}
                   </Tbody>
                 </NativeTable>
               </TableContainer>

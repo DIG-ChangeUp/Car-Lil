@@ -76,6 +76,17 @@ export const rentalDateAndTimesAtom = atom<RentalDateAndTime[]>([]);
 export const rentalStartTimeAtom = atom<string | null>('10:00');
 export const rentalEndTimeAtom = atom<string | null>('16:00');
 
+// オーナー 貸出予定一覧
+export const borrowDateAtom = atom<borrow[] | []>([]);
+type borrow = {
+  id: number;
+  user_id: number;
+  carport_id: number;
+  share_car_id: number;
+  start_at: string;
+  end_at: string;
+};
+
 type Location = {
   latitude: number;
   longitude: number;

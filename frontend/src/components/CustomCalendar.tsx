@@ -1,21 +1,26 @@
 import { Calendar } from '@yamada-ui/calendar';
 import { Box, Center, Float, VStack } from '@yamada-ui/react';
 import dayjs from 'dayjs';
-import { useSetAtom } from 'jotai/index';
-import { rentalDaysAtom } from './atom/globalState.ts';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+// UTCプラグインを読み込み
+dayjs.extend(utc);
+// timezoneプラグインを読み込み
+dayjs.extend(timezone);
+import { useAtomValue, useSetAtom } from 'jotai/index';
+import { borrowDateAtom, rentalDaysAtom } from './atom/globalState.ts';
 
 const CustomCalendar = () => {
-  const date = dayjs();
-  const date1 = date.add(1, 'day').format('YYYY-MM-DD');
-  const date2 = date.add(2, 'day').format('YYYY-MM-DD');
-  const date3 = date.add(3, 'day').format('YYYY-MM-DD');
-  const date4 = date.add(4, 'day').format('YYYY-MM-DD');
-  const dates = [date1, date2, date3, date4];
-
   const setRentalDays = useSetAtom(rentalDaysAtom);
+  const borrowDate = useAtomValue(borrowDateAtom);
+  const borrows: string[] = [];
+  borrowDate.forEach((borrow) => {
+    borrows.push(dayjs(borrow.start_at).tz('Asia/Tokyo').format('YYYY-MM-DD'));
+  });
+  console.log('borrows: ', borrows);
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() - 1);
+  const oneDayAgo = new Date();
+  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
   function dateFormat(date: Date): string {
     return date
@@ -48,7 +53,7 @@ const CustomCalendar = () => {
         locale="ja"
         dateFormat="YYYY年 MM月"
         fontSize="1xl"
-        excludeDate={(date) => date < tomorrow}
+        excludeDate={(date) => date < oneDayAgo}
         firstDayOfWeek="monday"
         variant="solid"
         defaultValue={[]}
@@ -73,7 +78,7 @@ const CustomCalendar = () => {
               >
                 {date.getDate()}
                 <Float offset={['5.5', '0']} placement="start-center">
-                  {dates.includes(dayjs(date).format('YYYY-MM-DD')) && (
+                  {borrows.includes(dayjs(date).format('YYYY-MM-DD')) && (
                     <Box w="1" py="1" px="1" bg="gray.200" rounded="full"></Box>
                   )}
                 </Float>
