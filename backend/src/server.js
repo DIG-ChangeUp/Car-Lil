@@ -10,6 +10,7 @@ const carportsController = require('./carports/carports.controller');
 const shareCarsController = require('./shareCars/shareCars.controller');
 //テスト用
 const calcDistance = require('./calcDistance');
+const shareController = require('./share/share.controller');
 
 function setupServer() {
   const app = express();
@@ -28,6 +29,7 @@ function setupServer() {
   app.post('/api/allCarports', carportsController.getAllCarPorte); //map pin用駐車場取得
   app.get('/api/shareCars', shareCarsController.index); //全シェアカー取得
   app.post('/api/shareCars/userId', shareCarsController.view); //ユーザーIDから全シェアカー取得
+  app.post('/api/addNewShareData', shareController.addNewShareData); //オーナーの貸出設定を登録
   app.post('/api/distance', carportsController.getDistance); //DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
   //テスト用
   app.get('/distance', calcDistance.calcDistance); //テスト用
