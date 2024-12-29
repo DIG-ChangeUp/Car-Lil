@@ -11,15 +11,8 @@ import {
   Button,
   Center,
   Container,
-  NativeTable,
   ScrollArea,
-  TableContainer,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
   VStack,
 } from '@yamada-ui/react';
 import Header from '../components/Header.tsx';
@@ -35,6 +28,8 @@ import { useNavigate } from 'react-router-dom';
 import 'dayjs/locale/ja';
 import CustomCalendar from '../components/CustomCalendar.tsx';
 import { useEffect } from 'react';
+import BorrowDateTable from '../components/BorrowDateTable.tsx';
+import { useSetAtom } from 'jotai/index';
 
 const OwnerDateRegistration = () => {
   const rentalDays = useAtomValue(rentalDaysAtom);
@@ -43,7 +38,7 @@ const OwnerDateRegistration = () => {
   );
   const rentalStartTime = useAtomValue(rentalStartTimeAtom);
   const rentalEndTime = useAtomValue(rentalEndTimeAtom);
-  const [borrowDate, setBorrowDate] = useAtom(borrowDateAtom);
+  const setBorrowDate = useSetAtom(borrowDateAtom);
 
   const navigate = useNavigate();
 
@@ -79,8 +74,6 @@ const OwnerDateRegistration = () => {
     })();
   }, []);
 
-  console.log('getBorrowDate: ', borrowDate);
-
   return (
     <>
       <Header isOwnerMode={true} headerTitle={''} />
@@ -92,43 +85,7 @@ const OwnerDateRegistration = () => {
           <Container>
             <Text textAlign="center">貸出予定一覧</Text>
             <ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>
-              <TableContainer>
-                <NativeTable variant="striped">
-                  <Thead>
-                    <Tr>
-                      <Th>日付</Th>
-                      <Th>開始</Th>
-                      <Th></Th>
-                      <Th>終了</Th>
-                    </Tr>
-                  </Thead>
-
-                  <Tbody>
-                    {borrowDate.map((borrow) => {
-                      return (
-                        <Tr key={borrow.id}>
-                          <Td fontSize="16px">
-                            {dayjs(borrow.start_at)
-                              .tz('Asia/Tokyo')
-                              .format('MM月DD日')}
-                          </Td>
-                          <Td fontSize="16px">
-                            {dayjs(borrow.start_at)
-                              .tz('Asia/Tokyo')
-                              .format('HH:mm')}
-                          </Td>
-                          <Td fontSize="16px">~</Td>
-                          <Td fontSize="16px">
-                            {dayjs(borrow.end_at)
-                              .tz('Asia/Tokyo')
-                              .format('HH:mm')}
-                          </Td>
-                        </Tr>
-                      );
-                    })}
-                  </Tbody>
-                </NativeTable>
-              </TableContainer>
+              <BorrowDateTable />
             </ScrollArea>
           </Container>
         </Box>
