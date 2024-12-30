@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -19,10 +19,7 @@ import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
   borrowDateAtom,
-  rentalDateAndTimesAtom,
   rentalDaysAtom,
-  rentalEndTimeAtom,
-  rentalStartTimeAtom,
 } from '../components/atom/globalState.ts';
 import { useNavigate } from 'react-router-dom';
 import 'dayjs/locale/ja';
@@ -33,35 +30,12 @@ import { useSetAtom } from 'jotai/index';
 
 const OwnerDateRegistration = () => {
   const rentalDays = useAtomValue(rentalDaysAtom);
-  const [rentalDateAndTimes, setRentalDateAndTimes] = useAtom(
-    rentalDateAndTimesAtom
-  );
-  const rentalStartTime = useAtomValue(rentalStartTimeAtom);
-  const rentalEndTime = useAtomValue(rentalEndTimeAtom);
+
   const setBorrowDate = useSetAtom(borrowDateAtom);
 
   const navigate = useNavigate();
 
-  function makeRentalData() {
-    type rentalData = {
-      date: string;
-      start_at: string | null;
-      end_at: string | null;
-    };
-    const rentalData: rentalData[] = [];
-    rentalDays.forEach((rentalDay) => {
-      rentalData.push({
-        date: rentalDay,
-        start_at: rentalStartTime,
-        end_at: rentalEndTime,
-      });
-    });
-    setRentalDateAndTimes(rentalData);
-    navigate('/selectTime');
-  }
-
   console.log('rentalDays: ', rentalDays);
-  console.log('rentalDateAndTimes: ', rentalDateAndTimes);
 
   // 🚨🚨🚨🚨🚨 注意！固定のshare_car_idでデータを取得しているので修正が必要！
   useEffect(() => {
@@ -78,7 +52,7 @@ const OwnerDateRegistration = () => {
     <>
       <Header isOwnerMode={true} headerTitle={''} />
       <Container h="calc(100vh - 180px)" centerContent>
-        <Box w="100%" h="85%">
+        <Box w="100%" h="calc(100% - 100px)">
           <Center>
             <CustomCalendar />
           </Center>
@@ -89,7 +63,7 @@ const OwnerDateRegistration = () => {
             </ScrollArea>
           </Container>
         </Box>
-        <VStack w="100%" h="15%">
+        <VStack w="100%" h="100px">
           <Text
             textAlign="center"
             color={rentalDays.length > 0 ? 'white' : 'black'}
@@ -99,7 +73,7 @@ const OwnerDateRegistration = () => {
           <Button
             colorScheme="primary"
             variant="solid"
-            onClick={makeRentalData}
+            onClick={() => navigate('/selectTime')}
             isDisabled={rentalDays.length < 1}
           >
             時間指定に進む
