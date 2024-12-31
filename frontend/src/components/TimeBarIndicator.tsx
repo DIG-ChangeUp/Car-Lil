@@ -8,17 +8,19 @@ export interface ITimeZone {
 }
 
 interface props {
-  ownerRentalTime:ITimeZone | null;
-  bookingTime:ITimeZone[];
+  ownerRentalTime:ITimeZone | null | undefined;
+  bookingTime:ITimeZone[] | undefined;
 }
 
+const colCodeNormal = '#DDD';
+const colCodeNG = '#F1AAAA';
+const colCodeOK = '#AADCF1';
+const countBars = 48;
+const aryClockAM:string[] = ['00','01','02','03','04','05','06','07','08','09','10','11'];
+const aryClockPM:string[] = ['12','13','14','15','16','17','18','19','20','21','22','23'];
+
 export function TimeBarIndicator(props:props) {
-  const colCodeNormal = '#DDD';
-  const colCodeNG = '#F1AAAA';
-  const colCodeOK = '#AADCF1';
-  const countBars = 48;
-  const aryClockAM:string[] = ['00','01','02','03','04','05','06','07','08','09','10','11'];
-  const aryClockPM:string[] = ['12','13','14','15','16','17','18','19','20','21','22','23'];
+
 
   const [aryTimeAM, setAryTimeAM] = useState<string[]>([...Array(countBars)].map(() => colCodeNormal));
   const [aryTimePM, setAryTimePM] = useState<string[]>([...Array(countBars)].map(() => colCodeNormal));
@@ -26,21 +28,22 @@ export function TimeBarIndicator(props:props) {
   useEffect(() => {
     let _arySetTime:string[] = aryTimeAM.concat(aryTimePM);
 
-    if(props.ownerRentalTime !== null) {
+    if(props.ownerRentalTime !== null && props.ownerRentalTime !== undefined) {
       _arySetTime = setBarColor(_arySetTime, props.ownerRentalTime, colCodeOK);
     }
 
-    if(props.bookingTime.length !== 0) {
-      props.bookingTime.forEach((timeZone) => {
-        _arySetTime = setBarColor(_arySetTime, timeZone, colCodeNG);
-      });
+    if(props.bookingTime !== undefined){
+      if(props.bookingTime.length !== 0) {
+        props.bookingTime.forEach((timeZone) => {
+          _arySetTime = setBarColor(_arySetTime, timeZone, colCodeNG);
+        });
+      }
     }
-
 
     setAryTimeAM(_arySetTime.slice(0, countBars));
     setAryTimePM(_arySetTime.slice(countBars, countBars * 2));
 
-  }, []);
+  }, [props.bookingTime, props.ownerRentalTime]);
 
   function setBarColor(targetAry:string[] ,targetTimoZone:ITimeZone, colCode:string) {
 

@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 
+import { useSetAtom } from 'jotai';
+import { atomCheckRentalInfo} from '../atoms/atomRentalTime.ts';
+
 import { Box, Button, Text, Center, HStack, Image, Select, SelectItem, ScrollArea } from '@yamada-ui/react';
 import { useNavigate } from "react-router-dom";
 
+import { ICheckRentalInfo, IRentalInfo } from '../../globals';
 import { ITimeZone, TimeBarIndicator } from '../components/TimeBarIndicator.tsx';
 import Footer from '../components/Footer.tsx';
+
+const aryWeekday:string[] = ['日','月','火','水','木','金','土'];
 
 const ownerRentalTime:ITimeZone = {
   strTime: '07:00',
@@ -70,6 +76,38 @@ const aryErrorMessages:string[] = [
 
 export function UserCheckReservationAvailability() {
   const navigate = useNavigate();
+
+  const setCheckRentalInfo = useSetAtom(atomCheckRentalInfo);
+
+  const [currentRentalInfo, setCurrentRentalInfo] = useState<IRentalInfo>();
+  const [currentRentalDate, setCurrentRentalDate] = useState<string>();
+  const [currentYear, setCurrentYear] = useState<number>(0);
+  const [currentMonth, setCurrentMonth] = useState<number>(0);
+  const [currentDate, setCurrentDate] = useState<number>(0);
+  const [rentalTime, setRentalTime] = useState<number>(0);
+
+  useEffect(() => {
+    (async () => {
+      const fetchResult = await fetch(import.meta.env.VITE_ORIGIN_API_URL + '/api/rentalInfo');
+      const _resultJSON = await fetchResult.json();
+      const _resultRentalInfo:IRentalInfo = _resultJSON.data as IRentalInfo;
+
+      const _rentalDate = new Date(_resultRentalInfo.rental_date);
+
+      const _month = _rentalDate.getMonth() + 1;
+      const _date = _rentalDate.getDate();
+      const _weekDay = _rentalDate.getDay();
+      const _currentRentalDate = `${_month}月${_date}日 (${aryWeekday[_weekDay]})`;
+
+      setCurrentYear(_rentalDate.getFullYear());
+      setCurrentMonth(_rentalDate.getMonth());
+      setCurrentDate(_rentalDate.getDate());
+
+      setCurrentRentalDate(_currentRentalDate);
+      setCurrentRentalInfo(_resultRentalInfo);
+    })()
+  }, []);
+
 
   const [selectStrHours, setSelectStrHours] = useState<string>('--');
   function handlerSelectedStrHours(value: string){
@@ -154,12 +192,13 @@ export function UserCheckReservationAvailability() {
         return false;
       }
 
-      const rentalTime:number = endTime - strTime;
-      if (rentalTime < 60) {
-        setMsgRentalTime(`利用予定時間：${rentalTime}分`);
+      const _rentalTime:number = endTime - strTime;
+      setRentalTime(_rentalTime? _rentalTime : 0);
+      if (_rentalTime < 60) {
+        setMsgRentalTime(`利用予定時間：${_rentalTime}分`);
       } else {
-        const hours:number = Math.floor(rentalTime / 60);
-        const minutes:number = rentalTime % 60;
+        const hours:number = Math.floor(_rentalTime / 60);
+        const minutes:number = _rentalTime % 60;
         setMsgRentalTime(`利用予定時間：${hours}時間${minutes}分`);
       }
 
@@ -171,10 +210,47 @@ export function UserCheckReservationAvailability() {
 
   }, [selectStrHours, selectStrMinutes, selectEndHours, selectEndMinutes]);
 
-
-
   function handlerClickCancel() {
     navigate('/');
+  }
+
+  function handlerClickReservation() {
+
+    if(currentRentalDate !== undefined) {
+
+      const _strHours = Number(selectStrHours);
+      const _strMinutes = Number(selectStrMinutes);
+      const _strTime = new Date(currentYear, currentMonth, currentDate, _strHours, _strMinutes);
+
+      const _endHours = Number(selectEndHours);
+      const _endMinutes = Number(selectEndMinutes);
+      const _endTime = new Date(currentYear, currentMonth, currentDate, _endHours, _endMinutes);
+
+      const _checkRentalInfo:ICheckRentalInfo = {
+        carport_id: currentRentalInfo?.carport_id,
+        carport_address: currentRentalInfo?.carport_address,
+        share_car_id: currentRentalInfo?.share_car_id,
+        share_price: currentRentalInfo?.share_price,
+        car_id: currentRentalInfo?.car_id,
+        car_maker: currentRentalInfo?.car_maker,
+        car_name: currentRentalInfo?.car_name,
+        car_type: currentRentalInfo?.car_type,
+        car_image_url1: currentRentalInfo?.car_image_url1,
+        car_image_url2: currentRentalInfo?.car_image_url2,
+        start_rental_date: _strTime,
+        end_rental_date: _endTime,
+        rental_time: rentalTime
+      }
+
+      console.log(_checkRentalInfo);
+
+      setCheckRentalInfo(_checkRentalInfo);
+
+      navigate('/')
+
+    }
+
+
   }
 
 
@@ -188,42 +264,51 @@ export function UserCheckReservationAvailability() {
 
       <ScrollArea w={'100%'} h="calc(100vh - 180px)" px={'6'} py={'2'}>
 
-        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>駐車場住所</Text>
+        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>{currentRentalInfo?.carport_address}</Text>
 
         <Box bg={'#F3F7F7'} w={'100%'} borderRadius={'8'} px={'4'} py={'2'}>
           <Text as={'h3'} fontSize={'16px'} mb={'4'}>登録車両1</Text>
 
           <HStack gap={'0'} mb={'4'}>
-            <Image src={'../../src/assets/CarImages/Crown_Ext.png'} alt={'car'} w={'50%'} />
-            <Image src={'../../src/assets/CarImages/Crown_Int.png'} alt={'car'} w={'50%'} />
+            <Image src={currentRentalInfo?.car_image_url1} alt={'car'} w={'50%'} />
+            <Image src={currentRentalInfo?.car_image_url2} alt={'car'} w={'50%'} />
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'20%'}>メーカー</Text>
             <Text w={'3%'}>:</Text>
-            <Text>トヨタ</Text>
+            <Text>{currentRentalInfo?.car_maker}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'20%'}>車名</Text>
             <Text w={'3%'}>:</Text>
-            <Text>クラウン</Text>
+            <Text>{currentRentalInfo?.car_name}</Text>
+          </HStack>
+
+          <HStack gap={'0'} mb={'4'} borderBottom={'1px solid #D9D9D9'}>
+            <Text w={'20%'}>タイプ</Text>
+            <Text w={'3%'}>:</Text>
+            <Text>{currentRentalInfo?.car_type}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'4'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
-            <Text w={'20%'}>タイプ</Text>
+            <Text w={'20%'}>貸出料金</Text>
             <Text w={'3%'}>:</Text>
-            <Text>セダン</Text>
+            <Text>{currentRentalInfo?.share_price}円</Text>
           </HStack>
 
           <Center mb={'2'}>
             <Box bg={'white'} borderRadius={'12'} px={'8'} py={'1'}>
-              12月19日 (木)
+              {currentRentalDate}
             </Box>
           </Center>
 
           <Box py={'2'} borderBottom={'1px solid #A2A2A2'} mb={'2'}>
-            <TimeBarIndicator ownerRentalTime={ownerRentalTime} bookingTime={bookingTime}/>
+              <TimeBarIndicator
+                ownerRentalTime={currentRentalInfo?.owner_rental_time}
+                bookingTime={currentRentalInfo?.booking_time}
+              />
           </Box>
 
           <HStack gap={'0'} mb={'4'} pb={'2'} borderBottom={'1px solid #A2A2A2'}>
@@ -256,7 +341,7 @@ export function UserCheckReservationAvailability() {
         <HStack gap={'4'}>
           <Button w={'50%'} h={'4em'} bg={'#AAAAAA'} onClick={handlerClickCancel}>キャンセル</Button>
           {!isErrorRentalTimeSetting &&
-            <Button w={'50%'} h={'4em'} bg={'#289FAB'} color={'white'}>予約</Button>
+            <Button w={'50%'} h={'4em'} bg={'#289FAB'} color={'white'} onClick={handlerClickReservation}>予約する</Button>
           }
         </HStack>
 
