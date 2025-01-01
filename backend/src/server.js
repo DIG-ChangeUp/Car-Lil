@@ -11,6 +11,7 @@ const shareCarsController = require('./shareCars/shareCars.controller');
 //テスト用
 const calcDistance = require('./calcDistance');
 const shareController = require('./share/share.controller');
+const reservationsController = require('./reservations/reservations.controller');
 
 function setupServer() {
   const app = express();
@@ -30,6 +31,7 @@ function setupServer() {
   app.get('/api/shareCars', shareCarsController.index); //全シェアカー取得
   app.post('/api/shareCars/userId', shareCarsController.view); //ユーザーIDから全シェアカー取得
   app.post('/api/addNewShareData', shareController.addNewShareData); //オーナーの貸出設定を登録
+  app.post('/api/addNewReservation', reservationsController.addNewReservation); //テナントの予約を登録し、対象車両のshare_stateも'予約'状態に変更
   app.post('/api/distance', carportsController.getDistance); //DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
   //テスト用
   app.get('/distance', calcDistance.calcDistance); //テスト用

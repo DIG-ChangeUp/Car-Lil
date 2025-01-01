@@ -9,7 +9,17 @@ const RESERVATIONS_TABLE = 'reservations';
 module.exports = {
   RESERVATIONS_TABLE,
 
-  async find(email) {
-    return await db(RESERVATIONS_TABLE).where({});
+  async findById(id) {
+    return await db(RESERVATIONS_TABLE).where({ id });
+  },
+  async findByEmail(email) {
+    return await db(RESERVATIONS_TABLE).where({ email });
+  },
+  async save(data) {
+    const [result] = await db
+      .table(RESERVATIONS_TABLE)
+      .insert(data)
+      .returning('*');
+    return result;
   },
 };
