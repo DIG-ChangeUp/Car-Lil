@@ -33,7 +33,7 @@ const TenantConfirmReservation = () => {
     is_washed: boolean | null;
   };
   const testData = {
-    user_id: 8,
+    user_id: 5,
     share_car_id: 1,
     carport_id: 1,
     share_state: '予約',

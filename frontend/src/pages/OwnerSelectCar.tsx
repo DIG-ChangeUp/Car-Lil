@@ -1,7 +1,7 @@
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
+  // Breadcrumb,
+  // BreadcrumbItem,
+  // BreadcrumbLink,
   Button,
   Card,
   Container,
@@ -35,20 +35,30 @@ const OwnerSelectCar = () => {
     <>
       <Header isOwnerMode={true} headerTitle={''} />
       <Container h="calc(100vh - 180px)">
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/ownerTop"
-              color="#4C70E5"
-              textDecoration="underline"
-            >
-              オーナーページ
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <BreadcrumbLink fontSize="larger">貸出車両選択</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+        {/*<Breadcrumb>*/}
+        {/*  <BreadcrumbItem>*/}
+        {/*    <BreadcrumbLink*/}
+        {/*      href="/ownerTop"*/}
+        {/*      color="#4C70E5"*/}
+        {/*      textDecoration="underline"*/}
+        {/*    >*/}
+        {/*      オーナーページ*/}
+        {/*    </BreadcrumbLink>*/}
+        {/*  </BreadcrumbItem>*/}
+        {/*  <BreadcrumbItem>*/}
+        {/*    <BreadcrumbLink fontSize="larger">貸出車両選択</BreadcrumbLink>*/}
+        {/*  </BreadcrumbItem>*/}
+        {/*</Breadcrumb>*/}
+        <Text
+          sx={{
+            marginY: 3,
+            fontSize: 'xl',
+            fontWeight: 'bold',
+            textAlign: 'center',
+          }}
+        >
+          登録車両を選択してください
+        </Text>
         <ScrollArea h="calc(100vh - 180px)" w="100%">
           <Container>
             {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
@@ -63,9 +73,15 @@ const OwnerSelectCar = () => {
                     }}
                   >
                     <Text>{`登録車両 ${index + 1}`}</Text>
-                    <HStack height="100">
-                      <Image src="../../src/assets/react.svg" />
-                      <Image src="../../src/assets/react.svg" />
+                    <HStack w="180" h="100">
+                      <Image
+                        src="../../src/assets/CarImages/Crown_Ext.png"
+                        sx={{ maxWidth: '100%', maxHeight: '100%' }}
+                      />
+                      <Image
+                        src="../../src/assets/CarImages/Crown_Int.png"
+                        sx={{ maxWidth: '100%', maxHeight: '100%' }}
+                      />
                     </HStack>
                     <Text>メーカー：{data.maker}</Text>
                     <Separator />

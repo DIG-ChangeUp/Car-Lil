@@ -21,7 +21,10 @@ module.exports = {
     const shareStateBefore = await shareCarsModel.findByShareCarId(
       req.body.share_car_id
     );
-    await shareCarsModel.editShareState('予約', req.body.share_car_id);
+    await shareCarsModel.editShareState(
+      req.body.share_state,
+      req.body.share_car_id
+    );
     const shareStateAfter = await shareCarsModel.findByShareCarId(
       req.body.share_car_id
     );
