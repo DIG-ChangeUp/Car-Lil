@@ -26,8 +26,6 @@ import { userEmailAtom } from '../components/atom/globalState.ts';
 import { useSetAtom } from 'jotai';
 
 const Login = () => {
-  // login ----------------------------
-  //認証時のemailアドレスを保持
   const setEmailAddress = useSetAtom(userEmailAtom);
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
@@ -36,23 +34,20 @@ const Login = () => {
   const handleLoginSubmit = async (data: Data) => {
     const email: string = data.email;
     const password: string = data.password;
-    console.log('email: ', email, ' / password: ', password);
-    setEmailAddress(email);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('ログイン成功');
-      // navigate('/map');
-      //!!!変更箇所------------------
+
+      setEmailAddress(email);
       navigate('/selectUserType');
     } catch (error) {
-      console.error('ログインエラー:', error);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setError(error.message);
+      if (error instanceof Error) {
+        console.error('ログインエラー:', error);
+        setError(error.message);
+      } else {
+        console.error('予期しないログインエラー:', error);
+      }
     }
   };
-
-  // ---------------------------------
 
   type Data = { name: string; password: string; email: string };
 
@@ -63,18 +58,14 @@ const Login = () => {
   } = useForm<Data>();
 
   const onSubmit: SubmitHandler<Data> = async (data) => {
-    console.log('submit:', data);
     await handleLoginSubmit(data);
   };
 
-  const RegistrationNewUser = () => {
-    navigate('/signup');
-  };
-
-  // ログイン状態なら、画面遷移させる
+  // ログイン状態の場合、ユーザーの手間を減らすために画面遷移
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        setEmailAddress(user.email);
         navigate('/selectUserType');
       }
     });
@@ -140,7 +131,7 @@ const Login = () => {
             colorScheme="link"
             marginTop="8"
             variant="link"
-            onClick={RegistrationNewUser}
+            onClick={() => navigate('/signup')}
           >
             新規登録
           </Button>
