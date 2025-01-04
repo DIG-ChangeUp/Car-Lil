@@ -1,8 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
+
+import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
+import { useSetAtom } from 'jotai/index';
+import { userEmailAtom } from '../components/atom/globalState.ts';
 
 import { auth } from '../components/auth/firebase.ts';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Center,
@@ -16,10 +21,6 @@ import {
   Text,
   VStack,
 } from '@yamada-ui/react';
-import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useSetAtom } from 'jotai/index';
-import { userEmailAtom } from '../components/atom/globalState.ts';
 
 const SignUp = () => {
   const setEmailAddress = useSetAtom(userEmailAtom);
