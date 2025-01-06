@@ -247,12 +247,8 @@ export function UserCheckReservationAvailability() {
       setCheckRentalInfo(_checkRentalInfo);
 
       navigate('/')
-
     }
-
-
   }
-
 
   return(
     <>
@@ -275,25 +271,25 @@ export function UserCheckReservationAvailability() {
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
-            <Text w={'20%'}>メーカー</Text>
+            <Text w={'30%'}>メーカー</Text>
             <Text w={'3%'}>:</Text>
             <Text>{currentRentalInfo?.car_maker}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
-            <Text w={'20%'}>車名</Text>
+            <Text w={'30%'}>車名</Text>
             <Text w={'3%'}>:</Text>
             <Text>{currentRentalInfo?.car_name}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'4'} borderBottom={'1px solid #D9D9D9'}>
-            <Text w={'20%'}>タイプ</Text>
+            <Text w={'30%'}>タイプ</Text>
             <Text w={'3%'}>:</Text>
             <Text>{currentRentalInfo?.car_type}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'4'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
-            <Text w={'20%'}>貸出料金</Text>
+            <Text w={'30%'}>貸出料金</Text>
             <Text w={'3%'}>:</Text>
             <Text>{currentRentalInfo?.share_price}円</Text>
           </HStack>
@@ -338,7 +334,7 @@ export function UserCheckReservationAvailability() {
           </Center>
         }
 
-        <HStack gap={'4'}>
+        <HStack gap={'4'} mb={'10'}>
           <Button w={'50%'} h={'4em'} bg={'#AAAAAA'} onClick={handlerClickCancel}>キャンセル</Button>
           {!isErrorRentalTimeSetting &&
             <Button w={'50%'} h={'4em'} bg={'#289FAB'} color={'white'} onClick={handlerClickReservation}>予約する</Button>
