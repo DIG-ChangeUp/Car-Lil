@@ -24,7 +24,6 @@ const SelectUserOrOwner = () => {
   const [location, setLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDistanceData = useSetAtom(distanceDataAtom);
-  let isUserExist: boolean = false;
 
   useEffect(() => {
     (async () => {
@@ -34,8 +33,22 @@ const SelectUserOrOwner = () => {
         body: JSON.stringify({ email: emailAddress }),
       });
       if (response.ok) {
-        isUserExist = await response.json();
-        console.log('exist-----', isUserExist);
+        const user = await response.json();
+        console.log('user-----', user);
+        //DBに未登録のユーザーの場合オーナーとして登録処理を行う
+        if (!user.data.id) {
+          const addUserResponse = await fetch('/api/addUser', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: emailAddress,
+              user_type: 'オーナー',
+            }),
+          });
+          if (addUserResponse.ok) {
+            console.log('usersテーブルへのユーザー登録完了');
+          }
+        }
       }
     })();
   }, []);
