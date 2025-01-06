@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { auth } from './auth/firebase.ts';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import {
   MdCarCrash,
   MdCurrencyYen,
@@ -10,7 +10,7 @@ import {
   MdCarRental,
   MdDirectionsCar,
   MdLogout,
-  MdChecklistRtl
+  MdChecklistRtl,
 } from 'react-icons/md';
 import { Text, VStack } from '@yamada-ui/react';
 
@@ -24,21 +24,21 @@ const colCodeActive = '#289FAB';
 const colCodeEnabled = '#595959';
 const colCodeDisabled = '#AFAFAF';
 
-const aryMoveUrl:string[] = [
+const aryMoveUrl: string[] = [
   '/timeBarSampling',
   '/timeBarSampling',
   '/timeBarSampling',
   '/timeBarSampling',
   '/timeBarSampling',
   '/timeBarSampling',
+  '/map',
+  '/timeBarSampling',
+  '/reservationList',
   '/timeBarSampling',
   '/timeBarSampling',
-  '/timeBarSampling',
-  '/timeBarSampling',
-  '/timeBarSampling',
-]
+];
 
-export function FooterItem(props:IFooterItem) {
+export function FooterItem(props: IFooterItem) {
   const navigate = useNavigate();
   const [colorCode, setColorCode] = useState<string>(colCodeDisabled);
   useEffect(() => {
@@ -53,14 +53,13 @@ export function FooterItem(props:IFooterItem) {
         setColorCode(colCodeDisabled);
         break;
     }
-
   }, [props.menuMode]);
 
   function handlerClick() {
-    if(props.menuMode !== 'Disabled') {
-      if(props.iconSelector === 10) {
+    if (props.menuMode !== 'Disabled') {
+      if (props.iconSelector === 10) {
         const checkLogOut = handleLogout();
-        console.log(checkLogOut)
+        console.log(checkLogOut);
       } else {
         navigate(aryMoveUrl[props.iconSelector]);
       }
@@ -78,7 +77,12 @@ export function FooterItem(props:IFooterItem) {
   };
 
   return (
-    <VStack alignItems="center" gap={'1'} color={colorCode} onClick={handlerClick}>
+    <VStack
+      alignItems="center"
+      gap={'1'}
+      color={colorCode}
+      onClick={handlerClick}
+    >
       {props.iconSelector === 0 && <MdEditCalendar />}
       {props.iconSelector === 1 && <MdCarRental />}
       {props.iconSelector === 2 && <MdCarCrash />}

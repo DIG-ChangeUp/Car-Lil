@@ -8,10 +8,10 @@ const usersController = require('./users/users.controller');
 const carsController = require('./cars/cars.controller');
 const carportsController = require('./carports/carports.controller');
 const shareCarsController = require('./shareCars/shareCars.controller');
+const reservationsController = require('./reservations/reservations.controller');
+const shareController = require('./share/share.controller');
 //テスト用
 const calcDistance = require('./calcDistance');
-const shareController = require('./share/share.controller');
-const reservationsController = require('./reservations/reservations.controller');
 const rentalInfo = require('./rentalInfo/rentalInfo.controller');
 
 function setupServer() {
@@ -21,6 +21,11 @@ function setupServer() {
   app.use('/', express.static(resolve(__dirname, '../dist')));
 
   app.get('/api/users', usersController.index); //全ユーザー取得
+  app.get(
+    '/api/reservations/tenant/:user_id',
+    reservationsController.findReservationByUserId
+  ); // テナントの予約一覧取得
+  app.get('/api/share/:share_car_id', shareController.findShareByShareCarId); // オーナーの貸出一覧取得
   app.post('/api/addUser', usersController.addUser); //新規ユーザー登録
   app.post('/api/editUserType', usersController.editUserType); //ユーザータイプ編集 ユーザーからオーナーへ
   app.post('/api/users/email', usersController.confirmationByEmail); //メールアドレスからユーザーの存在を確認

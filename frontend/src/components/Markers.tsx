@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback, memo } from 'react';
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import type { Marker } from '@googlemaps/markerclusterer';
-import iconImage from '../assets/map_icon.svg';
+import iconImage from '../assets/icons/map_icon.svg';
 import {
   AllCarPort,
   allCarPorteAtom,

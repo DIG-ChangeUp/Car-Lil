@@ -1,16 +1,6 @@
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Button,
-  Container,
-  Text,
-  VStack,
-  Wrap,
-} from '@yamada-ui/react';
+import { Box, Button, Container, Text, VStack, Wrap } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { Share } from '../components/atom/globalState.ts';
 
@@ -43,32 +33,6 @@ export default function OwnerConfirmation() {
     <>
       <Header isOwnerMode={true} headerTitle={''} />
       <Container sx={{ h: 'calc(100vh - 180px)' }}>
-        <Breadcrumb sx={{ paddingTop: '5' }}>
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/ownerTop"
-              color="#4C70E5"
-              textDecoration="underline"
-            >
-              トップ
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/ownerSelectCar"
-              color="#4C70E5"
-              textDecoration="underline"
-            >
-              貸出車両選択
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <BreadcrumbLink sx={{ fontSize: 'larger' }}>
-              貸出設定の確認
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
-        <br></br>
         <Container>
           <Text
             sx={{
@@ -147,7 +111,9 @@ export default function OwnerConfirmation() {
         </Container>
         <Container sx={{ textAlign: 'center' }}>
           <Text fontWeight="bold">
-            貸出設定を確定します<p></p>よろしいですか？
+            貸出設定を確定します
+            <br />
+            よろしいですか？
           </Text>
           <br></br>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>

@@ -100,7 +100,7 @@ export default function GoogleMap() {
         >
           <Flex alignItems="center" gap="3">
             <img
-              src="../../public/carImages/alphard.jpg"
+              src="../assets/CarImages/alphard.jpg"
               width={40}
               height={40}
               alt="car_icon"

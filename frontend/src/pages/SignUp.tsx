@@ -1,9 +1,13 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
+
+import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
+import { useSetAtom } from 'jotai/index';
+import { userEmailAtom } from '../components/atom/globalState.ts';
 
 import { auth } from '../components/auth/firebase.ts';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Center,
@@ -17,32 +21,29 @@ import {
   Text,
   VStack,
 } from '@yamada-ui/react';
-import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
-import { SubmitHandler, useForm } from 'react-hook-form';
 
-const SignUp: React.FC = () => {
+const SignUp = () => {
+  const setEmailAddress = useSetAtom(userEmailAtom);
+
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
 
   const handleSingUpSubmit = async (data: Data): Promise<void> => {
     const email: string = data.email;
     const password: string = data.password;
-    console.log('email: ', email, ' / password: ', password);
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      // const userCredential = await createUserWithEmailAndPassword(
-      //   auth,
-      //   email,
-      //   password
-      // );
-      //console.log('User created:', userCredential.user);
+
+      setEmailAddress(email);
       navigate('/map');
     } catch (error) {
-      console.error('Error creating user:', error);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setError(error.message);
+      if (error instanceof Error) {
+        console.error('サインアップエラー:', error);
+        setError(error.message);
+      } else {
+        console.error('予期しないサインアップエラーエラー:', error);
+      }
     }
   };
 
@@ -57,10 +58,6 @@ const SignUp: React.FC = () => {
   const onSubmit: SubmitHandler<Data> = async (data) => {
     console.log('submit:', data);
     await handleSingUpSubmit(data);
-  };
-
-  const backLoginPage = () => {
-    navigate('/');
   };
 
   return (
@@ -123,7 +120,7 @@ const SignUp: React.FC = () => {
             colorScheme="link"
             marginTop="8"
             variant="link"
-            onClick={backLoginPage}
+            onClick={() => navigate('/')}
           >
             ログインへ戻る
           </Button>
