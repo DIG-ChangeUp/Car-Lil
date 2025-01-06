@@ -10,6 +10,7 @@ const carportsController = require('./carports/carports.controller');
 const shareCarsController = require('./shareCars/shareCars.controller');
 //テスト用
 const calcDistance = require('./calcDistance');
+const rentalInfo = require('./rentalInfo/rentalInfo.controller');
 
 function setupServer() {
   const app = express();
@@ -32,6 +33,9 @@ function setupServer() {
   //テスト用
   app.get('/distance', calcDistance.calcDistance); //テスト用
 
+  // MuuSan追加分
+  app.get('/api/rentalInfo', rentalInfo.index); //レンタル情報
+  
   return app;
 }
 
