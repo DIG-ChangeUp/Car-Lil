@@ -60,10 +60,14 @@ export const shareDataAtom = atom<Share>({
   end_at: '',
 });
 //オーナー画面で選択された車両に紐づくデータ
-export type SelectedData = {
-  user?: User;
-};
-export const selectedDataAtom = atom<SelectedData>({});
+export interface ISelectedCarData {
+  car_name: string | '';
+  share_prise: number | null;
+}
+export const selectedCarDataAtom = atom<ISelectedCarData>({
+  car_name: '',
+  share_prise: null,
+});
 // オーナーが選択した貸出日の配列
 export const rentalDaysAtom = atom<string[]>([]);
 // 貸出登録用

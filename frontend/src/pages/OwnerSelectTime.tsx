@@ -165,7 +165,7 @@ const OwnerSelectTime = () => {
             marginTop="6"
             onClick={() => {
               makeRentalData();
-              navigate('/ownerConfirmation');
+              navigate('/ownerCheckShareData');
             }}
           >
             確認画面に進む

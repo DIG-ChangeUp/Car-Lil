@@ -8,8 +8,8 @@ exports.up = function (knex) {
     table.integer('user_id');
     table.integer('carport_id');
     table.integer('share_car_id');
-    table.timestamp('start_date').notNullable();
-    table.timestamp('end_date').notNullable();
+    table.timestamp('start_at').notNullable();
+    table.timestamp('end_at').notNullable();
   });
 };
 

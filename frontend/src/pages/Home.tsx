@@ -13,7 +13,7 @@ import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
 
-const SelectUserOrOwner = () => {
+const Home = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress] = useAtom(userEmailAtom);
@@ -26,6 +26,7 @@ const SelectUserOrOwner = () => {
   const setDistanceData = useSetAtom(distanceDataAtom);
 
   useEffect(() => {
+    // ページを開いた時にテナントとしてのデータを取得
     (async () => {
       const response: Response = await fetch('api/users/email', {
         method: 'POST',
@@ -52,35 +53,28 @@ const SelectUserOrOwner = () => {
       }
     })();
   }, []);
+  // ページを開いた時にオーナーとしてのデータを取得
+  useEffect(() => {
+    (async () => {
+      await getOwnerData(emailAddress);
+    })();
+  }, []);
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
   async function getOwnerData(email: string | null) {
     //emailからusersテーブルのユーザーID(id)を取得
-    const Response = await fetch('/api/users/owner/email', {
+    const response = await fetch('/api/users/owner/email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email }),
     });
-    if (Response.ok) {
-      const jsonResponse = await Response.json();
+    if (response.ok) {
+      const jsonResponse = await response.json();
       setUserData(jsonResponse.data);
       console.log('userData', userData);
     }
   }
-  // //メールアドレスからテナントに紐づくすべてのデータを取得
-  // async function getTenantData(email: string) {
-  //   //emailからusersテーブルのユーザーID(id)を取得
-  //   const Response = await fetch('/api/users/tenant/email', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ email: email }),
-  //   });
-  //   if (Response.ok) {
-  //     const jsonResponse = await Response.json();
-  //     setUserData(jsonResponse.data);
-  //     console.log('userData', userData);
-  //   }
-  // }
+
   async function getCars() {
     const response = await fetch('/api/allCarports', {
       method: 'POST',
@@ -98,7 +92,7 @@ const SelectUserOrOwner = () => {
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      navigate('/');
+      navigate('/login');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       console.log('ログアウト エラー');
@@ -177,10 +171,8 @@ const SelectUserOrOwner = () => {
               rounded: 'xl',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
             }}
-            onClick={async () => {
-              await getOwnerData(emailAddress);
-              if (userData.length !== 0) navigate('/ownerSelectCar');
-              navigate('/demoSelectCar');
+            onClick={() => {
+              navigate('/ownerSelectCar');
             }}
           >
             <GrUserAdmin size="50" />
@@ -223,4 +215,4 @@ const SelectUserOrOwner = () => {
   );
 };
 
-export default SelectUserOrOwner;
+export default Home;

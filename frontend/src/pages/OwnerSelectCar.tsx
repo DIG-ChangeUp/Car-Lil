@@ -15,7 +15,7 @@ import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
   userDataAtom,
-  selectedDataAtom,
+  selectedCarDataAtom,
   shareDataAtom,
   User,
   Share,
@@ -27,7 +27,7 @@ import { useNavigate } from 'react-router-dom';
 
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
-  const setSelectedData = useSetAtom(selectedDataAtom);
+  const setSelectedCarData = useSetAtom(selectedCarDataAtom);
   const userData: UserData[] = useAtomValue(userDataAtom);
   const shareData: Share = useAtomValue(shareDataAtom);
 
@@ -98,7 +98,7 @@ const OwnerSelectCar = () => {
                       onClick={() => {
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
-                        setSelectedData(data);
+                        setSelectedCarData(data);
                         shareData.user_id = data.user_id;
                         shareData.carport_id = data.carport_id;
                         shareData.share_car_id = data.share_car_id;

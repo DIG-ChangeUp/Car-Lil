@@ -1,20 +1,42 @@
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
-import { Box, Button, Container, Text, VStack, Wrap } from '@yamada-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  HStack,
+  Text,
+  VStack,
+  Wrap,
+} from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { Share } from '../components/atom/globalState.ts';
+import {
+  shareDataAtom,
+  rentalDateAndTimesAtom,
+  selectedCarDataAtom,
+  Share,
+} from '../components/atom/globalState.ts';
+import { useAtomValue } from 'jotai';
+import dayjs from 'dayjs';
 
-//!!!データ保存のテスト用データ
-const testData: Share = {
-  user_id: 5,
-  carport_id: 3,
-  share_car_id: 1,
-  start_at: '2025-01-06 10:00:00',
-  end_at: '2025-01-06 16:00:00',
-};
-
-export default function OwnerConfirmation() {
+export default function OwnerCheckShareData() {
   const navigate = useNavigate();
+  const shareData = useAtomValue(shareDataAtom);
+  const selectedCarData = useAtomValue(selectedCarDataAtom);
+  const rentalDayAndTimes = useAtomValue(rentalDateAndTimesAtom);
+  const submitData: Share[] = [];
+
+  rentalDayAndTimes.map((singleDay) => {
+    return submitData.push({
+      user_id: shareData.user_id,
+      carport_id: shareData.carport_id,
+      share_car_id: shareData.share_car_id,
+      start_at: `${singleDay.date}T${singleDay.start_at}`,
+      end_at: `${singleDay.date}T${singleDay.end_at}`,
+    });
+  });
+  console.log('submitData--------', submitData);
 
   async function submitShareData(data: Share) {
     const response: Response = await fetch('/api/addNewShareData', {
@@ -54,42 +76,22 @@ export default function OwnerConfirmation() {
               justifyContent: 'left',
             }}
           >
-            <Box
-              sx={{
-                w: 85,
-                margin: 1,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-                borderRadius: 10,
-                backgroundColor: '#F1C40F',
-              }}
-            >
-              日付１
-            </Box>
-            <Box
-              sx={{
-                w: 85,
-                margin: 1,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-                borderRadius: 10,
-                backgroundColor: '#F1C40F',
-              }}
-            >
-              日付２
-            </Box>
-            <Box
-              sx={{
-                w: 85,
-                margin: 1,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-                borderRadius: 10,
-                backgroundColor: '#F1C40F',
-              }}
-            >
-              日付３
-            </Box>
+            <HStack justifyContent="start" marginTop="6" px="6" h="40px">
+              {rentalDayAndTimes.map((singleDay, index) => {
+                return (
+                  <Box
+                    key={index}
+                    rounded="full"
+                    bg="yellow.500"
+                    px="3"
+                    py="1"
+                    w="75px"
+                  >
+                    <Center>{dayjs(singleDay.date).format('M/D')}</Center>
+                  </Box>
+                );
+              })}
+            </HStack>
           </Wrap>
           <VStack
             sx={{
@@ -103,10 +105,10 @@ export default function OwnerConfirmation() {
               flexShrink: 1,
             }}
           >
-            <Text>車両：</Text>
-            <Text>料金：</Text>
-            <Text>開始：</Text>
-            <Text>終了：</Text>
+            <Text>車両：{selectedCarData.car_name}</Text>
+            <Text>料金：{selectedCarData.share_prise}</Text>
+            <Text>開始：{rentalDayAndTimes[0].start_at}</Text>
+            <Text>終了：{rentalDayAndTimes[0].end_at}</Text>
           </VStack>
         </Container>
         <Container sx={{ textAlign: 'center' }}>
@@ -141,9 +143,12 @@ export default function OwnerConfirmation() {
                 margin: '0 10px',
               }}
               onClick={async () => {
-                // !!!引数はテスト用------
-                await submitShareData(testData);
-                navigate('/ownerRegistrationCompleted');
+                await Promise.all(
+                  submitData.map(async (data) => {
+                    await submitShareData(data);
+                  })
+                );
+                navigate('/ownerCompleteShareData');
               }}
             >
               はい

@@ -21,6 +21,7 @@ module.exports = {
       .leftJoin('cars', 'share_cars.car_id', 'cars.id')
       .leftJoin('carports', 'share_cars.carport_id', 'carports.id')
       .leftJoin('share', 'users.id', 'share.user_id')
+      .distinctOn('share.share_car_id') //share_car_idの重複を防ぐ処理
       .select(
         // 'users.id',
         'share_cars.user_id',
@@ -39,9 +40,9 @@ module.exports = {
         'carports.address',
         'carports.latitude',
         'carports.longitude',
-        'share.share_car_id',
-        'share.start_at',
-        'share.end_at'
+        'share.share_car_id'
+        // 'share.start_at',
+        // 'share.end_at'
       )
       .where({ email });
   },
