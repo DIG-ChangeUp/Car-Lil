@@ -22,7 +22,7 @@ const GoogleAuthButton: React.FC = () => {
       const email = result.user.email;
       setEmailAddress(email);
       console.log('user email:', email);
-      navigate('/selectUserType');
+      navigate('/');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       console.log('google auth error!');

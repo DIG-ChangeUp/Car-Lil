@@ -14,7 +14,7 @@ import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
-import NewSignUp from './pages/SignUp.tsx';
+import SignUp from './pages/SignUp.tsx';
 import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
 import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
 import { Provider } from 'jotai';
@@ -39,9 +39,9 @@ export default function App() {
       <Provider>
         <Routes>
           {/*共通ページ*/}
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<NewSignUp />} />
-          <Route path="/selectUserType" element={<SelectUserOrOwner />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<SelectUserOrOwner />} />
           {/*オーナーページ*/}
           <Route path="/ownerTop" element={<OwnerTop />} />
           <Route path="/demoSelectCar" element={<DemoSelectCar />} />
