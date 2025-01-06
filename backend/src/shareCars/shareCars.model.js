@@ -11,8 +11,18 @@ module.exports = {
   async all(limit) {
     return await db(SHARE_CARS_TABLE).limit(limit);
   },
+  async findByShareCarId(id) {
+    return await db(SHARE_CARS_TABLE).where({ id });
+  },
   //!!!シェアカー自体のIDではなくユーザーIDで検索するので注意
-  async find(userId) {
+  async findByUserId(userId) {
     return await db(SHARE_CARS_TABLE).where({ user_id: userId });
+  },
+  async editShareState(shareState, shareCarId) {
+    const [result] = await db(SHARE_CARS_TABLE)
+      .update({ share_state: shareState })
+      .where({ id: shareCarId })
+      .returning('share_state');
+    return result;
   },
 };

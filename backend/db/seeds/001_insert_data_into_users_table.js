@@ -46,5 +46,35 @@ exports.seed = async function (knex) {
       user_name: 'kanedamochio',
       user_type: 'オーナー',
     },
+    {
+      email: 'rokuromitsubishi@mail.com',
+      user_name: 'mitsubishirokuro',
+      user_type: 'オーナー',
+    },
+    {
+      email: 'shichironissan@mail.com',
+      user_name: 'nissanshichiro',
+      user_type: 'オーナー',
+    },
+    {
+      email: 'hachirotoyohashi@mail.com',
+      user_name: 'toyohashihachiro',
+      user_type: 'オーナー',
+    },
+    {
+      email: 'kurochiryu@mail.com',
+      user_name: 'chiryukuro',
+      user_type: 'オーナー',
+    },
+    {
+      email: 'jurookazaki@mail.com',
+      user_name: 'okazakijuro',
+      user_type: 'オーナー',
+    },
+    {
+      email: 'juichirokariya@mail.com',
+      user_name: 'kariyajuichiro',
+      user_type: 'オーナー',
+    },
   ]);
 };

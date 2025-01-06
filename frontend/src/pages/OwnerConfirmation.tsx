@@ -12,8 +12,33 @@ import {
   Wrap,
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { Share } from '../components/atom/globalState.ts';
+
+//!!!データ保存のテスト用データ
+const testData: Share = {
+  user_id: 5,
+  carport_id: 3,
+  share_car_id: 1,
+  start_at: '2025-01-06 10:00:00',
+  end_at: '2025-01-06 16:00:00',
+};
+
 export default function OwnerConfirmation() {
   const navigate = useNavigate();
+
+  async function submitShareData(data: Share) {
+    const response: Response = await fetch('/api/addNewShareData', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // !!!テスト用------------
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      console.log('登録されたシェアデータ-----', jsonResponse.data);
+    }
+  }
+
   return (
     <>
       <Header isOwnerMode={true} headerTitle={''} />
@@ -149,7 +174,9 @@ export default function OwnerConfirmation() {
                 color: '#FEFEFE',
                 margin: '0 10px',
               }}
-              onClick={() => {
+              onClick={async () => {
+                // !!!引数はテスト用------
+                await submitShareData(testData);
                 navigate('/ownerRegistrationCompleted');
               }}
             >

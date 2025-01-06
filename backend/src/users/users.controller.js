@@ -11,8 +11,8 @@ module.exports = {
   //!!!ユーザーの存在確認用
   async confirmationByEmail(req, res) {
     const email = req.body.email;
-    const user = await userModel.findByEmail(email);
-    res.status(200).send(user.length === 1);
+    const [user] = await userModel.findByEmail(email);
+    res.status(200).send(user);
   },
   //ユーザメールアドレスからユーザ（オーナーorテナント）データを取得してレスポンスとして送る
   //!!!paramsではなくPOSTされたメールアドレスから取得
