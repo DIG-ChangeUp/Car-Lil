@@ -12,6 +12,7 @@ const reservationsController = require('./reservations/reservations.controller')
 const shareController = require('./share/share.controller');
 //テスト用
 const calcDistance = require('./calcDistance');
+const rentalInfo = require('./rentalInfo/rentalInfo.controller');
 
 function setupServer() {
   const app = express();
@@ -35,9 +36,14 @@ function setupServer() {
   app.post('/api/allCarports', carportsController.getAllCarPorte); //map pin用駐車場取得
   app.get('/api/shareCars', shareCarsController.index); //全シェアカー取得
   app.post('/api/shareCars/userId', shareCarsController.view); //ユーザーIDから全シェアカー取得
+  app.post('/api/addNewShareData', shareController.addNewShareData); //オーナーの貸出設定を登録
+  app.post('/api/addNewReservation', reservationsController.addNewReservation); //テナントの予約を登録し、対象車両のshare_stateも'予約'状態に変更
   app.post('/api/distance', carportsController.getDistance); //DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
   //テスト用
   app.get('/distance', calcDistance.calcDistance); //テスト用
+
+  // MuuSan追加分
+  app.get('/api/rentalInfo', rentalInfo.index); //レンタル情報
 
   return app;
 }

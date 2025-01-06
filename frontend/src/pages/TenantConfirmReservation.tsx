@@ -16,6 +16,48 @@ import Header from '../components/Header.tsx';
 const TenantConfirmReservation = () => {
   // const navigate = useNavigate();
 
+  //新規予約を登録
+  //!!!テスト用予約データ
+  type Reservations = {
+    user_id: number | null;
+    share_car_id: number | null;
+    carport_id: number | null;
+    share_state: string | null;
+    reserved_at: string | null;
+    rent_at: string;
+    rented_at: string | null;
+    return_at: string;
+    returned_at: string | null;
+    evaluation: string | null;
+    is_refueled: boolean | null;
+    is_washed: boolean | null;
+  };
+  const testData = {
+    user_id: 5,
+    share_car_id: 1,
+    carport_id: 1,
+    share_state: '予約',
+    reserved_at: '2025-01-01 0:00:00',
+    rent_at: '2025-01-11 11:00:00',
+    rented_at: null,
+    return_at: '2025-01-11 19:00:00',
+    returned_at: null,
+    evaluation: null,
+    is_refueled: null,
+    is_washed: null,
+  };
+  async function addNewReservation(data: Reservations) {
+    const response = await fetch('/api/addNewReservation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      alert(jsonResponse.text);
+    }
+  }
+
   return (
     <>
       <Header isOwnerMode={false} headerTitle={'予約確定'} />
@@ -44,6 +86,7 @@ const TenantConfirmReservation = () => {
                   sx={{ maxWidth: '100%', maxHeight: '100%' }}
                 />
               </HStack>
+              <br></br>
               <Text>メーカー：</Text>
               <Separator />
               <Text>車名：</Text>
@@ -180,7 +223,10 @@ const TenantConfirmReservation = () => {
                 color: '#FEFEFE',
                 marginLeft: '10px',
               }}
-              onClick={() => {
+              onClick={async () => {
+                //!!!テストデータ挿入のため本番で修正-------
+                //!!!また遷移先ページも本番で指定する
+                await addNewReservation(testData);
                 // navigate('/');
               }}
             >
