@@ -12,6 +12,7 @@ const shareCarsController = require('./shareCars/shareCars.controller');
 const calcDistance = require('./calcDistance');
 const shareController = require('./share/share.controller');
 const reservationsController = require('./reservations/reservations.controller');
+const rentalInfo = require('./rentalInfo/rentalInfo.controller');
 
 function setupServer() {
   const app = express();
@@ -35,6 +36,9 @@ function setupServer() {
   app.post('/api/distance', carportsController.getDistance); //DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
   //テスト用
   app.get('/distance', calcDistance.calcDistance); //テスト用
+
+  // MuuSan追加分
+  app.get('/api/rentalInfo', rentalInfo.index); //レンタル情報
 
   return app;
 }
