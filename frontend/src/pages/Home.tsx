@@ -14,12 +14,11 @@ import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 
-const SelectUserOrOwner = () => {
+const Home = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
 
-  console.log('取得したemail-------->', emailAddress);
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
   const setAllCarPorte = useSetAtom(allCarPorteAtom);
@@ -31,6 +30,28 @@ const SelectUserOrOwner = () => {
     checkLogin();
   }, []);
 
+  // ページを開いた時にオーナーとしてのデータを取得
+  useEffect(() => {
+    (async () => {
+      await getOwnerData(emailAddress);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await getGeolocation('first');
+      const response = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPosition: location }),
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        setDistanceData(jsonResponse.data);
+      }
+    })();
+  }, []);
+
   async function fetchUserData(email: string | null) {
     if (!email) return;
     const response: Response = await fetch('api/users/email', {
@@ -40,14 +61,13 @@ const SelectUserOrOwner = () => {
     });
     if (response.ok) {
       const user = await response.json();
-      console.log('user-----', user);
       //DBに未登録のユーザーの場合オーナーとして登録処理を行う
-      if (!user.data.id) {
+      if (user.data === false) {
         const addUserResponse = await fetch('/api/addUser', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            email,
+            email: email,
             user_type: 'オーナー',
           }),
         });
@@ -62,7 +82,6 @@ const SelectUserOrOwner = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setEmailAddress(user.email);
-        (async () => await fetchUserData(user.email))();
       } else {
         navigate('/login');
       }
@@ -72,31 +91,18 @@ const SelectUserOrOwner = () => {
   //メールアドレスからオーナーに紐づくすべてのデータを取得
   async function getOwnerData(email: string | null) {
     //emailからusersテーブルのユーザーID(id)を取得
-    const Response = await fetch('/api/users/owner/email', {
+    const response = await fetch('/api/users/owner/email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email }),
     });
-    if (Response.ok) {
-      const jsonResponse = await Response.json();
+    if (response.ok) {
+      const jsonResponse = await response.json();
       setUserData(jsonResponse.data);
       console.log('userData', userData);
     }
   }
-  // //メールアドレスからテナントに紐づくすべてのデータを取得
-  // async function getTenantData(email: string) {
-  //   //emailからusersテーブルのユーザーID(id)を取得
-  //   const Response = await fetch('/api/users/tenant/email', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ email: email }),
-  //   });
-  //   if (Response.ok) {
-  //     const jsonResponse = await Response.json();
-  //     setUserData(jsonResponse.data);
-  //     console.log('userData', userData);
-  //   }
-  // }
+
   async function getCars() {
     const response = await fetch('/api/allCarports', {
       method: 'POST',
@@ -142,105 +148,89 @@ const SelectUserOrOwner = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  useEffect(() => {
-    (async () => {
-      await getGeolocation('first');
-      const response = await fetch('/api/distance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPosition: location }),
-      });
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        setDistanceData(jsonResponse.data);
-      }
-    })();
-  }, []);
-
+  if (!emailAddress) {
+    return <></>;
+  }
   return (
     <>
-      {!emailAddress ? (
-        <></>
-      ) : (
-        <div>
-          <Container
+      <div>
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Text
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
+              fontSize: '5xl',
+              marginTop: '3xl',
+              paddingLeft: 5,
             }}
           >
-            <Text
+            メニュー選択
+          </Text>
+          <HStack
+            sx={{
+              h: 'max-content',
+              textAlign: 'center',
+              marginX: 'auto',
+              marginY: 'xl',
+            }}
+          >
+            <Box
               sx={{
-                fontSize: '5xl',
-                marginTop: '3xl',
-                paddingLeft: 5,
+                w: 44,
+                h: 44,
+                backgroundColor: '#F3F7F7',
+                paddingTop: 'xl',
+                rounded: 'xl',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              }}
+              onClick={async () => {
+                await fetchUserData(emailAddress);
+                navigate('/ownerSelectCar');
               }}
             >
-              メニュー選択
-            </Text>
-            <HStack
+              <GrUserAdmin size="50" />
+              <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
+            </Box>
+            <Box
               sx={{
-                h: 'max-content',
-                textAlign: 'center',
-                marginX: 'auto',
-                marginY: 'xl',
+                w: '44',
+                h: '44',
+                backgroundColor: '#F3F7F7',
+                paddingTop: 'xl',
+                rounded: 'xl',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              }}
+              onClick={async () => {
+                await fetchUserData(emailAddress);
+                await getCars();
+                navigate('/map');
               }}
             >
-              <Box
-                sx={{
-                  w: 44,
-                  h: 44,
-                  backgroundColor: '#F3F7F7',
-                  paddingTop: 'xl',
-                  rounded: 'xl',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                }}
-                onClick={async () => {
-                  await getOwnerData(emailAddress);
-                  if (userData.length !== 0) navigate('/ownerSelectCar');
-                  navigate('/demoSelectCar');
-                }}
-              >
-                <GrUserAdmin size="50" />
-                <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
-              </Box>
-              <Box
-                sx={{
-                  w: '44',
-                  h: '44',
-                  backgroundColor: '#F3F7F7',
-                  paddingTop: 'xl',
-                  rounded: 'xl',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                }}
-                onClick={async () => {
-                  await getCars();
-                  navigate('/map');
-                }}
-              >
-                <GrUser size="50" />
-                <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
-              </Box>
-            </HStack>
-            <Button
-              sx={{
-                w: 350,
-                h: 55,
-                fontSize: 'xl',
-                backgroundColor: '#289FAB',
-                color: '#FEFEFE',
-                marginX: 'auto',
-                marginY: 160,
-              }}
-              onClick={() => handleLogout()}
-            >
-              サインアウト
-            </Button>
-          </Container>
-        </div>
-      )}
+              <GrUser size="50" />
+              <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
+            </Box>
+          </HStack>
+          <Button
+            sx={{
+              w: 350,
+              h: 55,
+              fontSize: 'xl',
+              backgroundColor: '#289FAB',
+              color: '#FEFEFE',
+              marginX: 'auto',
+              marginY: 160,
+            }}
+            onClick={() => handleLogout()}
+          >
+            サインアウト
+          </Button>
+        </Container>
+      </div>
     </>
   );
 };
 
-export default SelectUserOrOwner;
+export default Home;

@@ -13,7 +13,7 @@ import Footer from '../components/Footer.tsx';
 import Header from '../components/Header.tsx';
 // import { useNavigate } from 'react-router-dom';
 
-const TenantConfirmReservation = () => {
+const TenantCheckRentalData = () => {
   // const navigate = useNavigate();
 
   //新規予約を登録
@@ -240,4 +240,4 @@ const TenantConfirmReservation = () => {
   );
 };
 
-export default TenantConfirmReservation;
+export default TenantCheckRentalData;

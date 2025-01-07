@@ -4,7 +4,7 @@ import { Box, Button, Container, Text } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
-export default function OwnerRegistrationCompleted() {
+export default function OwnerCompleteShareData() {
   const navigate = useNavigate();
   return (
     <>
