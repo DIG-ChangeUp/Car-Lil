@@ -280,9 +280,9 @@ export function TenantEmptyData() {
         <Box bg={'#F3F7F7'} w={'100%'} borderRadius={'8'} px={'4'} py={'2'}>
           <Text as={'h3'} fontSize={'16px'} mb={'4'}>登録車両1</Text>
 
-          <HStack gap={'0'} mb={'4'}>
-            <Image src={currentRentalData?.car_image_url1} alt={'car'} w={'50%'} />
-            <Image src={currentRentalData?.car_image_url2} alt={'car'} w={'50%'} />
+          <HStack gap={'2%'} mb={'4'}>
+            <Image src={import.meta.env.VITE_ORIGIN_API_URL + '/Images/' + currentRentalData?.car_image_url1} alt={'car'} w={'49%'} />
+            <Image src={import.meta.env.VITE_ORIGIN_API_URL + '/Images/' + currentRentalData?.car_image_url2} alt={'car'} w={'49%'} />
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>

@@ -18,8 +18,8 @@ let _resultRentalData = {
   car_name: 'クラウン',
   car_type: 'セダン',
   car_capacity: 5,
-  car_image_url1: '../../src/assets/CarImages/Crown_Ext.png',
-  car_image_url2: '../../src/assets/CarImages/Crown_Int.png',
+  car_image_url1: 'noteAura_Ext.png',
+  car_image_url2: 'noteAura_Int.png',
   rental_date: '2024-12-19T00:00:00.000Z',
   owner_rental_time: {
     strTime: '07:00',
