@@ -27,7 +27,7 @@ const OwnerSelectCar = () => {
   // const userData = useAtomValue(userDataAtom);//正規データ用
   const shareData: Share = useAtomValue(shareDataAtom);
 
-  // !!!demo用データ--------------------
+  // !!!発表のdemo用データ--------------------
   type Demo = {
     user_id: number;
     carport_id: number;
@@ -91,11 +91,11 @@ const OwnerSelectCar = () => {
                     <Text>{`登録車両 ${index + 1}`}</Text>
                     <HStack w="180" h="100">
                       <Image
-                        src="../../src/assets/CarImages/Crown_Ext.png"
+                        src={`${import.meta.env.VITE_ORIGIN_API_URL}/ownerCarImages/${data.image_1}`}
                         sx={{ maxWidth: '100%', maxHeight: '100%' }}
                       />
                       <Image
-                        src="../../src/assets/CarImages/Crown_Int.png"
+                        src={`${import.meta.env.VITE_ORIGIN_API_URL}/ownerCarImages/${data.image_2}`}
                         sx={{ maxWidth: '100%', maxHeight: '100%' }}
                       />
                     </HStack>
