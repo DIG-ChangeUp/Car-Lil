@@ -37,7 +37,6 @@ const TenantCheckRentalData = () => {
   const price: number = (rentalData.share_price * rentalData.rental_time) / 15;
 
   //新規予約を登録
-  //!!!TODO:テスト用予約データのため修正
   type Reservations = {
     user_id: number | null;
     share_car_id: number | null;
@@ -233,8 +232,9 @@ const TenantCheckRentalData = () => {
                 marginRight: '10px',
               }}
               onClick={() => {
-                //TODO:キャンセル時の遷移先にパラメータを渡す
-                // navigate('/emptyData/:car_port_id/:share_car_id');
+                navigate(
+                  `/emptyData/${rentalData.carport_id}/${rentalData.share_car_id}`
+                );
               }}
             >
               キャンセル
@@ -249,7 +249,6 @@ const TenantCheckRentalData = () => {
                 marginLeft: '10px',
               }}
               onClick={async () => {
-                //!!!TODO:テスト用予約データのため修正
                 await addNewReservation(submitData);
                 navigate('/tenantCompleteShareData');
               }}
