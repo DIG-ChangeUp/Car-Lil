@@ -14,7 +14,7 @@ import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
-import NewSignUp from './pages/SignUp.tsx';
+import SignUp from './pages/SignUp.tsx';
 import OwnerCompleteShareData from './pages/OwnerCompleteShareData.tsx';
 import OwnerCheckShareData from './pages/OwnerCheckShareData.tsx';
 import { Provider } from 'jotai';
@@ -39,7 +39,7 @@ export default function App() {
         <Routes>
           {/*共通ページ*/}
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<NewSignUp />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<Home />} />
           {/*オーナーページ*/}
           <Route path="/ownerTop" element={<OwnerTop />} />

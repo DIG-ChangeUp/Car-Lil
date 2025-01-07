@@ -12,11 +12,13 @@ import {
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const Home = () => {
   const navigate = useNavigate();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
-  const [emailAddress] = useAtom(userEmailAtom);
+  const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
+
   console.log('取得したemail-------->', emailAddress);
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
@@ -26,33 +28,46 @@ const Home = () => {
   const setDistanceData = useSetAtom(distanceDataAtom);
 
   useEffect(() => {
-    // ページを開いた時にテナントとしてのデータを取得
-    (async () => {
-      const response: Response = await fetch('api/users/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: emailAddress }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        console.log('user-----', user);
-        //DBに未登録のユーザーの場合オーナーとして登録処理を行う
-        if (!user.data.id) {
-          const addUserResponse = await fetch('/api/addUser', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: emailAddress,
-              user_type: 'オーナー',
-            }),
-          });
-          if (addUserResponse.ok) {
-            console.log('usersテーブルへのユーザー登録完了');
-          }
+    checkLogin();
+  }, []);
+
+  async function fetchUserData(email: string | null) {
+    if (!email) return;
+    const response: Response = await fetch('api/users/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    if (response.ok) {
+      const user = await response.json();
+      console.log('user-----', user);
+      //DBに未登録のユーザーの場合オーナーとして登録処理を行う
+      if (!user.data.id) {
+        const addUserResponse = await fetch('/api/addUser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            user_type: 'オーナー',
+          }),
+        });
+        if (addUserResponse.ok) {
+          console.log('usersテーブルへのユーザー登録完了');
         }
       }
-    })();
-  }, []);
+    }
+  }
+
+  async function checkLogin() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setEmailAddress(user.email);
+        (async () => await fetchUserData(user.email))();
+      } else {
+        navigate('/login');
+      }
+    });
+  }
   // ページを開いた時にオーナーとしてのデータを取得
   useEffect(() => {
     (async () => {
@@ -129,8 +144,6 @@ const Home = () => {
         body: JSON.stringify({ currentPosition: location }),
       });
       if (response.ok) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const jsonResponse = await response.json();
         setDistanceData(jsonResponse.data);
       }
@@ -138,80 +151,86 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <Container
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Text
-          sx={{
-            fontSize: '5xl',
-            marginTop: '3xl',
-            paddingLeft: 5,
-          }}
-        >
-          メニュー選択
-        </Text>
-        <HStack
-          sx={{
-            h: 'max-content',
-            textAlign: 'center',
-            marginX: 'auto',
-            marginY: 'xl',
-          }}
-        >
-          <Box
+    <>
+      {!emailAddress ? (
+        <></>
+      ) : (
+        <div>
+          <Container
             sx={{
-              w: 44,
-              h: 44,
-              backgroundColor: '#F3F7F7',
-              paddingTop: 'xl',
-              rounded: 'xl',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            }}
-            onClick={() => {
-              navigate('/ownerSelectCar');
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
-            <GrUserAdmin size="50" />
-            <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
-          </Box>
-          <Box
-            sx={{
-              w: '44',
-              h: '44',
-              backgroundColor: '#F3F7F7',
-              paddingTop: 'xl',
-              rounded: 'xl',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            }}
-            onClick={async () => {
-              await getCars();
-              navigate('/map');
-            }}
-          >
-            <GrUser size="50" />
-            <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
-          </Box>
-        </HStack>
-        <Button
-          sx={{
-            w: 350,
-            h: 55,
-            fontSize: 'xl',
-            backgroundColor: '#289FAB',
-            color: '#FEFEFE',
-            marginX: 'auto',
-            marginY: 160,
-          }}
-          onClick={() => handleLogout()}
-        >
-          サインアウト
-        </Button>
-      </Container>
-    </div>
+            <Text
+              sx={{
+                fontSize: '5xl',
+                marginTop: '3xl',
+                paddingLeft: 5,
+              }}
+            >
+              メニュー選択
+            </Text>
+            <HStack
+              sx={{
+                h: 'max-content',
+                textAlign: 'center',
+                marginX: 'auto',
+                marginY: 'xl',
+              }}
+            >
+              <Box
+                sx={{
+                  w: 44,
+                  h: 44,
+                  backgroundColor: '#F3F7F7',
+                  paddingTop: 'xl',
+                  rounded: 'xl',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                }}
+                onClick={() => {
+                  navigate('/ownerSelectCar');
+                }}
+              >
+                <GrUserAdmin size="50" />
+                <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
+              </Box>
+              <Box
+                sx={{
+                  w: '44',
+                  h: '44',
+                  backgroundColor: '#F3F7F7',
+                  paddingTop: 'xl',
+                  rounded: 'xl',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                }}
+                onClick={async () => {
+                  await getCars();
+                  navigate('/map');
+                }}
+              >
+                <GrUser size="50" />
+                <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
+              </Box>
+            </HStack>
+            <Button
+              sx={{
+                w: 350,
+                h: 55,
+                fontSize: 'xl',
+                backgroundColor: '#289FAB',
+                color: '#FEFEFE',
+                marginX: 'auto',
+                marginY: 160,
+              }}
+              onClick={() => handleLogout()}
+            >
+              サインアウト
+            </Button>
+          </Container>
+        </div>
+      )}
+    </>
   );
 };
 
