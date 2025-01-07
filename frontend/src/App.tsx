@@ -22,7 +22,7 @@ import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
 import DemoSelectCar from './pages/DemoSelectCar.tsx';
 import ReservationList from './pages/ReservationList.tsx';
-import { UserCheckReservationAvailability } from './pages/UserCheckReservationAvailability.tsx';
+import { TenantEmptyData } from './pages/TenantEmptyData.tsx';
 import TenantConfirmReservation from './pages/TenantConfirmReservation.tsx';
 
 export default function App() {
@@ -58,12 +58,10 @@ export default function App() {
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
-          <Route
-            path="/checkReservationAvailability"
-            element={<UserCheckReservationAvailability />}
-          />
+
           {/*テナントページ*/}
           <Route path="/map" element={<Map />} />
+          <Route path="/emptyData" element={<TenantEmptyData />} />
           <Route path="/reservationList" element={<ReservationList />} />
           <Route
             path="/tenantConfirmReservation"

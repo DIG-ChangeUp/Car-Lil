@@ -1,4 +1,4 @@
 import {atom, PrimitiveAtom} from 'jotai';
-import {ICheckRentalInfo} from '../../globals';
+import {ICheckRentalData} from '../../globals';
 
-export const atomCheckRentalInfo:PrimitiveAtom<ICheckRentalInfo> = atom({} as ICheckRentalInfo);
+export const atomCheckRentalData:PrimitiveAtom<ICheckRentalData> = atom({} as ICheckRentalData);

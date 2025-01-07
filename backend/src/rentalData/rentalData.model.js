@@ -6,7 +6,7 @@ const db = require('knex')(config);
 
 const CARS_TABLE = 'cars';
 
-const _resultRentalInfo = {
+const _resultRentalData = {
   carport_id: 1,
   carport_address: '愛知県名古屋市西区',
   share_car_id: 1,
@@ -33,6 +33,6 @@ const _resultRentalInfo = {
 module.exports = {
   CARS_TABLE,
   async get() {
-    return await _resultRentalInfo;
+    return await _resultRentalData;
   }
 };

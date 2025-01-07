@@ -1,6 +1,6 @@
 import { ITimeZone } from './src/components/TimeBarIndicator';
 
-export interface IRentalInfo {
+export interface IRentalData {
   carport_id:number ;
   carport_address:string ;
   share_car_id:number ;
@@ -16,7 +16,7 @@ export interface IRentalInfo {
   booking_time:ITimeZone[];
 }
 
-export interface ICheckRentalInfo {
+export interface ICheckRentalData {
   carport_id:number | undefined ;
   carport_address:string | undefined ;
   share_car_id:number | undefined  ;
