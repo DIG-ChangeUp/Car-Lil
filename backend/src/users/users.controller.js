@@ -12,7 +12,11 @@ module.exports = {
   async confirmationByEmail(req, res) {
     const email = req.body.email;
     const [user] = await userModel.findByEmail(email);
-    res.status(200).send(user);
+    if (user) {
+      res.status(200).send(user);
+    } else {
+      res.send({ data: false });
+    }
   },
   //ユーザメールアドレスからユーザ（オーナーorテナント）データを取得してレスポンスとして送る
   //!!!paramsではなくPOSTされたメールアドレスから取得
@@ -34,6 +38,7 @@ module.exports = {
       user_type: req.body.user_type,
     };
     const user = await userModel.save(addUserData);
+    //返り値は現状使っていない
     res.status(200).send({ data: user });
   },
 

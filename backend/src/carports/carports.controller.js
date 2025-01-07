@@ -53,7 +53,6 @@ module.exports = {
     //
     await Promise.all(
       distanceData.map(async (data, _) => {
-        console.log('distanceData.map data/', data);
         const apiResponseData = await getRootDistance(data);
         apiResponseData.carData = data;
         dataToSend.push(apiResponseData);
@@ -69,7 +68,6 @@ module.exports = {
         b.routes[0].legs[0].distance.value
       )
     );
-    console.log('dataToSend----------', dataToSend);
     res.status(200).send({ data: dataToSend });
   },
 };

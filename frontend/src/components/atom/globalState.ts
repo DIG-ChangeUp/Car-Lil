@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 
 // export const userDataAtom = atom({ email: '', userId: '' });
 //ユーザーの認証時にemailを保持、shareテーブルに登録するデータを作成
-export const userEmailAtom = atom<string | null>('');
+export const userEmailAtom = atom<string | null>(null);
 // export const shareDataAtom = atom<object>({
 //   user_id: null,
 //   carport_id: null,
@@ -37,10 +37,10 @@ export type User = {
   returned_at: string | '';
   evaluation: string | '';
 };
-export type UserData = {
+export interface IUserData {
   user?: User;
-};
-export const userDataAtom = atom<UserData[]>([]);
+}
+export const userDataAtom = atom<IUserData[]>([]);
 //shareテーブルに登録するデータ
 export type Share = {
   user_id: number | null;
@@ -60,10 +60,14 @@ export const shareDataAtom = atom<Share>({
   end_at: '',
 });
 //オーナー画面で選択された車両に紐づくデータ
-export type SelectedData = {
-  user?: User;
-};
-export const selectedDataAtom = atom<SelectedData>({});
+export interface ISelectedCarData {
+  car_name: string | '';
+  share_prise: number | null;
+}
+export const selectedCarDataAtom = atom<ISelectedCarData>({
+  car_name: '',
+  share_prise: null,
+});
 // オーナーが選択した貸出日の配列
 export const rentalDaysAtom = atom<string[]>([]);
 // 貸出登録用

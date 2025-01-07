@@ -36,7 +36,7 @@ const SignUp = () => {
       await createUserWithEmailAndPassword(auth, email, password);
 
       setEmailAddress(email);
-      navigate('/map');
+      navigate('/');
     } catch (error) {
       if (error instanceof Error) {
         console.error('サインアップエラー:', error);
@@ -120,7 +120,7 @@ const SignUp = () => {
             colorScheme="link"
             marginTop="8"
             variant="link"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/login')}
           >
             ログインへ戻る
           </Button>

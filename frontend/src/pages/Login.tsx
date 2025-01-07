@@ -39,7 +39,7 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password);
 
       setEmailAddress(email);
-      navigate('/selectUserType');
+      navigate('/');
     } catch (error) {
       if (error instanceof Error) {
         console.error('ログインエラー:', error);
@@ -67,7 +67,7 @@ const Login = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setEmailAddress(user.email);
-        navigate('/selectUserType');
+        navigate('/');
       }
     });
   }, []);

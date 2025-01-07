@@ -14,14 +14,15 @@ import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
-import NewSignUp from './pages/SignUp.tsx';
-import OwnerRegistrationCompleted from './pages/OwnerRegistrationCompleted.tsx';
-import OwnerConfirmation from './pages/OwnerConfirmation.tsx';
+import SignUp from './pages/SignUp.tsx';
+import OwnerCompleteShareData from './pages/OwnerCompleteShareData.tsx';
+import OwnerCheckShareData from './pages/OwnerCheckShareData.tsx';
 import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
-import SelectUserOrOwner from './pages/SelectUserOrOwner.tsx';
-import DemoSelectCar from './pages/DemoSelectCar.tsx';
+import Home from './pages/Home.tsx';
 import ReservationList from './pages/ReservationList.tsx';
+import { UserCheckReservationAvailability } from './pages/UserCheckReservationAvailability.tsx';
+import TenantCheckRentalData from './pages/TenantCheckRentalData.tsx';
 import { TenantEmptyData } from './pages/TenantEmptyData.tsx';
 import TenantConfirmReservation from './pages/TenantConfirmReservation.tsx';
 
@@ -39,19 +40,21 @@ export default function App() {
       <Provider>
         <Routes>
           {/*共通ページ*/}
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<NewSignUp />} />
-          <Route path="/selectUserType" element={<SelectUserOrOwner />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<Home />} />
           {/*オーナーページ*/}
           <Route path="/ownerTop" element={<OwnerTop />} />
-          <Route path="/demoSelectCar" element={<DemoSelectCar />} />
           <Route path="/calendar" element={<OwnerDateRegistration />} />
           <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
-          <Route path="/ownerConfirmation" element={<OwnerConfirmation />} />
           <Route
-            path="/ownerRegistrationCompleted"
-            element={<OwnerRegistrationCompleted />}
+            path="/ownerCheckShareData"
+            element={<OwnerCheckShareData />}
+          />
+          <Route
+            path="/ownerCompleteShareData"
+            element={<OwnerCompleteShareData />}
           />
           {/*使われていないページ*/}
           <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
@@ -64,8 +67,8 @@ export default function App() {
           <Route path="/emptyData/:car_port_id/:share_car_id" element={<TenantEmptyData />} />
           <Route path="/reservationList" element={<ReservationList />} />
           <Route
-            path="/tenantConfirmReservation"
-            element={<TenantConfirmReservation />}
+            path="/tenantCheckRentalData"
+            element={<TenantCheckRentalData />}
           />
           {/*Not foundページ*/}
           <Route path="*" element={<NotFound />} />
