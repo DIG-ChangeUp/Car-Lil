@@ -19,7 +19,6 @@ const Home = () => {
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
 
-  console.log('取得したemail-------->', emailAddress);
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
   const setAllCarPorte = useSetAtom(allCarPorteAtom);
@@ -31,6 +30,28 @@ const Home = () => {
     checkLogin();
   }, []);
 
+  // ページを開いた時にオーナーとしてのデータを取得
+  useEffect(() => {
+    (async () => {
+      await getOwnerData(emailAddress);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await getGeolocation('first');
+      const response = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPosition: location }),
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        setDistanceData(jsonResponse.data);
+      }
+    })();
+  }, []);
+
   async function fetchUserData(email: string | null) {
     if (!email) return;
     const response: Response = await fetch('api/users/email', {
@@ -40,14 +61,13 @@ const Home = () => {
     });
     if (response.ok) {
       const user = await response.json();
-      console.log('user-----', user);
       //DBに未登録のユーザーの場合オーナーとして登録処理を行う
-      if (!user.data.id) {
+      if (user.data === false) {
         const addUserResponse = await fetch('/api/addUser', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            email,
+            email: email,
             user_type: 'オーナー',
           }),
         });
@@ -62,18 +82,11 @@ const Home = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setEmailAddress(user.email);
-        (async () => await fetchUserData(user.email))();
       } else {
         navigate('/login');
       }
     });
   }
-  // ページを開いた時にオーナーとしてのデータを取得
-  useEffect(() => {
-    (async () => {
-      await getOwnerData(emailAddress);
-    })();
-  }, []);
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
   async function getOwnerData(email: string | null) {
@@ -135,21 +148,6 @@ const Home = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  useEffect(() => {
-    (async () => {
-      await getGeolocation('first');
-      const response = await fetch('/api/distance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPosition: location }),
-      });
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        setDistanceData(jsonResponse.data);
-      }
-    })();
-  }, []);
-
   if (!emailAddress) {
     return <></>;
   }
@@ -188,7 +186,8 @@ const Home = () => {
                 rounded: 'xl',
                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
               }}
-              onClick={() => {
+              onClick={async () => {
+                await fetchUserData(emailAddress);
                 navigate('/ownerSelectCar');
               }}
             >
@@ -205,6 +204,7 @@ const Home = () => {
                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
               }}
               onClick={async () => {
+                await fetchUserData(emailAddress);
                 await getCars();
                 navigate('/map');
               }}
