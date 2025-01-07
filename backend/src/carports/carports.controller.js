@@ -1,4 +1,6 @@
 const carportsModel = require('./carports.model');
+// Google Route APIへのリクエスト数を
+const GOOGLE_ROUTE_API_MAX_REQUEST = 3;
 
 module.exports = {
   //全ユーザデータを取得してレスポンスとして送る
@@ -23,8 +25,12 @@ module.exports = {
 
   async getDistance(req, res) {
     const currentPosition = req.body.currentPosition;
-    let distanceData = await carportsModel.calcDistance(currentPosition); //本番用
-    distanceData = distanceData.filter((data, i) => i < 5);
+    let distanceData = await carportsModel.calcDistance(currentPosition);
+    // Google Route APIへのリクエスト数を制御する
+    // 開発時はstrict modeによって、２回実行されるのでリクエスト数が増えることに注意
+    distanceData = distanceData.filter(
+      (data, i) => i < GOOGLE_ROUTE_API_MAX_REQUEST
+    );
 
     //GoogleAPIへのデータ送信
     async function getRootDistance(calculatedData) {
