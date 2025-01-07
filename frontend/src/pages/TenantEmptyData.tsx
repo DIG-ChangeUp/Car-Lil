@@ -187,7 +187,19 @@ export function TenantEmptyData() {
         const bookingStrTime = Number(bookingTime[i].strTime.split(':')[0]) * 60 + Number(bookingTime[i].strTime.split(':')[1]);
         const bookingEndTime = Number(bookingTime[i].endTime.split(':')[0]) * 60 + Number(bookingTime[i].endTime.split(':')[1]);
 
-        if((strTime <= bookingStrTime && bookingStrTime < endTime) || (strTime < bookingEndTime && bookingEndTime <= endTime)) {
+        // 予約開始時間が予約済み開始時間以上の場合
+        let isStrTimeIntoBookingTime:boolean = false;
+        if (bookingStrTime <= strTime && strTime < bookingEndTime) {
+          isStrTimeIntoBookingTime = true;
+        }
+
+        // 予約開始時間が予約済み終了時間未満の場合
+        let isEndTimeIntoBookingTime:boolean = false;
+        if (bookingStrTime <= endTime && endTime < bookingEndTime) {
+          isEndTimeIntoBookingTime = true;
+        }
+
+        if(isStrTimeIntoBookingTime || isEndTimeIntoBookingTime) {
           setIsErrorRentalTimeSetting(true);
           setMsgErrorRentalTimeSetting(aryErrorMessages[4]);
           return false;
@@ -312,7 +324,7 @@ export function TenantEmptyData() {
           <HStack gap={'0'} mb={'4'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'30%'}>貸出料金</Text>
             <Text w={'3%'}>:</Text>
-            <Text>{currentRentalData?.share_price}円</Text>
+            <Text>{currentRentalData?.share_price}円 / 15分</Text>
           </HStack>
 
           <Center mb={'2'}>

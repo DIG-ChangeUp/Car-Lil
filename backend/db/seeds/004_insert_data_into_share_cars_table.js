@@ -76,5 +76,12 @@ exports.seed = async function (knex) {
       share_prise: 330,
       share_state: '待機',
     },
+    {
+      user_id: 15,
+      car_id: 11,
+      carport_id: 11,
+      share_prise: 500,
+      share_state: '待機',
+    },
   ]);
 };

@@ -27,12 +27,8 @@ let _resultRentalData = {
   },
   booking_time: [
     {
-      strTime: '08:00',
-      endTime: '11:00'
-    },
-    {
-      strTime: '15:00',
-      endTime: '20:00'
+      strTime: '14:00',
+      endTime: '16:00'
     },
   ]
 }
@@ -55,6 +51,8 @@ module.exports = {
     _resultRentalData.car_name = _resultFindCarData[0].car_name;
     _resultRentalData.car_type = _resultFindCarData[0].car_type;
     _resultRentalData.car_capacity = _resultFindCarData[0].capacity;
+    _resultRentalData.car_image_url1 = _resultFindCarData[0].image1;
+    _resultRentalData.car_image_url2 = _resultFindCarData[0].image2;
     
     return _resultRentalData;
   }
