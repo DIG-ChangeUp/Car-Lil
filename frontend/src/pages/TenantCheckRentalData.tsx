@@ -20,6 +20,7 @@ const TenantCheckRentalData = () => {
   const navigate = useNavigate();
 
   const rentalData = useAtomValue(atomCheckRentalData);
+  console.log('rentalData-------', rentalData);
   //表示用のデータを準備
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -97,16 +98,16 @@ const TenantCheckRentalData = () => {
             <Card sx={{ padding: '5', fontSize: 'sm' }}>
               <HStack w="180" h="100">
                 <Image
-                  src="../../src/assets/CarImages/Crown_Ext.png"
+                  src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${rentalData.car_image_url1}`}
                   sx={{ maxWidth: '100%', maxHeight: '100%' }}
                 />
                 <Image
-                  src="../../src/assets/CarImages/Crown_Int.png"
+                  src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${rentalData.car_image_url2}`}
                   sx={{ maxWidth: '100%', maxHeight: '100%' }}
                 />
               </HStack>
               <br></br>
-              <Text>メーカー：</Text>
+              <Text>メーカー：{rentalData.car_maker}</Text>
               <Separator />
               <Text>車名：{rentalData.car_name}</Text>
               <Separator />
