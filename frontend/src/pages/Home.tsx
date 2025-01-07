@@ -150,86 +150,85 @@ const Home = () => {
     })();
   }, []);
 
+  if (!emailAddress) {
+    return <></>;
+  }
   return (
     <>
-      {!emailAddress ? (
-        <></>
-      ) : (
-        <div>
-          <Container
+      <div>
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Text
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
+              fontSize: '5xl',
+              marginTop: '3xl',
+              paddingLeft: 5,
             }}
           >
-            <Text
+            メニュー選択
+          </Text>
+          <HStack
+            sx={{
+              h: 'max-content',
+              textAlign: 'center',
+              marginX: 'auto',
+              marginY: 'xl',
+            }}
+          >
+            <Box
               sx={{
-                fontSize: '5xl',
-                marginTop: '3xl',
-                paddingLeft: 5,
+                w: 44,
+                h: 44,
+                backgroundColor: '#F3F7F7',
+                paddingTop: 'xl',
+                rounded: 'xl',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              }}
+              onClick={() => {
+                navigate('/ownerSelectCar');
               }}
             >
-              メニュー選択
-            </Text>
-            <HStack
+              <GrUserAdmin size="50" />
+              <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
+            </Box>
+            <Box
               sx={{
-                h: 'max-content',
-                textAlign: 'center',
-                marginX: 'auto',
-                marginY: 'xl',
+                w: '44',
+                h: '44',
+                backgroundColor: '#F3F7F7',
+                paddingTop: 'xl',
+                rounded: 'xl',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              }}
+              onClick={async () => {
+                await getCars();
+                navigate('/map');
               }}
             >
-              <Box
-                sx={{
-                  w: 44,
-                  h: 44,
-                  backgroundColor: '#F3F7F7',
-                  paddingTop: 'xl',
-                  rounded: 'xl',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                }}
-                onClick={() => {
-                  navigate('/ownerSelectCar');
-                }}
-              >
-                <GrUserAdmin size="50" />
-                <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
-              </Box>
-              <Box
-                sx={{
-                  w: '44',
-                  h: '44',
-                  backgroundColor: '#F3F7F7',
-                  paddingTop: 'xl',
-                  rounded: 'xl',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                }}
-                onClick={async () => {
-                  await getCars();
-                  navigate('/map');
-                }}
-              >
-                <GrUser size="50" />
-                <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
-              </Box>
-            </HStack>
-            <Button
-              sx={{
-                w: 350,
-                h: 55,
-                fontSize: 'xl',
-                backgroundColor: '#289FAB',
-                color: '#FEFEFE',
-                marginX: 'auto',
-                marginY: 160,
-              }}
-              onClick={() => handleLogout()}
-            >
-              サインアウト
-            </Button>
-          </Container>
-        </div>
-      )}
+              <GrUser size="50" />
+              <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
+            </Box>
+          </HStack>
+          <Button
+            sx={{
+              w: 350,
+              h: 55,
+              fontSize: 'xl',
+              backgroundColor: '#289FAB',
+              color: '#FEFEFE',
+              marginX: 'auto',
+              marginY: 160,
+            }}
+            onClick={() => handleLogout()}
+          >
+            サインアウト
+          </Button>
+        </Container>
+      </div>
     </>
   );
 };
