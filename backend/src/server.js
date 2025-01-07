@@ -12,7 +12,7 @@ const reservationsController = require('./reservations/reservations.controller')
 const shareController = require('./share/share.controller');
 //テスト用
 const calcDistance = require('./calcDistance');
-const rentalInfo = require('./rentalInfo/rentalInfo.controller');
+const rentalData = require('./rentalData/rentalData.controller');
 
 function setupServer() {
   const app = express();
@@ -43,7 +43,7 @@ function setupServer() {
   app.get('/distance', calcDistance.calcDistance); //テスト用
 
   // MuuSan追加分
-  app.get('/api/rentalInfo', rentalInfo.index); //レンタル情報
+  app.post('/api/rentalData', rentalData.index); //レンタル情報
 
   return app;
 }

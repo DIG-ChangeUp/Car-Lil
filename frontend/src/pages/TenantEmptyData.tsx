@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import { useSetAtom } from 'jotai';
-import { atomCheckRentalInfo} from '../atoms/atomRentalTime.ts';
+import { atomCheckRentalData} from '../atoms/atomRentalTime.ts';
 
 import { Box, Button, Text, Center, HStack, Image, Select, SelectItem, ScrollArea } from '@yamada-ui/react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { ICheckRentalInfo, IRentalInfo } from '../../globals';
+import { ICheckRentalData, IRentalData } from '../../globals';
 import { ITimeZone, TimeBarIndicator } from '../components/TimeBarIndicator.tsx';
 import Footer from '../components/Footer.tsx';
 
@@ -74,12 +74,13 @@ const aryErrorMessages:string[] = [
   errMsg_05
 ]
 
-export function UserCheckReservationAvailability() {
+export function TenantEmptyData() {
   const navigate = useNavigate();
+  const pathParams = useParams();
 
-  const setCheckRentalInfo = useSetAtom(atomCheckRentalInfo);
+  const setCheckRentalData = useSetAtom(atomCheckRentalData);
 
-  const [currentRentalInfo, setCurrentRentalInfo] = useState<IRentalInfo>();
+  const [currentRentalData, setCurrentRentalData] = useState<IRentalData>();
   const [currentRentalDate, setCurrentRentalDate] = useState<string>();
   const [currentYear, setCurrentYear] = useState<number>(0);
   const [currentMonth, setCurrentMonth] = useState<number>(0);
@@ -88,11 +89,26 @@ export function UserCheckReservationAvailability() {
 
   useEffect(() => {
     (async () => {
-      const fetchResult = await fetch(import.meta.env.VITE_ORIGIN_API_URL + '/api/rentalInfo');
-      const _resultJSON = await fetchResult.json();
-      const _resultRentalInfo:IRentalInfo = _resultJSON.data as IRentalInfo;
+      const _apiUrl = import.meta.env.VITE_ORIGIN_API_URL + '/api/rentalData';
 
-      const _rentalDate = new Date(_resultRentalInfo.rental_date);
+      const _carPortId = Number(pathParams.car_port_id);
+      const _shareCarId = Number(pathParams.share_car_id);
+      const _sendParams = {
+        method : "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+          car_port_id: _carPortId,
+          share_car_id: _shareCarId
+        })
+      };
+
+      const fetchResult = await fetch(_apiUrl, _sendParams);
+      const _resultJSON = await fetchResult.json();
+      const _resultRentalData:IRentalData = _resultJSON.data as IRentalData;
+
+      const _rentalDate = new Date(_resultRentalData.rental_date);
 
       const _month = _rentalDate.getMonth() + 1;
       const _date = _rentalDate.getDate();
@@ -104,7 +120,7 @@ export function UserCheckReservationAvailability() {
       setCurrentDate(_rentalDate.getDate());
 
       setCurrentRentalDate(_currentRentalDate);
-      setCurrentRentalInfo(_resultRentalInfo);
+      setCurrentRentalData(_resultRentalData);
     })()
   }, []);
 
@@ -176,7 +192,7 @@ export function UserCheckReservationAvailability() {
           setMsgErrorRentalTimeSetting(aryErrorMessages[4]);
           return false;
         }
-        }
+      }
 
       // 終了時間が開始時間より前になっていないかチェック
       if(strTime >= endTime) {
@@ -226,27 +242,26 @@ export function UserCheckReservationAvailability() {
       const _endMinutes = Number(selectEndMinutes);
       const _endTime = new Date(currentYear, currentMonth, currentDate, _endHours, _endMinutes);
 
-      const _checkRentalInfo:ICheckRentalInfo = {
-        carport_id: currentRentalInfo?.carport_id,
-        carport_address: currentRentalInfo?.carport_address,
-        share_car_id: currentRentalInfo?.share_car_id,
-        share_price: currentRentalInfo?.share_price,
-        car_id: currentRentalInfo?.car_id,
-        car_maker: currentRentalInfo?.car_maker,
-        car_name: currentRentalInfo?.car_name,
-        car_type: currentRentalInfo?.car_type,
-        car_image_url1: currentRentalInfo?.car_image_url1,
-        car_image_url2: currentRentalInfo?.car_image_url2,
+      const _checkRentalData:ICheckRentalData = {
+        carport_id: currentRentalData?.carport_id,
+        carport_address: currentRentalData?.carport_address,
+        share_car_id: currentRentalData?.share_car_id,
+        share_price: currentRentalData?.share_price,
+        car_id: currentRentalData?.car_id,
+        car_maker: currentRentalData?.car_maker,
+        car_name: currentRentalData?.car_name,
+        car_type: currentRentalData?.car_type,
+        car_capacity: currentRentalData?.car_capacity,
+        car_image_url1: currentRentalData?.car_image_url1,
+        car_image_url2: currentRentalData?.car_image_url2,
         start_rental_date: _strTime,
         end_rental_date: _endTime,
         rental_time: rentalTime
       }
 
-      console.log(_checkRentalInfo);
+      setCheckRentalData(_checkRentalData);
 
-      setCheckRentalInfo(_checkRentalInfo);
-
-      navigate('/')
+      navigate('/tenantCheckRentalData')
     }
   }
 
@@ -260,38 +275,44 @@ export function UserCheckReservationAvailability() {
 
       <ScrollArea w={'100%'} h="calc(100vh - 180px)" px={'6'} py={'2'}>
 
-        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>{currentRentalInfo?.carport_address}</Text>
+        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>{currentRentalData?.carport_address}</Text>
 
         <Box bg={'#F3F7F7'} w={'100%'} borderRadius={'8'} px={'4'} py={'2'}>
           <Text as={'h3'} fontSize={'16px'} mb={'4'}>登録車両1</Text>
 
           <HStack gap={'0'} mb={'4'}>
-            <Image src={currentRentalInfo?.car_image_url1} alt={'car'} w={'50%'} />
-            <Image src={currentRentalInfo?.car_image_url2} alt={'car'} w={'50%'} />
+            <Image src={currentRentalData?.car_image_url1} alt={'car'} w={'50%'} />
+            <Image src={currentRentalData?.car_image_url2} alt={'car'} w={'50%'} />
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'30%'}>メーカー</Text>
             <Text w={'3%'}>:</Text>
-            <Text>{currentRentalInfo?.car_maker}</Text>
+            <Text>{currentRentalData?.car_maker}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'30%'}>車名</Text>
             <Text w={'3%'}>:</Text>
-            <Text>{currentRentalInfo?.car_name}</Text>
+            <Text>{currentRentalData?.car_name}</Text>
           </HStack>
 
-          <HStack gap={'0'} mb={'4'} borderBottom={'1px solid #D9D9D9'}>
+          <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'30%'}>タイプ</Text>
             <Text w={'3%'}>:</Text>
-            <Text>{currentRentalInfo?.car_type}</Text>
+            <Text>{currentRentalData?.car_type}</Text>
+          </HStack>
+
+          <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
+            <Text w={'30%'}>乗車定員</Text>
+            <Text w={'3%'}>:</Text>
+            <Text>{currentRentalData?.car_capacity}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'4'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'30%'}>貸出料金</Text>
             <Text w={'3%'}>:</Text>
-            <Text>{currentRentalInfo?.share_price}円</Text>
+            <Text>{currentRentalData?.share_price}円</Text>
           </HStack>
 
           <Center mb={'2'}>
@@ -302,8 +323,8 @@ export function UserCheckReservationAvailability() {
 
           <Box py={'2'} borderBottom={'1px solid #A2A2A2'} mb={'2'}>
               <TimeBarIndicator
-                ownerRentalTime={currentRentalInfo?.owner_rental_time}
-                bookingTime={currentRentalInfo?.booking_time}
+                ownerRentalTime={currentRentalData?.owner_rental_time}
+                bookingTime={currentRentalData?.booking_time}
               />
           </Box>
 

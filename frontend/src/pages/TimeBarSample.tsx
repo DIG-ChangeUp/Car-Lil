@@ -1,11 +1,15 @@
 import {
-  Box
-} from "@yamada-ui/react"
+  Box, Button,
+} from '@yamada-ui/react';
+
+import { useNavigate } from "react-router-dom";
 
 // TimeBarIndicatorコンポーネントをインポートする際に、インターフェースである ITimeZone をインポートするのを忘れないでください
 import {TimeBarIndicator, ITimeZone} from "../components/TimeBarIndicator";
 
 export function TimeBarSample() {
+  const navigate = useNavigate();
+
   /**
    * オーナーの貸出時間
    * もしない場合は、nullを設定してください
@@ -42,12 +46,17 @@ export function TimeBarSample() {
     }
   ]
 
+  function handlerClickButton() {
+    navigate('/emptyData/4/4')
+  }
+
   return(
     <Box m={'md'}>
       <h1>Index Page</h1>
       <TimeBarIndicator bookingTime={bookingTime_1} ownerRentalTime={ownerRentalTime_1} />
       <br />
       <TimeBarIndicator bookingTime={bookingTime_2} ownerRentalTime={ownerRentalTime_2} />
+      <Button onClick={handlerClickButton}>Button</Button>
     </Box>
   )
 }
