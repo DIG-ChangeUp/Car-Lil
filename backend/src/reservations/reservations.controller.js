@@ -1,5 +1,5 @@
 const reservationsModel = require('./reservations.model');
-const shareCarsModel = require('../shareCars/shareCars.model');
+// const shareCarsModel = require('../shareCars/shareCars.model');
 module.exports = {
   async addNewReservation(req, res) {
     //reservationsテーブルに新しい予約情報を登録
