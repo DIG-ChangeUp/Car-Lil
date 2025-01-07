@@ -151,8 +151,6 @@ const SelectUserOrOwner = () => {
         body: JSON.stringify({ currentPosition: location }),
       });
       if (response.ok) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const jsonResponse = await response.json();
         setDistanceData(jsonResponse.data);
       }
