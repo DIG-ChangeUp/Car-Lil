@@ -66,5 +66,11 @@ exports.seed = async function (knex) {
       latitude: 35.16807834671538,
       longitude: 136.8455877846741,
     },
+    {
+      user_id: 8,
+      address: '愛知県名古屋市中村区稲葉地町２丁目',
+      latitude: 36.16807834671538,
+      longitude: 136.8455877846741,
+    },
   ]);
 };
