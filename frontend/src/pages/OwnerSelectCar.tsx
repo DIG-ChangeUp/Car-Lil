@@ -1,7 +1,4 @@
 import {
-  // Breadcrumb,
-  // BreadcrumbItem,
-  // BreadcrumbLink,
   Button,
   Card,
   Container,
@@ -14,12 +11,11 @@ import {
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
-  userDataAtom,
+  // userDataAtom,//正規データ用
   selectedCarDataAtom,
   shareDataAtom,
-  User,
+  // User,//正規データ用
   Share,
-  IUserData,
 } from '../components/atom/globalState.ts';
 import { useSetAtom, useAtomValue } from 'jotai';
 
@@ -28,27 +24,46 @@ import { useNavigate } from 'react-router-dom';
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
   const setSelectedCarData = useSetAtom(selectedCarDataAtom);
-  const userData: IUserData[] = useAtomValue(userDataAtom);
+  // const userData = useAtomValue(userDataAtom);//正規データ用
   const shareData: Share = useAtomValue(shareDataAtom);
+
+  // !!!demo用データ--------------------
+  type Demo = {
+    user_id: number;
+    carport_id: number;
+    share_car_id: number;
+    user_type: string;
+    car_name: string;
+    maker: string | '';
+    car_type: string;
+    capacity: number;
+    share_prise: number;
+    share_state: string;
+    image_1: string;
+    image_2: string;
+  };
+  type DemoData = Demo[];
+  const demoData: DemoData = [
+    {
+      user_id: 1,
+      carport_id: 1,
+      share_car_id: 1,
+      user_type: 'オーナー',
+      car_name: 'アクア',
+      maker: 'TOYOTA',
+      car_type: 'コンパクトカー',
+      capacity: 5,
+      share_prise: 330,
+      share_state: '待機',
+      image_1: 'yaris_Ext.png',
+      image_2: 'yaris_Int.png',
+    },
+  ];
 
   return (
     <>
       <Header isOwnerMode={true} headerTitle={''} />
       <Container h="calc(100vh - 180px)">
-        {/*<Breadcrumb>*/}
-        {/*  <BreadcrumbItem>*/}
-        {/*    <BreadcrumbLink*/}
-        {/*      href="/ownerTop"*/}
-        {/*      color="#4C70E5"*/}
-        {/*      textDecoration="underline"*/}
-        {/*    >*/}
-        {/*      オーナーページ*/}
-        {/*    </BreadcrumbLink>*/}
-        {/*  </BreadcrumbItem>*/}
-        {/*  <BreadcrumbItem>*/}
-        {/*    <BreadcrumbLink fontSize="larger">貸出車両選択</BreadcrumbLink>*/}
-        {/*  </BreadcrumbItem>*/}
-        {/*</Breadcrumb>*/}
         <Text
           sx={{
             marginY: 3,
@@ -63,7 +78,8 @@ const OwnerSelectCar = () => {
           <Container>
             {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
             {/*@ts-ignore*/}
-            {userData.map((data: User, index: number) => {
+            {/*{userData.map((data: User, index: number) => {//正規データ用*/}
+            {demoData.map((data: Demo, index: number) => {
               return (
                 <Container key={index + 1}>
                   <Card
@@ -102,7 +118,6 @@ const OwnerSelectCar = () => {
                         shareData.user_id = data.user_id;
                         shareData.carport_id = data.carport_id;
                         shareData.share_car_id = data.share_car_id;
-                        console.log('shareData-----', shareData);
                         navigate('/calendar');
                       }}
                     >

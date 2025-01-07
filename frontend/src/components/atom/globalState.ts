@@ -24,7 +24,8 @@ export type User = {
   capacity: number | null;
   share_prise: number | null;
   share_state: string | '';
-  photo_url: string | '';
+  image_1: string | '';
+  image_2: string | '';
   address: string | '';
   latitude: number | null;
   longitude: number | null;
@@ -127,7 +128,8 @@ export type AllCarPort = {
   latitude: string;
   longitude: string;
   maker: string;
-  photo_url: string;
+  image_1: string;
+  image_2: string;
   share_prise: number;
   share_state: string;
   user_id: number;
