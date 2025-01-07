@@ -39,7 +39,8 @@ const DistanceCardList: React.FC<DistanceCardListProps> = ({
   const navigate = useNavigate();
 
   function handleNavigate() {
-    navigate('/tenantConfirmReservation');
+    // TODO: パスパラメータを修正する
+    navigate('/emptyData/2/2');
   }
 
   return (

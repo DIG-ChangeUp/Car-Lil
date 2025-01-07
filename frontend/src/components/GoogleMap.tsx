@@ -66,7 +66,8 @@ export default function GoogleMap() {
   }
 
   function handleNavigate() {
-    navigate('/tenantConfirmReservation');
+    // TODO: パスパラメータを修正する
+    navigate('/emptyData/2/2');
   }
 
   const map = useMap();
@@ -100,7 +101,7 @@ export default function GoogleMap() {
         >
           <Flex alignItems="center" gap="3">
             <img
-              src="../assets/CarImages/alphard.jpg"
+              src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/surf_Ext.png`}
               width={40}
               height={40}
               alt="car_icon"

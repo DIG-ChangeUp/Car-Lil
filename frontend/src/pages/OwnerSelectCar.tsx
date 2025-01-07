@@ -19,7 +19,7 @@ import {
   shareDataAtom,
   User,
   Share,
-  UserData,
+  IUserData,
 } from '../components/atom/globalState.ts';
 import { useSetAtom, useAtomValue } from 'jotai';
 
@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router-dom';
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
   const setSelectedCarData = useSetAtom(selectedCarDataAtom);
-  const userData: UserData[] = useAtomValue(userDataAtom);
+  const userData: IUserData[] = useAtomValue(userDataAtom);
   const shareData: Share = useAtomValue(shareDataAtom);
 
   return (
