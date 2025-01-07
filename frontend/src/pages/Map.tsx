@@ -6,8 +6,9 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 
 import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
-import { useAtom } from 'jotai/index';
+import { useAtom, useAtomValue } from 'jotai/index';
 import {
+  diffDistanceAtom,
   distanceDataAtom,
   locationAtom,
   prevLocationAtom,
@@ -21,67 +22,42 @@ const Map = () => {
   const { user } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
-  const [location, setLocation] = useAtom(locationAtom);
-  const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
+  const currLocation = useAtomValue(locationAtom);
+  const prevLocation = useAtomValue(prevLocationAtom);
+  const diffDistance = useAtomValue(diffDistanceAtom);
+
+  const MAX_ROUTE_API_REQUEST = 3;
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
-  }, [user, navigate]); // user または navigate が変更された場合にのみ実行
-
-  if (!user) {
-    // navigateによるリダイレクトが完了するまで何もレンダリングしない
-    return null;
-  }
+    if (!user) navigate('/');
+  }, [user, navigate]);
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!user) return null;
 
   async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
     if (mode === 'list') {
-      getGeolocation(null);
-      // 位置情報の変更がなければ、apiへの再取得はしない
-      if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
-        //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
+      // Google Route apiへの再取得しないための早期リターン
+      if (JSON.stringify(currLocation) === JSON.stringify(prevLocation)) return;
+      if (diffDistance === null) return;
+      if (diffDistance < MAX_ROUTE_API_REQUEST) return;
+
+      const response = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPosition: location }),
+      });
+      if (response.ok) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const response = await fetch('/api/distance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ currentPosition: location }),
-        });
-        if (response.ok) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          const jsonResponse = await response.json();
-          setDistanceData(jsonResponse.data);
-        }
+        const jsonResponse = await response.json();
+        setDistanceData(jsonResponse.data);
       }
     }
-  }
-
-  //位置情報取得、ステートに保持
-  function getGeolocation(calledTiming: string | null): void {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-    function success(pos: GeolocationPosition) {
-      const crd = pos.coords;
-      // 不要な routes api の呼び出しを回避するための処理
-      if (!calledTiming) {
-        setPrevLocation(location);
-      }
-      setLocation({ latitude: crd.latitude, longitude: crd.longitude });
-    }
-    function error(err: GeolocationPositionError) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
-    navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
   return (
