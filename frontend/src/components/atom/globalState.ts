@@ -4,10 +4,9 @@ import { ISelectedCarData, IShare, IUserData } from '../../../globals';
 // export const userDataAtom = atom({ email: '', userId: '' });
 //ユーザーの認証時にemailを保持、shareテーブルに登録するデータを作成
 export const userEmailAtom = atom<string | null>(null);
-//ユーザー（オーナーorテナント）に紐づく全てのデータを保持
-
+//ユーザー（オーナー）に紐づく全てのデータを保持
 export const userDataAtom = atom<IUserData[]>([]);
-
+// shareテーブルに保存するためのデータを保持
 export const shareDataAtom = atom<IShare>({
   user_id: null,
   carport_id: null,
