@@ -23,9 +23,8 @@ module.exports = {
 
   async getDistance(req, res) {
     const currentPosition = req.body.currentPosition;
-    const distanceData = await carportsModel.calcDistance(currentPosition); //本番用
-
-    // console.log('distanceData ---->', distanceData);
+    let distanceData = await carportsModel.calcDistance(currentPosition); //本番用
+    distanceData = distanceData.filter((data, i) => i < 5);
 
     //GoogleAPIへのデータ送信
     async function getRootDistance(calculatedData) {
@@ -62,12 +61,16 @@ module.exports = {
     function ascDistanceSort(a, b) {
       return a > b ? 1 : -1;
     }
-    dataToSend.sort((a, b) =>
+    dataToSend.sort((a, b) => {
+      console.log(
+        'a.routes[0].legs[0].distance.value ---->',
+        a.routes[0].legs[0].distance
+      );
       ascDistanceSort(
         a.routes[0].legs[0].distance.value,
         b.routes[0].legs[0].distance.value
-      )
-    );
+      );
+    });
     res.status(200).send({ data: dataToSend });
   },
 };

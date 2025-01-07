@@ -104,6 +104,7 @@ export default function GoogleMap() {
               src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/surf_Ext.png`}
               width={40}
               height={40}
+              object-fit="cover"
               alt="car_icon"
             />
             <Text>{selectInfoWindow.car_name}</Text>
