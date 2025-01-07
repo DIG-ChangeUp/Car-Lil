@@ -35,7 +35,7 @@ export default function OwnerCompleteShareData() {
               color: '#FEFEFE',
             }}
             onClick={() => {
-              navigate('/ownerSelectCar');
+              navigate('/');
             }}
           >
             トップへ戻る
