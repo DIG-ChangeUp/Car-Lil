@@ -18,7 +18,6 @@ import {
 } from './atom/globalState.ts';
 import { useAtom } from 'jotai';
 import { Button, Container, Flex, Float, Text } from '@yamada-ui/react';
-import { useMemo } from 'react';
 import { MdNavigation } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,12 +31,10 @@ export default function GoogleMap() {
 
   type positionType = { lat: number; lng: number };
 
-  const position: positionType = useMemo(() => {
-    return {
-      lat: location.latitude,
-      lng: location.longitude,
-    };
-  }, [location.latitude, location.longitude]);
+  const position: positionType = {
+    lat: location.latitude,
+    lng: location.longitude,
+  };
 
   function handleGetGeolocation() {
     getGeolocation(null);
