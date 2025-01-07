@@ -55,7 +55,6 @@ module.exports = {
     }
     // GoogleAPIからのレスポンスをクライアントにsendする
     const dataToSend = [];
-    //
     await Promise.all(
       distanceData.map(async (data, _) => {
         const apiResponseData = await getRootDistance(data);
@@ -68,10 +67,6 @@ module.exports = {
       return a > b ? 1 : -1;
     }
     dataToSend.sort((a, b) => {
-      console.log(
-        'a.routes[0].legs[0].distance.value ---->',
-        a.routes[0].legs[0].distance
-      );
       ascDistanceSort(
         a.routes[0].legs[0].distance.value,
         b.routes[0].legs[0].distance.value
