@@ -21,10 +21,8 @@ import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import Home from './pages/Home.tsx';
 import ReservationList from './pages/ReservationList.tsx';
-import { UserCheckReservationAvailability } from './pages/UserCheckReservationAvailability.tsx';
 import TenantCheckRentalData from './pages/TenantCheckRentalData.tsx';
 import { TenantEmptyData } from './pages/TenantEmptyData.tsx';
-import TenantConfirmReservation from './pages/TenantConfirmReservation.tsx';
 
 export default function App() {
   useEffect(() => {
