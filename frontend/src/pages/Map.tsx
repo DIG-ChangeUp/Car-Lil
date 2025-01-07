@@ -6,8 +6,9 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 
 import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
-import { useAtom } from 'jotai/index';
+import { useAtom, useSetAtom } from 'jotai/index';
 import {
+  allCarPorteAtom,
   distanceDataAtom,
   locationAtom,
   prevLocationAtom,
@@ -23,21 +24,23 @@ const Map = () => {
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
+  const setAllCarPorte = useSetAtom(allCarPorteAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
+    if (!user) navigate('/login');
   }, [user, navigate]); // user または navigate が変更された場合にのみ実行
 
-  if (!user) {
-    // navigateによるリダイレクトが完了するまで何もレンダリングしない
-    return null;
-  }
+  useEffect(() => {
+    getGeolocation('first');
+    getCars();
+  }, []);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!user) return null;
 
   async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
@@ -46,16 +49,12 @@ const Map = () => {
       // 位置情報の変更がなければ、apiへの再取得はしない
       if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
         //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const response = await fetch('/api/distance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ currentPosition: location }),
         });
         if (response.ok) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           const jsonResponse = await response.json();
           setDistanceData(jsonResponse.data);
         }
@@ -68,7 +67,7 @@ const Map = () => {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 0,
+      maximumAge: 10,
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
@@ -82,6 +81,18 @@ const Map = () => {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
+  }
+
+  async function getCars() {
+    const response = await fetch('/api/allCarports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPosition: location }),
+    });
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      setAllCarPorte(jsonResponse.data);
+    }
   }
 
   return (

@@ -9,7 +9,7 @@ import { AuthProvider } from './components/AuthContext.tsx';
 import OwnerTop from './pages/OwnerTop.tsx';
 import Map from './pages/Map.tsx';
 import Login from './pages/Login.tsx';
-import OwnerDateRegistration from './pages/OwnerDateRegistration.tsx';
+import OwnerSelectDay from './pages/OwnerSelectDay.tsx';
 import NotFound from './pages/NotFound.tsx';
 import OwnerSelectCar from './pages/OwnerSelectCar.tsx';
 import OwnerSelectTime from './pages/OwnerSelectTime.tsx';
@@ -19,7 +19,7 @@ import OwnerCheckShareData from './pages/OwnerCheckShareData.tsx';
 import { Provider } from 'jotai';
 import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import Home from './pages/Home.tsx';
-import ReservationList from './pages/ReservationList.tsx';
+import TenantReservedList from './pages/TenantReservedList.tsx';
 import TenantCheckRentalData from './pages/TenantCheckRentalData.tsx';
 import { TenantEmptyData } from './pages/TenantEmptyData.tsx';
 import TenantCompleteShareData from './pages/TenantCompleteShareData.tsx';
@@ -42,10 +42,9 @@ export default function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<Home />} />
           {/*オーナーページ*/}
-          <Route path="/ownerTop" element={<OwnerTop />} />
-          <Route path="/calendar" element={<OwnerDateRegistration />} />
-          <Route path="/selectTime" element={<OwnerSelectTime />} />
           <Route path="/ownerSelectCar" element={<OwnerSelectCar />} />
+          <Route path="/ownerSelectDay" element={<OwnerSelectDay />} />
+          <Route path="/ownerSelectTime" element={<OwnerSelectTime />} />
           <Route
             path="/ownerCheckShareData"
             element={<OwnerCheckShareData />}
@@ -55,8 +54,7 @@ export default function App() {
             element={<OwnerCompleteShareData />}
           />
           {/*使われていないページ*/}
-          <Route path="/calendar" element={<OwnerDateRegistration />} />
-          <Route path="/selectTime" element={<OwnerSelectTime />} />
+          <Route path="/ownerTop" element={<OwnerTop />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
 
           {/*テナントページ*/}
@@ -65,7 +63,7 @@ export default function App() {
             path="/emptyData/:car_port_id/:share_car_id"
             element={<TenantEmptyData />}
           />
-          <Route path="/reservationList" element={<ReservationList />} />
+          <Route path="/reservedList" element={<TenantReservedList />} />
           <Route
             path="/tenantCheckRentalData"
             element={<TenantCheckRentalData />}

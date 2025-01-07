@@ -4,10 +4,8 @@ import { GrUserAdmin, GrUser } from 'react-icons/gr';
 import {
   userEmailAtom,
   userDataAtom,
-  allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
-  distanceDataAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
@@ -21,10 +19,8 @@ const Home = () => {
 
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
-  const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [location, setLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
-  const setDistanceData = useSetAtom(distanceDataAtom);
 
   useEffect(() => {
     checkLogin();
@@ -38,18 +34,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      await getGeolocation('first');
-      const response = await fetch('/api/distance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPosition: location }),
-      });
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        setDistanceData(jsonResponse.data);
-      }
-    })();
+    getGeolocation('first');
   }, []);
 
   async function fetchUserData(email: string | null) {
@@ -103,19 +88,6 @@ const Home = () => {
     }
   }
 
-  async function getCars() {
-    const response = await fetch('/api/allCarports', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: location }),
-    });
-    if (response.ok) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const jsonResponse = await response.json();
-      setAllCarPorte(jsonResponse.data);
-    }
-  }
   //ログアウト
   const handleLogout = async () => {
     try {
@@ -132,7 +104,7 @@ const Home = () => {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 0,
+      maximumAge: 10,
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
@@ -205,7 +177,6 @@ const Home = () => {
               }}
               onClick={async () => {
                 await fetchUserData(emailAddress);
-                await getCars();
                 navigate('/map');
               }}
             >
