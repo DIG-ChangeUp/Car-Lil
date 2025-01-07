@@ -37,10 +37,10 @@ export type User = {
   returned_at: string | '';
   evaluation: string | '';
 };
-export type UserData = {
+export interface IUserData {
   user?: User;
-};
-export const userDataAtom = atom<UserData[]>([]);
+}
+export const userDataAtom = atom<IUserData[]>([]);
 //shareテーブルに登録するデータ
 export type Share = {
   user_id: number | null;
