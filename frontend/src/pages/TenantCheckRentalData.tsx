@@ -11,13 +11,33 @@ import {
 } from '@yamada-ui/react';
 import Footer from '../components/Footer.tsx';
 import Header from '../components/Header.tsx';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { atomCheckRentalData } from '../atoms/atomRentalTime.ts';
+import { useAtomValue } from 'jotai';
+import dayjs from 'dayjs';
 
 const TenantCheckRentalData = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const rentalData = useAtomValue(atomCheckRentalData);
+  //表示用のデータを準備
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const startDate = new Date(rentalData.start_rental_date).toISOString();
+  const formattedStartDate = dayjs(startDate).format('YYYY-MM-DD HH:mm');
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const endDate = new Date(rentalData.end_rental_date).toISOString();
+  const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD HH:mm:');
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const hour: number = rentalData.rental_time / 60;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const price: number = (rentalData.share_price * rentalData.rental_time) / 15;
 
   //新規予約を登録
-  //!!!テスト用予約データ
+  //!!!TODO:テスト用予約データのため修正
   type Reservations = {
     user_id: number | null;
     share_car_id: number | null;
@@ -32,15 +52,15 @@ const TenantCheckRentalData = () => {
     is_refueled: boolean | null;
     is_washed: boolean | null;
   };
-  const testData = {
+  const submitData: Reservations = {
     user_id: 5,
     share_car_id: 1,
     carport_id: 1,
     share_state: '予約',
-    reserved_at: '2025-01-01 0:00:00',
-    rent_at: '2025-01-11 11:00:00',
+    reserved_at: '2025-01-01T0:00:00',
+    rent_at: '2025-01-20T10:00:00',
     rented_at: null,
-    return_at: '2025-01-11 19:00:00',
+    return_at: '2025-01-20T16:00:00',
     returned_at: null,
     evaluation: null,
     is_refueled: null,
@@ -54,7 +74,7 @@ const TenantCheckRentalData = () => {
     });
     if (response.ok) {
       const jsonResponse = await response.json();
-      alert(jsonResponse.text);
+      console.log(jsonResponse);
     }
   }
 
@@ -89,13 +109,13 @@ const TenantCheckRentalData = () => {
               <br></br>
               <Text>メーカー：</Text>
               <Separator />
-              <Text>車名：</Text>
+              <Text>車名：{rentalData.car_name}</Text>
               <Separator />
-              <Text>タイプ：</Text>
+              <Text>タイプ：{rentalData.car_type}</Text>
               <Separator />
-              <Text>定員：</Text>
+              <Text>定員：{rentalData.car_capacity}</Text>
               <Separator />
-              <Text>貸出料金：</Text>
+              <Text>貸出料金：{rentalData.share_price}</Text>
             </Card>
             <br></br>
             {/*予約日時・金額*/}
@@ -120,14 +140,16 @@ const TenantCheckRentalData = () => {
                   <Text>利用開始日時</Text>
                   <Box
                     sx={{
-                      w: 160,
+                      w: 155,
                       m: 'md',
                       backgroundColor: '#F3F7F7',
                       textAlign: 'center',
                       marginRight: 11,
                     }}
                   >
-                    仮2025-01-17-13-00{' '}
+                    {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
+                    {/*@ts-ignore*/}
+                    {formattedStartDate}
                   </Box>
                 </HStack>
                 <HStack
@@ -140,14 +162,16 @@ const TenantCheckRentalData = () => {
                   <Text>返却予定日時</Text>
                   <Box
                     sx={{
-                      w: 160,
+                      w: 155,
                       m: 'md',
                       backgroundColor: '#F3F7F7',
                       textAlign: 'center',
                       marginRight: 11,
                     }}
                   >
-                    仮2025-01-17-17-00
+                    {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
+                    {/*@ts-ignore*/}
+                    {formattedEndDate}
                   </Box>
                 </HStack>
                 <HStack
@@ -167,7 +191,7 @@ const TenantCheckRentalData = () => {
                         textAlign: 'right',
                       }}
                     >
-                      仮4.0
+                      {hour}
                     </Box>
                     <Text>H</Text>
                   </HStack>
@@ -189,7 +213,7 @@ const TenantCheckRentalData = () => {
                         textAlign: 'right',
                       }}
                     >
-                      仮1320
+                      {price}
                     </Box>
                     <Text>円</Text>
                   </HStack>
@@ -209,7 +233,8 @@ const TenantCheckRentalData = () => {
                 marginRight: '10px',
               }}
               onClick={() => {
-                // navigate('/');
+                //TODO:キャンセル時の遷移先にパラメータを渡す
+                // navigate('/emptyData/:car_port_id/:share_car_id');
               }}
             >
               キャンセル
@@ -224,10 +249,9 @@ const TenantCheckRentalData = () => {
                 marginLeft: '10px',
               }}
               onClick={async () => {
-                //!!!テストデータ挿入のため本番で修正-------
-                //!!!また遷移先ページも本番で指定する
-                await addNewReservation(testData);
-                // navigate('/');
+                //!!!TODO:テスト用予約データのため修正
+                await addNewReservation(submitData);
+                navigate('/tenantCompleteShareData');
               }}
             >
               確定
