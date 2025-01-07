@@ -28,7 +28,7 @@ import { useEffect } from 'react';
 import BorrowDateTable from '../components/BorrowDateTable.tsx';
 import { useSetAtom } from 'jotai/index';
 
-const OwnerDateRegistration = () => {
+const OwnerSelectDay = () => {
   const rentalDays = useAtomValue(rentalDaysAtom);
 
   const setBorrowDate = useSetAtom(borrowDateAtom);
@@ -85,4 +85,4 @@ const OwnerDateRegistration = () => {
   );
 };
 
-export default OwnerDateRegistration;
+export default OwnerSelectDay;
