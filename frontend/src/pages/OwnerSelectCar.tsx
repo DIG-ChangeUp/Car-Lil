@@ -14,18 +14,20 @@ import {
   // userDataAtom,//正規データ用
   selectedCarDataAtom,
   shareDataAtom,
-  // User,//正規データ用
-  Share,
 } from '../components/atom/globalState.ts';
 import { useSetAtom, useAtomValue } from 'jotai';
 
 import { useNavigate } from 'react-router-dom';
+import {
+  IShare,
+  // IUser//正規データ用
+} from '../../globals';
 
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
   const setSelectedCarData = useSetAtom(selectedCarDataAtom);
   // const userData = useAtomValue(userDataAtom);//正規データ用
-  const shareData: Share = useAtomValue(shareDataAtom);
+  const shareData: IShare = useAtomValue(shareDataAtom);
 
   // !!!発表のdemo用データ--------------------
   type Demo = {
@@ -78,7 +80,7 @@ const OwnerSelectCar = () => {
           <Container>
             {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
             {/*@ts-ignore*/}
-            {/*{userData.map((data: User, index: number) => {//正規データ用*/}
+            {/*{userData.map((data: IUser, index: number) => {//正規データ用*/}
             {demoData.map((data: Demo, index: number) => {
               return (
                 <Container key={index + 1}>
@@ -112,8 +114,6 @@ const OwnerSelectCar = () => {
                       backgroundColor="#289FAB"
                       color="#FEFEFE"
                       onClick={() => {
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
                         setSelectedCarData(data);
                         shareData.user_id = data.user_id;
                         shareData.carport_id = data.carport_id;
