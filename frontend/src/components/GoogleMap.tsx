@@ -66,7 +66,8 @@ export default function GoogleMap() {
   }
 
   function handleNavigate() {
-    navigate('/tenantConfirmReservation');
+    // TODO: パスパラメータを修正する
+    navigate('/emptyData/2/2');
   }
 
   const map = useMap();
