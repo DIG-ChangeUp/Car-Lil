@@ -9,6 +9,7 @@ export interface IRentalData {
   car_maker:string ;
   car_name:string ;
   car_type:string ;
+  car_capacity:number ;
   car_image_url1:string ;
   car_image_url2:string ;
   rental_date:Date ;
@@ -25,6 +26,7 @@ export interface ICheckRentalData {
   car_maker:string | undefined  ;
   car_name:string | undefined  ;
   car_type:string | undefined  ;
+  car_capacity:number | undefined  ;
   car_image_url1:string | undefined  ;
   car_image_url2:string | undefined  ;
   start_rental_date:Date | undefined  ;

@@ -4,7 +4,7 @@ import { useSetAtom } from 'jotai';
 import { atomCheckRentalData} from '../atoms/atomRentalTime.ts';
 
 import { Box, Button, Text, Center, HStack, Image, Select, SelectItem, ScrollArea } from '@yamada-ui/react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { ICheckRentalData, IRentalData } from '../../globals';
 import { ITimeZone, TimeBarIndicator } from '../components/TimeBarIndicator.tsx';
@@ -76,6 +76,7 @@ const aryErrorMessages:string[] = [
 
 export function TenantEmptyData() {
   const navigate = useNavigate();
+  const pathParams = useParams();
 
   const setCheckRentalData = useSetAtom(atomCheckRentalData);
 
@@ -88,7 +89,22 @@ export function TenantEmptyData() {
 
   useEffect(() => {
     (async () => {
-      const fetchResult = await fetch(import.meta.env.VITE_ORIGIN_API_URL + '/api/rentalData');
+      const _apiUrl = import.meta.env.VITE_ORIGIN_API_URL + '/api/rentalData';
+
+      const _carPortId = Number(pathParams.car_port_id);
+      const _shareCarId = Number(pathParams.share_car_id);
+      const _sendParams = {
+        method : "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+          car_port_id: _carPortId,
+          share_car_id: _shareCarId
+        })
+      };
+
+      const fetchResult = await fetch(_apiUrl, _sendParams);
       const _resultJSON = await fetchResult.json();
       const _resultRentalData:IRentalData = _resultJSON.data as IRentalData;
 
@@ -235,6 +251,7 @@ export function TenantEmptyData() {
         car_maker: currentRentalData?.car_maker,
         car_name: currentRentalData?.car_name,
         car_type: currentRentalData?.car_type,
+        car_capacity: currentRentalData?.car_capacity,
         car_image_url1: currentRentalData?.car_image_url1,
         car_image_url2: currentRentalData?.car_image_url2,
         start_rental_date: _strTime,
@@ -280,10 +297,16 @@ export function TenantEmptyData() {
             <Text>{currentRentalData?.car_name}</Text>
           </HStack>
 
-          <HStack gap={'0'} mb={'4'} borderBottom={'1px solid #D9D9D9'}>
+          <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
             <Text w={'30%'}>タイプ</Text>
             <Text w={'3%'}>:</Text>
             <Text>{currentRentalData?.car_type}</Text>
+          </HStack>
+
+          <HStack gap={'0'} mb={'2'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>
+            <Text w={'30%'}>乗車定員</Text>
+            <Text w={'3%'}>:</Text>
+            <Text>{currentRentalData?.car_capacity}</Text>
           </HStack>
 
           <HStack gap={'0'} mb={'4'} pb={'1'} borderBottom={'1px solid #D9D9D9'}>

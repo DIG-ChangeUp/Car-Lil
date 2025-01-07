@@ -61,7 +61,7 @@ export default function App() {
 
           {/*テナントページ*/}
           <Route path="/map" element={<Map />} />
-          <Route path="/emptyData" element={<TenantEmptyData />} />
+          <Route path="/emptyData/:car_port_id/:share_car_id" element={<TenantEmptyData />} />
           <Route path="/reservationList" element={<ReservationList />} />
           <Route
             path="/tenantConfirmReservation"

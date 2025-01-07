@@ -43,7 +43,7 @@ function setupServer() {
   app.get('/distance', calcDistance.calcDistance); //テスト用
 
   // MuuSan追加分
-  app.get('/api/rentalData', rentalData.index); //レンタル情報
+  app.post('/api/rentalData', rentalData.index); //レンタル情報
 
   return app;
 }
