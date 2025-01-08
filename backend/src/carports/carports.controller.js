@@ -64,6 +64,8 @@ module.exports = {
       })
     );
 
+    console.log('dataToSend: ', dataToSend);
+
     function ascDistanceSort(a, b) {
       return a > b ? 1 : -1;
     }
