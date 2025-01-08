@@ -12,18 +12,6 @@ import Footer from '../components/Footer.tsx';
 
 const aryWeekday:string[] = ['日','月','火','水','木','金','土'];
 
-const ownerRentalTime:ITimeZone = {
-  strTime: '07:00',
-  endTime: '23:00'
-}
-
-const bookingTime:ITimeZone[] = [
-  {
-    strTime: '13:00',
-    endTime: '20:00'
-  },
-]
-
 const arySelectableHours: SelectItem[] = [
   {label: '--', value: '--'},
   {label: '00', value: '00'},
@@ -64,14 +52,16 @@ const errMsg_01:string = 'レンタル時間をすべて入力してください
 const errMsg_02:string = 'レンタル時間の終了時間が開始時間より前です';
 const errMsg_03:string = 'レンタル時間は最低15分です';
 const errMsg_04:string = '指定時間は貸出可能時間外です';
-const errMsg_05:string = '指定時間は貸出中です';
+const errMsg_05:string = '指定時間内に貸出中の時間が含まれます';
+const errMsg_06:string = '本日は貸出できません';
 
 const aryErrorMessages:string[] = [
   errMsg_01,
   errMsg_02,
   errMsg_03,
   errMsg_04,
-  errMsg_05
+  errMsg_05,
+  errMsg_06
 ]
 
 export function TenantEmptyData() {
@@ -122,7 +112,7 @@ export function TenantEmptyData() {
       setCurrentRentalDate(_currentRentalDate);
       setCurrentRentalData(_resultRentalData);
     })()
-  }, []);
+  }, [pathParams.car_port_id, pathParams.share_car_id]);
 
 
   const [selectStrHours, setSelectStrHours] = useState<string>('--');
@@ -156,6 +146,15 @@ export function TenantEmptyData() {
     checkRentalTimeSetting();
 
     function checkRentalTimeSetting() {
+      const ownerRentalTime:ITimeZone | null | undefined = currentRentalData?.owner_rental_time;
+      const bookingTime:ITimeZone[] | undefined = currentRentalData?.booking_time;
+
+      // 初期エラーチェック
+      if(ownerRentalTime === undefined || bookingTime === undefined || ownerRentalTime === null) {
+        setIsErrorRentalTimeSetting(true);
+        setMsgErrorRentalTimeSetting(aryErrorMessages[6]);
+        return false;
+      }
 
       // レンタル時間未入力チェック
       if(selectStrHours === '--' || selectStrMinutes === '--' || selectEndHours === '--' || selectEndMinutes === '--') {
@@ -169,13 +168,13 @@ export function TenantEmptyData() {
       const endHours = Number(selectEndHours);
       const endMinutes = Number(selectEndMinutes);
 
+      // オーナーが指定した貸出時間内かどうかのチェック
       const strTime = strHours * 60 + strMinutes;
       const endTime = endHours * 60 + endMinutes;
 
       const ownerStrTime = Number(ownerRentalTime.strTime.split(':')[0]) * 60 + Number(ownerRentalTime.strTime.split(':')[1]);
       const ownerEndTime = Number(ownerRentalTime.endTime.split(':')[0]) * 60 + Number(ownerRentalTime.endTime.split(':')[1]);
 
-      // オーナーが指定した貸出時間内かどうかのチェック
       if(strTime < ownerStrTime || ownerEndTime < endTime) {
         setIsErrorRentalTimeSetting(true);
         setMsgErrorRentalTimeSetting(aryErrorMessages[3]);
@@ -183,23 +182,50 @@ export function TenantEmptyData() {
       }
 
       // 予約済み時間帯との重複チェック
+      const _aryReservationTime: number[] = new Array(96).fill(0);
+      const _strIndex = strMinutes / 15 + (strHours * 4);
+      const _endIndex = endMinutes / 15 + (endHours * 4);
+
+      for (let i = 0; i < _aryReservationTime.length; i++) {
+        if(_strIndex <= i && i < _endIndex){
+          _aryReservationTime[i] = 1;
+        }
+      }
+
       for (let i = 0; i < bookingTime.length; i++) {
-        const bookingStrTime = Number(bookingTime[i].strTime.split(':')[0]) * 60 + Number(bookingTime[i].strTime.split(':')[1]);
-        const bookingEndTime = Number(bookingTime[i].endTime.split(':')[0]) * 60 + Number(bookingTime[i].endTime.split(':')[1]);
+        const _bookingTimeZone:ITimeZone = bookingTime[i];
 
-        // 予約開始時間が予約済み開始時間以上の場合
-        let isStrTimeIntoBookingTime:boolean = false;
-        if (bookingStrTime <= strTime && strTime < bookingEndTime) {
-          isStrTimeIntoBookingTime = true;
+        const _srtHours = Number(_bookingTimeZone.strTime.split(':')[0]);
+        const _strMinutes = Number(_bookingTimeZone.strTime.split(':')[1]);
+        const _strBookingIndex = _strMinutes / 15 + (_srtHours * 4);
+
+        const _endHours = Number(_bookingTimeZone.endTime.split(':')[0]);
+        const _endMinutes = Number(_bookingTimeZone.endTime.split(':')[1]);
+        const _endBookingIndex = _endMinutes / 15 + (_endHours * 4);
+
+        const _aryBookingTime: number[] = new Array(96).fill(0);
+
+        for (let j = 0; j < _aryBookingTime.length; j++) {
+          if(_strBookingIndex <= j && j < _endBookingIndex){
+            _aryBookingTime[j] = 1;
+          }
         }
 
-        // 予約開始時間が予約済み終了時間未満の場合
-        let isEndTimeIntoBookingTime:boolean = false;
-        if (bookingStrTime <= endTime && endTime < bookingEndTime) {
-          isEndTimeIntoBookingTime = true;
+        const _aryCheckTime: number[] = new Array(96).fill(0);
+
+        for(let j = 0; j < _aryCheckTime.length; j++) {
+          _aryCheckTime[j] = _aryReservationTime[j] + _aryBookingTime[j];
         }
 
-        if(isStrTimeIntoBookingTime || isEndTimeIntoBookingTime) {
+        let _isOverlap:boolean = false;
+        for(let j = 0; j < _aryCheckTime.length; j++) {
+          if(_aryCheckTime[j] > 1) {
+            _isOverlap = true;
+            break;
+          }
+        }
+
+        if(_isOverlap) {
           setIsErrorRentalTimeSetting(true);
           setMsgErrorRentalTimeSetting(aryErrorMessages[4]);
           return false;
@@ -236,10 +262,10 @@ export function TenantEmptyData() {
       return true;
     }
 
-  }, [selectStrHours, selectStrMinutes, selectEndHours, selectEndMinutes]);
+  }, [selectStrHours, selectStrMinutes, selectEndHours, selectEndMinutes, currentRentalData?.owner_rental_time, currentRentalData?.booking_time]);
 
   function handlerClickCancel() {
-    navigate('/');
+    navigate('/map');
   }
 
   function handlerClickReservation() {
