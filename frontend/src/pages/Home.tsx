@@ -115,7 +115,7 @@ const Home = () => {
   function getGeolocation(): void {
     const options = {
       enableHighAccuracy: false, // 精度の高い位置精度の場合はtrue ただし通信が遅いのでfalseを採用
-      timeout: 3000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
+      timeout: 5000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
       maximumAge: 30000, // 設定ms前までの取得値を利用する
     };
     function success(pos: GeolocationPosition) {
