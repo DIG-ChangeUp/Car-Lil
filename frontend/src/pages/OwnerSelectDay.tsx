@@ -28,7 +28,7 @@ import { useEffect } from 'react';
 import BorrowDateTable from '../components/BorrowDateTable.tsx';
 import { useSetAtom } from 'jotai/index';
 
-const OwnerDateRegistration = () => {
+const OwnerSelectDay = () => {
   const rentalDays = useAtomValue(rentalDaysAtom);
 
   const setBorrowDate = useSetAtom(borrowDateAtom);
@@ -73,7 +73,7 @@ const OwnerDateRegistration = () => {
           <Button
             colorScheme="primary"
             variant="solid"
-            onClick={() => navigate('/selectTime')}
+            onClick={() => navigate('/ownerSelectTime')}
             isDisabled={rentalDays.length < 1}
           >
             時間指定に進む
@@ -85,4 +85,4 @@ const OwnerDateRegistration = () => {
   );
 };
 
-export default OwnerDateRegistration;
+export default OwnerSelectDay;

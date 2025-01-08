@@ -15,7 +15,7 @@ import {
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-const ReservationList = () => {
+const TenantReservedList = () => {
   const [reservationData, setReservationData] = useState<ReservationData[]>([]);
   const navigate = useNavigate();
 
@@ -84,7 +84,7 @@ const ReservationList = () => {
   );
 };
 
-export default ReservationList;
+export default TenantReservedList;
 
 type ReservationData = {
   id: number;
