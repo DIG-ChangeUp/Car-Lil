@@ -61,8 +61,11 @@ export default function GoogleMap() {
   }
 
   function handleNavigate() {
-    // TODO: パスパラメータを修正する
-    navigate('/emptyData/2/2');
+    if (selectInfoWindow) {
+      navigate(
+        `/emptyData/${selectInfoWindow.carport_id}/${selectInfoWindow.carport_id}`
+      );
+    }
   }
 
   const map = useMap();
@@ -96,9 +99,9 @@ export default function GoogleMap() {
         >
           <Flex alignItems="center" gap="3">
             <img
-              src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/surf_Ext.png`}
+              src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${selectInfoWindow.image1}`}
               width={40}
-              height={40}
+              height={30}
               object-fit="cover"
               alt="car_icon"
             />
