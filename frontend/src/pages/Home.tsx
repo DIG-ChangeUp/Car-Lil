@@ -87,6 +87,7 @@ const Home = () => {
   }
 
   async function getCars() {
+    if (!currLocation) return;
     const response = await fetch('/api/allCarports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
