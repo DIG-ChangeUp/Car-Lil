@@ -20,6 +20,8 @@ import { useAtom } from 'jotai';
 import { Button, Container, Flex, Float, Text } from '@yamada-ui/react';
 import { MdNavigation } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
+import { ILocation } from '../../globals';
 
 export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
@@ -28,6 +30,7 @@ export default function GoogleMap() {
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const viewMode = useAtomValue(viewModeAtom);
   const navigate = useNavigate();
+  const map = useMap();
 
   const MIDLAND_POSITION = { lat: 35.1704169, lng: 136.8849973 };
   const position = currLocation ? currLocation : MIDLAND_POSITION;
@@ -51,8 +54,8 @@ export default function GoogleMap() {
         setCurrLocation(latestLocation);
       } else {
         setCurrLocation(latestLocation);
-        map?.panTo({ lat: crd.latitude, lng: crd.longitude });
       }
+      handlePanTo(latestLocation);
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -68,7 +71,16 @@ export default function GoogleMap() {
     }
   }
 
-  const map = useMap();
+  // クリックしたピンをmap中心にする処理
+  const handlePanTo = useCallback(
+    (latestLocation: ILocation) => {
+      if (!map) return;
+      // 一旦閉じてから
+      setIsOpenInfoWindow(false);
+      map.panTo(new google.maps.LatLng(latestLocation.lat, latestLocation.lng));
+    },
+    [map, setIsOpenInfoWindow]
+  );
 
   return (
     <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>
@@ -125,7 +137,7 @@ export default function GoogleMap() {
             fontSize="4xl"
             marginBottom="10"
             transform="rotate(45deg)"
-            bg="black"
+            colorScheme="blackAlpha"
             opacity="0.5"
           >
             <MdNavigation color="white" />
