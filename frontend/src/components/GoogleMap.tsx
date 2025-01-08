@@ -35,10 +35,6 @@ export default function GoogleMap() {
   const MIDLAND_POSITION = { lat: 35.1704169, lng: 136.8849973 };
   const position = currLocation ? currLocation : MIDLAND_POSITION;
 
-  function handleGetGeolocation() {
-    getGeolocation();
-  }
-
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
     const options = {
@@ -130,7 +126,7 @@ export default function GoogleMap() {
       {viewMode === 'map' && (
         <Float offset="xl" placement="end-end">
           <Button
-            onClick={handleGetGeolocation}
+            onClick={getGeolocation}
             rounded="100%"
             width="60px"
             height="60px"
