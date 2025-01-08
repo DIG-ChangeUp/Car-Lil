@@ -21,25 +21,19 @@ const Home = () => {
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
 
   //ユーザーデータを保持
-  const [userData, setUserData] = useAtom(userDataAtom);
+  const setUserData = useSetAtom(userDataAtom);
   const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDiffDistance = useSetAtom(diffDistanceAtom);
 
-  useEffect(() => {
-    checkLogin();
-  }, []);
-
   // ページを開いた時にオーナーとしてのデータを取得
   useEffect(() => {
     (async () => {
+      getGeolocation();
+      await checkLogin();
       await getOwnerData(emailAddress);
     })();
-  }, []);
-
-  useEffect(() => {
-    getGeolocation();
   }, []);
 
   async function fetchUserData(email: string | null) {
@@ -89,7 +83,6 @@ const Home = () => {
     if (response.ok) {
       const jsonResponse = await response.json();
       setUserData(jsonResponse.data);
-      console.log('userData', userData);
     }
   }
 
