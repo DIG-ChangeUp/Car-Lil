@@ -1,4 +1,6 @@
 const carportsModel = require('./carports.model');
+// Google Route APIへのリクエスト数を
+const GOOGLE_ROUTE_API_MAX_REQUEST = 3;
 
 module.exports = {
   //全ユーザデータを取得してレスポンスとして送る
@@ -23,9 +25,13 @@ module.exports = {
 
   async getDistance(req, res) {
     const currentPosition = req.body.currentPosition;
-    const distanceData = await carportsModel.calcDistance(currentPosition); //本番用
-
-    // console.log('distanceData ---->', distanceData);
+    console.log('currentPosition: ', currentPosition);
+    let distanceData = await carportsModel.calcDistance(currentPosition);
+    // Google Route APIへのリクエスト数を制御する
+    // 開発時はstrict modeによって、２回実行されるのでリクエスト数が増えることに注意
+    distanceData = distanceData.filter(
+      (data, i) => i < GOOGLE_ROUTE_API_MAX_REQUEST
+    );
 
     //GoogleAPIへのデータ送信
     async function getRootDistance(calculatedData) {
@@ -50,7 +56,6 @@ module.exports = {
     }
     // GoogleAPIからのレスポンスをクライアントにsendする
     const dataToSend = [];
-    //
     await Promise.all(
       distanceData.map(async (data, _) => {
         const apiResponseData = await getRootDistance(data);
@@ -59,15 +64,19 @@ module.exports = {
       })
     );
 
+    console.log('dataToSend: ', dataToSend);
+
     function ascDistanceSort(a, b) {
       return a > b ? 1 : -1;
     }
-    dataToSend.sort((a, b) =>
+    dataToSend.sort((a, b) => {
+      console.log('a.routes: ', a.routes[0]);
+      console.log('b.routes: ', b.routes[0]);
       ascDistanceSort(
         a.routes[0].legs[0].distance.value,
         b.routes[0].legs[0].distance.value
-      )
-    );
+      );
+    });
     res.status(200).send({ data: dataToSend });
   },
 };

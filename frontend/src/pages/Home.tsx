@@ -4,13 +4,16 @@ import { GrUserAdmin, GrUser } from 'react-icons/gr';
 import {
   userEmailAtom,
   userDataAtom,
+  allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
+  diffDistanceAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import { ILocation } from '../components/atom/globalState.ts';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,8 +22,10 @@ const Home = () => {
 
   //ユーザーデータを保持
   const [userData, setUserData] = useAtom(userDataAtom);
-  const [location, setLocation] = useAtom(locationAtom);
+  const setAllCarPorte = useSetAtom(allCarPorteAtom);
+  const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
+  const setDiffDistance = useSetAtom(diffDistanceAtom);
 
   useEffect(() => {
     checkLogin();
@@ -34,7 +39,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    getGeolocation('first');
+    getGeolocation();
   }, []);
 
   async function fetchUserData(email: string | null) {
@@ -88,6 +93,19 @@ const Home = () => {
     }
   }
 
+  async function getCars() {
+    const response = await fetch('/api/allCarports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPosition: currLocation }),
+    });
+    if (response.ok) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const jsonResponse = await response.json();
+      setAllCarPorte(jsonResponse.data);
+    }
+  }
   //ログアウト
   const handleLogout = async () => {
     try {
@@ -100,24 +118,53 @@ const Home = () => {
   };
 
   //位置情報取得、ステートに保持
-  function getGeolocation(calledTiming: string | null): void {
+  function getGeolocation(): void {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 10,
+      maximumAge: 30000,
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
-      // 不要な routes api の呼び出しを回避するための処理
-      if (!calledTiming) {
-        setPrevLocation(location);
+      const latestLocation = { lat: crd.latitude, lng: crd.longitude };
+      if (currLocation) {
+        setPrevLocation(currLocation);
+        setCurrLocation(latestLocation);
+      } else {
+        setCurrLocation(latestLocation);
       }
-      setLocation({ latitude: crd.latitude, longitude: crd.longitude });
+      calcDistance(currLocation, latestLocation);
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
+  }
+
+  function calcDistance(prev: ILocation | null, latest: ILocation | null) {
+    const R = Math.PI / 180;
+    if (!prev || !latest) return;
+
+    let lat1 = prev.lat;
+    let lat2 = latest.lat;
+    let lng1 = prev.lng;
+    let lng2 = latest.lng;
+    lat1 *= R;
+    lng1 *= R;
+    lat2 *= R;
+    lng2 *= R;
+
+    // 結果は四捨五入された小数点第2位までをmで返す
+    let calcDistance =
+      6371 *
+      Math.acos(
+        Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1) +
+          Math.sin(lat1) * Math.sin(lat2)
+      ) *
+      1000;
+
+    calcDistance = parseFloat(calcDistance.toFixed(2));
+    setDiffDistance(calcDistance);
   }
 
   if (!emailAddress) {
@@ -177,6 +224,7 @@ const Home = () => {
               }}
               onClick={async () => {
                 await fetchUserData(emailAddress);
+                await getCars();
                 navigate('/map');
               }}
             >

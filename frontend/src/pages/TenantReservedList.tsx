@@ -105,8 +105,8 @@ type ReservationData = {
   car_name: string;
   maker: string;
   car_type: string;
-  image_1: string;
-  image_2: string;
+  image1: string;
+  image2: string;
   capacity: number;
   address: string;
   latitude: string;

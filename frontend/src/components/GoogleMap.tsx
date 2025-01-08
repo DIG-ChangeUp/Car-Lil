@@ -24,37 +24,35 @@ import { useNavigate } from 'react-router-dom';
 export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
   const [isOpenInfoWindow, setIsOpenInfoWindow] = useAtom(isOpenInfoWindowAtom);
-  const [location, setLocation] = useAtom(locationAtom);
+  const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const viewMode = useAtomValue(viewModeAtom);
   const navigate = useNavigate();
 
-  type positionType = { lat: number; lng: number };
-
-  const position: positionType = {
-    lat: location.latitude,
-    lng: location.longitude,
-  };
+  const MIDLAND_POSITION = { lat: 35.1704169, lng: 136.8849973 };
+  const position = currLocation ? currLocation : MIDLAND_POSITION;
 
   function handleGetGeolocation() {
-    getGeolocation(null);
+    getGeolocation();
   }
 
   //位置情報取得、ステートに保持
-  function getGeolocation(calledTiming: string | null): void {
+  function getGeolocation(): void {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 0,
+      maximumAge: 30000,
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
-      // 不要な routes api の呼び出しを回避するための処理
-      if (!calledTiming) {
-        setPrevLocation(location);
+      const latestLocation = { lat: crd.latitude, lng: crd.longitude };
+      if (currLocation) {
+        setPrevLocation(currLocation);
+        setCurrLocation(latestLocation);
+      } else {
+        setCurrLocation(latestLocation);
+        map?.panTo({ lat: crd.latitude, lng: crd.longitude });
       }
-      setLocation({ latitude: crd.latitude, longitude: crd.longitude });
-      map?.panTo({ lat: crd.latitude, lng: crd.longitude });
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -101,6 +99,7 @@ export default function GoogleMap() {
               src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/surf_Ext.png`}
               width={40}
               height={40}
+              object-fit="cover"
               alt="car_icon"
             />
             <Text>{selectInfoWindow.car_name}</Text>

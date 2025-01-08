@@ -42,25 +42,17 @@ type borrow = {
   end_at: string;
 };
 
-type Location = {
-  latitude: number;
-  longitude: number;
-};
-export const locationAtom = atom<Location>({
-  latitude: 35.1704169,
-  longitude: 136.8849973,
-});
+export interface ILocation {
+  lat: number;
+  lng: number;
+}
+
+export const locationAtom = atom<ILocation | null>(null);
+export const prevLocationAtom = atom<ILocation | null>(null);
+export const diffDistanceAtom = atom<number | null>(null);
 
 export const selectInfoWindowAtom = atom<AllCarPort | null>(null);
 export const isOpenInfoWindowAtom = atom<boolean>(false);
-type PrevLocation = {
-  latitude: number | null;
-  longitude: number | null;
-};
-export const prevLocationAtom = atom<PrevLocation>({
-  latitude: null,
-  longitude: null,
-});
 
 // mapページの表示切替え
 export const viewModeAtom = atom<'map' | 'list'>('map');
@@ -78,8 +70,8 @@ export type AllCarPort = {
   latitude: string;
   longitude: string;
   maker: string;
-  image_1: string;
-  image_2: string;
+  image1: string;
+  image2: string;
   share_prise: number;
   share_state: string;
   user_id: number;

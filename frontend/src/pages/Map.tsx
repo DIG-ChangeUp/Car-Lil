@@ -8,7 +8,6 @@ import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
 import { useAtom, useSetAtom } from 'jotai/index';
 import {
-  allCarPorteAtom,
   distanceDataAtom,
   locationAtom,
   prevLocationAtom,
@@ -22,21 +21,19 @@ const Map = () => {
   const { user } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
-  const [location, setLocation] = useAtom(locationAtom);
-  const [prevLocation, setPrevLocation] = useAtom(prevLocationAtom);
-  const setAllCarPorte = useSetAtom(allCarPorteAtom);
+  const [currLocation, setCurrLocation] = useAtom(locationAtom);
+  const setPrevLocation = useSetAtom(prevLocationAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
-    if (!user) navigate('/login');
-  }, [user, navigate]); // user または navigate が変更された場合にのみ実行
+    if (!user) navigate('/');
+  }, [user, navigate]);
 
   useEffect(() => {
-    getGeolocation('first');
-    getCars();
+    getGeolocation();
   }, []);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
@@ -45,37 +42,38 @@ const Map = () => {
   async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
     if (mode === 'list') {
-      getGeolocation(null);
-      // 位置情報の変更がなければ、apiへの再取得はしない
-      if (JSON.stringify(location) !== JSON.stringify(prevLocation)) {
-        //位置情報をサーバ側にPOSTでリクエスト、距離データが返る
-        const response = await fetch('/api/distance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ currentPosition: location }),
-        });
-        if (response.ok) {
-          const jsonResponse = await response.json();
-          setDistanceData(jsonResponse.data);
-        }
+      if (distanceData.length >= 1) return;
+
+      const response = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPosition: currLocation }),
+      });
+      if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const jsonResponse = await response.json();
+        setDistanceData(jsonResponse.data);
       }
     }
   }
 
   //位置情報取得、ステートに保持
-  function getGeolocation(calledTiming: string | null): void {
+  function getGeolocation(): void {
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 10,
+      maximumAge: 30000,
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
-      // 不要な routes api の呼び出しを回避するための処理
-      if (!calledTiming) {
-        setPrevLocation(location);
+      const latestLocation = { lat: crd.latitude, lng: crd.longitude };
+      if (currLocation) {
+        setPrevLocation(currLocation);
+        setCurrLocation(latestLocation);
+      } else {
+        setCurrLocation(latestLocation);
       }
-      setLocation({ latitude: crd.latitude, longitude: crd.longitude });
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -83,17 +81,8 @@ const Map = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  async function getCars() {
-    const response = await fetch('/api/allCarports', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: location }),
-    });
-    if (response.ok) {
-      const jsonResponse = await response.json();
-      setAllCarPorte(jsonResponse.data);
-    }
-  }
+  //TODO:Google route api へのリクエストロジック修正が必要
+  const hiddenMode = true;
 
   return (
     <>
@@ -108,41 +97,43 @@ const Map = () => {
               )}
             </Box>
             <Center w="100%">
-              <ButtonGroup
-                variant="outline"
-                w="160px"
-                h="40px"
-                marginTop="3px"
-                // border="solid #c9c9c9 1px"
-                rounded="full"
-                boxShadow="0px 0px 15px -5px #777777"
-                bg="white"
-              >
-                <Button
-                  colorScheme="#289FAB"
-                  w="80px"
+              {hiddenMode ? null : (
+                <ButtonGroup
+                  variant="outline"
+                  w="160px"
                   h="40px"
-                  color={viewMode === 'map' ? 'white' : '#c9c9c9'}
-                  bg={viewMode === 'map' ? '#289FAB' : 'none'}
-                  onClick={() => handleViewModeClick('map')}
-                  border="none"
+                  marginTop="3px"
+                  // border="solid #c9c9c9 1px"
                   rounded="full"
+                  boxShadow="0px 0px 15px -5px #777777"
+                  bg="white"
                 >
-                  Map
-                </Button>
-                <Button
-                  colorScheme="#289FAB"
-                  w="80px"
-                  h="40px"
-                  color={viewMode === 'list' ? 'white' : '#c9c9c9'}
-                  bg={viewMode === 'list' ? '#289FAB' : 'none'}
-                  onClick={() => handleViewModeClick('list')}
-                  border="none"
-                  rounded="full"
-                >
-                  List
-                </Button>
-              </ButtonGroup>
+                  <Button
+                    colorScheme="#289FAB"
+                    w="80px"
+                    h="40px"
+                    color={viewMode === 'map' ? 'white' : '#c9c9c9'}
+                    bg={viewMode === 'map' ? '#289FAB' : 'none'}
+                    onClick={() => handleViewModeClick('map')}
+                    border="none"
+                    rounded="full"
+                  >
+                    Map
+                  </Button>
+                  <Button
+                    colorScheme="#289FAB"
+                    w="80px"
+                    h="40px"
+                    color={viewMode === 'list' ? 'white' : '#c9c9c9'}
+                    bg={viewMode === 'list' ? '#289FAB' : 'none'}
+                    onClick={() => handleViewModeClick('list')}
+                    border="none"
+                    rounded="full"
+                  >
+                    List
+                  </Button>
+                </ButtonGroup>
+              )}
             </Center>
           </ZStack>
         </Center>
