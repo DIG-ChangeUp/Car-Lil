@@ -51,7 +51,6 @@ const Markers = () => {
     (ev: google.maps.MapMouseEvent, carport: IAllCarPort) => {
       if (!map) return;
       if (!ev.latLng) return;
-      console.log('ev.latLng', ev.latLng);
       map.panTo(ev.latLng);
       setSelectInfoWindow(carport);
       // 一旦閉じてから開く
