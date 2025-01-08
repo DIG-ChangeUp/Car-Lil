@@ -12,30 +12,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue } from 'jotai/index';
 import { locationAtom, prevLocationAtom } from './atom/globalState.ts';
+import { IDistanceCardListProps } from '../../globals';
 
-type DistanceCardListProps = {
-  distanceData: DistanceData[];
-};
-
-type DistanceData = {
-  routes: Route[];
-};
-
-type Route = {
-  legs: Leg[];
-};
-
-type Leg = {
-  end_address: string;
-  distance: Distance;
-};
-
-type Distance = {
-  text: string;
-  value: number;
-};
-
-const DistanceCardList: React.FC<DistanceCardListProps> = ({
+const DistanceCardList: React.FC<IDistanceCardListProps> = ({
   distanceData,
 }) => {
   const currLocation = useAtomValue(locationAtom);

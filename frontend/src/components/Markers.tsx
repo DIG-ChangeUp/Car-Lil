@@ -4,11 +4,11 @@ import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import type { Marker } from '@googlemaps/markerclusterer';
 import iconImage from '../assets/icons/map_icon.svg';
 import {
-  AllCarPort,
   allCarPorteAtom,
   isOpenInfoWindowAtom,
   selectInfoWindowAtom,
 } from './atom/globalState.ts';
+import { IAllCarPort } from '../../globals';
 import { useAtomValue, useSetAtom } from 'jotai/index';
 
 const Markers = () => {
@@ -48,7 +48,7 @@ const Markers = () => {
 
   // クリックしたピンをmap中心にする処理
   const handleClick = useCallback(
-    (ev: google.maps.MapMouseEvent, carport: AllCarPort) => {
+    (ev: google.maps.MapMouseEvent, carport: IAllCarPort) => {
       if (!map) return;
       if (!ev.latLng) return;
       map.panTo(ev.latLng);

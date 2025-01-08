@@ -23,6 +23,7 @@ import {
 } from '../components/atom/globalState.ts';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { IRentalDateAndTime } from '../../globals';
 
 const OwnerSelectTime = () => {
   const rentalDays = useAtomValue(rentalDaysAtom);
@@ -42,12 +43,7 @@ const OwnerSelectTime = () => {
   const minutes = ['00', '15', '30', '45'];
 
   function makeRentalData() {
-    type rentalData = {
-      date: string;
-      start_at: string | null;
-      end_at: string | null;
-    };
-    const rentalData: rentalData[] = [];
+    const rentalData: IRentalDateAndTime[] = [];
     rentalDays.forEach((rentalDay) => {
       rentalData.push({
         date: rentalDay,

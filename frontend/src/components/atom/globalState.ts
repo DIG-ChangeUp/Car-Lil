@@ -1,5 +1,14 @@
 import { atom } from 'jotai';
-import { ISelectedCarData, IShare, IUserData } from '../../../globals';
+import {
+  IRentalDateAndTime,
+  ISelectedCarData,
+  IShare,
+  IUserData,
+  IBorrow,
+  IAllCarPort,
+  ILocation,
+  IDistanceData,
+} from '../../../globals';
 
 // export const userDataAtom = atom({ email: '', userId: '' });
 //ユーザーの認証時にemailを保持、shareテーブルに登録するデータを作成
@@ -19,81 +28,18 @@ export const selectedCarDataAtom = atom<ISelectedCarData>({
   car_name: '',
   share_prise: null,
 });
-// オーナーが選択した貸出日の配列
+
 export const rentalDaysAtom = atom<string[]>([]);
-// 貸出登録用
-type RentalDateAndTime = {
-  date: string;
-  start_at: string | null;
-  end_at: string | null;
-};
-export const rentalDateAndTimesAtom = atom<RentalDateAndTime[]>([]);
-export const rentalStartTimeAtom = atom<string | null>('10:00');
-export const rentalEndTimeAtom = atom<string | null>('16:00');
+export const rentalDateAndTimesAtom = atom<IRentalDateAndTime[]>([]);
 
 // オーナー 貸出予定一覧
-export const borrowDateAtom = atom<borrow[] | []>([]);
-type borrow = {
-  id: number;
-  user_id: number;
-  carport_id: number;
-  share_car_id: number;
-  start_at: string;
-  end_at: string;
-};
-
-export interface ILocation {
-  lat: number;
-  lng: number;
-}
+export const borrowDateAtom = atom<IBorrow[] | []>([]);
 
 export const locationAtom = atom<ILocation | null>(null);
 export const prevLocationAtom = atom<ILocation | null>(null);
 export const diffDistanceAtom = atom<number | null>(null);
-
-export const selectInfoWindowAtom = atom<AllCarPort | null>(null);
+export const selectInfoWindowAtom = atom<IAllCarPort | null>(null);
 export const isOpenInfoWindowAtom = atom<boolean>(false);
-
-// mapページの表示切替え
 export const viewModeAtom = atom<'map' | 'list'>('map');
-
-// map pin用
-export type AllCarPort = {
-  address: string;
-  capacity: number;
-  car_id: number;
-  car_name: string;
-  car_type: string;
-  carport_id: number;
-  distance: number;
-  id: number;
-  latitude: string;
-  longitude: string;
-  maker: string;
-  image1: string;
-  image2: string;
-  share_prise: number;
-  share_state: string;
-  user_id: number;
-};
-export const allCarPorteAtom = atom<AllCarPort[]>([]);
-
-// 自分のルート距離リスト google routes api
-type DistanceData = {
-  routes: Route[];
-};
-
-type Route = {
-  legs: Leg[];
-};
-
-type Leg = {
-  end_address: string;
-  distance: Distance;
-};
-
-type Distance = {
-  text: string;
-  value: number;
-};
-export const distanceDataAtom = atom<DistanceData[]>([]);
+export const allCarPorteAtom = atom<IAllCarPort[]>([]);
+export const distanceDataAtom = atom<IDistanceData[]>([]);

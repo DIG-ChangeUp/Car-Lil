@@ -79,3 +79,65 @@ export interface ISelectedCarData {
   car_name: string | '';
   share_prise: number | null;
 }
+
+export interface IRentalDateAndTime {
+  date: string;
+  start_at: string | null;
+  end_at: string | null;
+}
+
+export interface IBorrow {
+  id: number;
+  user_id: number;
+  carport_id: number;
+  share_car_id: number;
+  start_at: string;
+  end_at: string;
+}
+
+export interface IAllCarPort {
+  address: string;
+  capacity: number;
+  car_id: number;
+  car_name: string;
+  car_type: string;
+  carport_id: number;
+  distance: number;
+  id: number;
+  latitude: string;
+  longitude: string;
+  maker: string;
+  image1: string;
+  image2: string;
+  share_prise: number;
+  share_state: string;
+  user_id: number;
+}
+
+export interface ILocation {
+  lat: number;
+  lng: number;
+}
+
+export interface IDistanceCardListProps {
+  distanceData: IDistanceData[];
+}
+
+// ルート距離リスト google routes api
+export interface IDistanceData {
+  routes: IRoute[];
+}
+
+export interface IRoute {
+  legs: ILeg[];
+}
+
+export interface ILeg {
+  end_address: string;
+  distance: IDistance;
+}
+
+export interface IDistance {
+  text: string;
+  value: number;
+}
