@@ -15,17 +15,17 @@ import {
   shareDataAtom,
   rentalDateAndTimesAtom,
   selectedCarDataAtom,
-  Share,
 } from '../components/atom/globalState.ts';
 import { useAtomValue } from 'jotai';
 import dayjs from 'dayjs';
+import { IShare } from '../../globals';
 
 export default function OwnerCheckShareData() {
   const navigate = useNavigate();
   const shareData = useAtomValue(shareDataAtom);
   const selectedCarData = useAtomValue(selectedCarDataAtom);
   const rentalDayAndTimes = useAtomValue(rentalDateAndTimesAtom);
-  const submitData: Share[] = [];
+  const submitData: IShare[] = [];
 
   rentalDayAndTimes.map((singleDay) => {
     return submitData.push({
@@ -36,9 +36,8 @@ export default function OwnerCheckShareData() {
       end_at: `${singleDay.date}T${singleDay.end_at}`,
     });
   });
-  console.log('submitData--------', submitData);
 
-  async function submitShareData(data: Share) {
+  async function submitShareData(data: IShare) {
     const response: Response = await fetch('/api/addNewShareData', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -54,7 +53,7 @@ export default function OwnerCheckShareData() {
   return (
     <>
       <Header isOwnerMode={true} headerTitle={''} />
-      <Container sx={{ h: 'calc(100vh - 180px)' }}>
+      <Container sx={{ h: 'calc(100vh - 180px)', overflow: 'auto' }}>
         <Container>
           <Text
             sx={{
@@ -70,7 +69,6 @@ export default function OwnerCheckShareData() {
             sx={{
               w: 320,
               marginX: 'auto',
-              padding: 3,
               alignItems: 'stretch',
               display: 'flex',
               justifyContent: 'left',
@@ -106,7 +104,8 @@ export default function OwnerCheckShareData() {
             }}
           >
             <Text>車両：{selectedCarData.car_name}</Text>
-            <Text>料金：{selectedCarData.share_prise}</Text>
+
+            <Text>料金：{selectedCarData.share_prise}円/ 15分</Text>
             <Text>開始：{rentalDayAndTimes[0].start_at}</Text>
             <Text>終了：{rentalDayAndTimes[0].end_at}</Text>
           </VStack>
@@ -118,10 +117,10 @@ export default function OwnerCheckShareData() {
             よろしいですか？
           </Text>
           <br></br>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <HStack sx={{ justifyContent: 'center' }}>
             <Button
               sx={{
-                w: 140,
+                w: 150,
                 h: 45,
                 fontSize: 'xl',
                 backgroundColor: '#F4F4F5',
@@ -135,7 +134,7 @@ export default function OwnerCheckShareData() {
             </Button>
             <Button
               sx={{
-                w: 140,
+                w: 150,
                 h: 45,
                 fontSize: 'xl',
                 backgroundColor: '#289FAB',
@@ -153,7 +152,7 @@ export default function OwnerCheckShareData() {
             >
               はい
             </Button>
-          </Box>
+          </HStack>
         </Container>
       </Container>
       <Footer isOwnerMode={true} activeMenu={-1} />

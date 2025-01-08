@@ -68,7 +68,7 @@ const OwnerSelectCar = () => {
       <Container h="calc(100vh - 180px)">
         <Text
           sx={{
-            marginY: 3,
+            marginY: 2,
             fontSize: 'xl',
             fontWeight: 'bold',
             textAlign: 'center',
@@ -86,19 +86,28 @@ const OwnerSelectCar = () => {
                 <Container key={index + 1}>
                   <Card
                     sx={{
-                      padding: '5',
-                      backgroundColor: '#F3F7F7',
+                      padding: '4',
+                      marginX: 'auto',
+                      bg: '#F3F7F7',
                     }}
                   >
                     <Text>{`登録車両 ${index + 1}`}</Text>
-                    <HStack w="180" h="100">
+                    <HStack
+                      sx={{
+                        w: '100%',
+                        h: 100,
+                        justifyContent: 'space-around',
+                        paddingX: 1,
+                        marginY: 2,
+                      }}
+                    >
                       <Image
                         src={`${import.meta.env.VITE_ORIGIN_API_URL}/ownerCarImages/${data.image_1}`}
-                        sx={{ maxWidth: '100%', maxHeight: '100%' }}
+                        sx={{ maxWidth: '48%', maxHeight: '100%' }}
                       />
                       <Image
                         src={`${import.meta.env.VITE_ORIGIN_API_URL}/ownerCarImages/${data.image_2}`}
-                        sx={{ maxWidth: '100%', maxHeight: '100%' }}
+                        sx={{ maxWidth: '48%', maxHeight: '100%' }}
                       />
                     </HStack>
                     <Text>メーカー：{data.maker}</Text>
@@ -111,14 +120,17 @@ const OwnerSelectCar = () => {
                     <Separator />
                     <Text>貸出料金：{data.share_prise}</Text>
                     <Button
-                      backgroundColor="#289FAB"
-                      color="#FEFEFE"
+                      sx={{
+                        bg: '#289FAB',
+                        color: '#FEFEFE',
+                        marginY: 2,
+                      }}
                       onClick={() => {
                         setSelectedCarData(data);
                         shareData.user_id = data.user_id;
                         shareData.carport_id = data.carport_id;
                         shareData.share_car_id = data.share_car_id;
-                        navigate('/calendar');
+                        navigate('/ownerSelectDay');
                       }}
                     >
                       日時選択へ進む
