@@ -1,58 +1,13 @@
 import { atom } from 'jotai';
+import { ISelectedCarData, IShare, IUserData } from '../../../globals';
 
 // export const userDataAtom = atom({ email: '', userId: '' });
 //ユーザーの認証時にemailを保持、shareテーブルに登録するデータを作成
 export const userEmailAtom = atom<string | null>(null);
-// export const shareDataAtom = atom<object>({
-//   user_id: null,
-//   carport_id: null,
-//   share_car_id: null,
-//   start_at: 'string',
-//   end_at: 'string',
-// });
-//ユーザー（オーナーorテナント）に紐づく全てのデータを保持
-export type User = {
-  user_id: number | null;
-  carport_id: number | null;
-  share_car_id: number | null;
-  username: string | '';
-  email: string | '';
-  user_type: string | '';
-  car_name: string | '';
-  maker: string | '';
-  car_type: string | '';
-  capacity: number | null;
-  share_prise: number | null;
-  share_state: string | '';
-  photo_url: string | '';
-  address: string | '';
-  latitude: number | null;
-  longitude: number | null;
-  start_at: string | null;
-  end_at: string | '';
-  reserved_at: string | '';
-  rent_at: string | '';
-  rented_at: string | '';
-  return_at: string | '';
-  returned_at: string | '';
-  evaluation: string | '';
-};
-export interface IUserData {
-  user?: User;
-}
+//ユーザー（オーナー）に紐づく全てのデータを保持
 export const userDataAtom = atom<IUserData[]>([]);
-//shareテーブルに登録するデータ
-export type Share = {
-  user_id: number | null;
-  carport_id: number | null;
-  share_car_id: number | null;
-  start_at: string | '';
-  end_at: string | '';
-};
-export type ShareData = {
-  share?: Share;
-};
-export const shareDataAtom = atom<Share>({
+// shareテーブルに保存するためのデータを保持
+export const shareDataAtom = atom<IShare>({
   user_id: null,
   carport_id: null,
   share_car_id: null,
@@ -60,10 +15,6 @@ export const shareDataAtom = atom<Share>({
   end_at: '',
 });
 //オーナー画面で選択された車両に紐づくデータ
-export interface ISelectedCarData {
-  car_name: string | '';
-  share_prise: number | null;
-}
 export const selectedCarDataAtom = atom<ISelectedCarData>({
   car_name: '',
   share_prise: null,
@@ -127,7 +78,8 @@ export type AllCarPort = {
   latitude: string;
   longitude: string;
   maker: string;
-  photo_url: string;
+  image_1: string;
+  image_2: string;
   share_prise: number;
   share_state: string;
   user_id: number;

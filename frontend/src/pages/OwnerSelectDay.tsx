@@ -73,7 +73,7 @@ const OwnerSelectDay = () => {
           <Button
             colorScheme="primary"
             variant="solid"
-            onClick={() => navigate('/selectTime')}
+            onClick={() => navigate('/ownerSelectTime')}
             isDisabled={rentalDays.length < 1}
           >
             時間指定に進む

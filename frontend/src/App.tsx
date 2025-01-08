@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 
 import OneSignal from 'react-onesignal';
 
-import { OwnerSelectMenu } from './components/OwnerSelectMenu.tsx';
 import { AuthProvider } from './components/AuthContext.tsx';
 
 import OwnerTop from './pages/OwnerTop.tsx';
@@ -23,6 +22,7 @@ import Home from './pages/Home.tsx';
 import TenantReservedList from './pages/TenantReservedList.tsx';
 import TenantCheckRentalData from './pages/TenantCheckRentalData.tsx';
 import { TenantEmptyData } from './pages/TenantEmptyData.tsx';
+import TenantCompleteShareData from './pages/TenantCompleteShareData.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -55,7 +55,6 @@ export default function App() {
           />
           {/*使われていないページ*/}
           <Route path="/ownerTop" element={<OwnerTop />} />
-          <Route path="/ownerSelectMenu" element={<OwnerSelectMenu />} />
           <Route path="/timeBarSample" element={<TimeBarSample />} />
 
           {/*テナントページ*/}
@@ -68,6 +67,10 @@ export default function App() {
           <Route
             path="/tenantCheckRentalData"
             element={<TenantCheckRentalData />}
+          />
+          <Route
+            path="/tenantCompleteShareData"
+            element={<TenantCompleteShareData />}
           />
           {/*Not foundページ*/}
           <Route path="*" element={<NotFound />} />

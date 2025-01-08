@@ -9,15 +9,18 @@ const RESERVATIONS_TABLE = 'reservations';
 module.exports = {
   RESERVATIONS_TABLE,
 
-  async findById(id) {
-    return await db(RESERVATIONS_TABLE).where({ id });
-  },
   async findByEmail(email) {
     return await db(RESERVATIONS_TABLE).where({ email });
   },
+  //!!!発表用にでもテーブルからidでデータを検索
+  async findById(id) {
+    return await db('demo_reservations').where({ id });
+  },
+  //!!!発表用にdemo_reservationsテーブルにデータ挿入---------
   async save(data) {
     const [result] = await db
-      .table(RESERVATIONS_TABLE)
+      // .table(RESERVATIONS_TABLE)
+      .table('demo_reservations')
       .insert(data)
       .returning('*');
     return result;

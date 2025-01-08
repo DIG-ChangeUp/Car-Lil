@@ -151,8 +151,8 @@ const Home = () => {
           >
             <Box
               sx={{
-                w: 44,
-                h: 44,
+                w: 40,
+                h: 40,
                 backgroundColor: '#F3F7F7',
                 paddingTop: 'xl',
                 rounded: 'xl',
@@ -168,8 +168,8 @@ const Home = () => {
             </Box>
             <Box
               sx={{
-                w: '44',
-                h: '44',
+                w: '40',
+                h: '40',
                 backgroundColor: '#F3F7F7',
                 paddingTop: 'xl',
                 rounded: 'xl',
@@ -192,7 +192,7 @@ const Home = () => {
               backgroundColor: '#289FAB',
               color: '#FEFEFE',
               marginX: 'auto',
-              marginY: 160,
+              marginY: 90,
             }}
             onClick={() => handleLogout()}
           >
