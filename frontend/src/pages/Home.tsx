@@ -13,7 +13,7 @@ import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { ILocation } from '../components/atom/globalState.ts';
+import { ILocation } from '../../globals';
 
 const Home = () => {
   const navigate = useNavigate();

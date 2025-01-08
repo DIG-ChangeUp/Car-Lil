@@ -86,7 +86,7 @@ export interface IRentalDateAndTime {
   end_at: string | null;
 }
 
-export interface IBorrow {
+export interface IShareData {
   id: number;
   user_id: number;
   carport_id: number;

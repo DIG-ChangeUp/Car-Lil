@@ -9,10 +9,10 @@ import {
 } from '@yamada-ui/react';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai/index';
-import { borrowDateAtom } from './atom/globalState.ts';
+import { currentShareDataAtom } from './atom/globalState.ts';
 
 const BorrowDateTable = () => {
-  const borrowDate = useAtomValue(borrowDateAtom);
+  const atomCurrentShareData = useAtomValue(currentShareDataAtom);
 
   return (
     <TableContainer>
@@ -27,7 +27,7 @@ const BorrowDateTable = () => {
         </Thead>
 
         <Tbody>
-          {borrowDate.map((borrow) => {
+          {atomCurrentShareData.map((borrow) => {
             return (
               <Tr key={borrow.id}>
                 <Td fontSize="16px">

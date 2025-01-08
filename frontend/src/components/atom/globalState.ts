@@ -4,7 +4,7 @@ import {
   ISelectedCarData,
   IShare,
   IUserData,
-  IBorrow,
+  IShareData,
   IAllCarPort,
   ILocation,
   IDistanceData,
@@ -29,11 +29,11 @@ export const selectedCarDataAtom = atom<ISelectedCarData>({
   share_prise: null,
 });
 
-export const rentalDaysAtom = atom<string[]>([]);
-export const rentalDateAndTimesAtom = atom<IRentalDateAndTime[]>([]);
+export const selectedDateAtom = atom<string[]>([]);
+export const selectedDateAndTimesAtom = atom<IRentalDateAndTime[]>([]);
 
 // オーナー 貸出予定一覧
-export const borrowDateAtom = atom<IBorrow[] | []>([]);
+export const currentShareDataAtom = atom<IShareData[] | []>([]);
 
 export const locationAtom = atom<ILocation | null>(null);
 export const prevLocationAtom = atom<ILocation | null>(null);
