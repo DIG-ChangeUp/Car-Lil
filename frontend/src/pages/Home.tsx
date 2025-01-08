@@ -97,7 +97,7 @@ const Home = () => {
     const response = await fetch('/api/allCarports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: location }),
+      body: JSON.stringify({ currentPosition: currLocation }),
     });
     if (response.ok) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

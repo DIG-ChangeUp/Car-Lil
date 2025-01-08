@@ -10,6 +10,8 @@ import {
 } from '@yamada-ui/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAtomValue } from 'jotai/index';
+import { locationAtom, prevLocationAtom } from './atom/globalState.ts';
 
 type DistanceCardListProps = {
   distanceData: DistanceData[];
@@ -36,12 +38,18 @@ type Distance = {
 const DistanceCardList: React.FC<DistanceCardListProps> = ({
   distanceData,
 }) => {
+  const currLocation = useAtomValue(locationAtom);
+  const prevLocation = useAtomValue(prevLocationAtom);
   const navigate = useNavigate();
 
   function handleNavigate() {
     // TODO: パスパラメータを修正する
     navigate('/emptyData/2/2');
   }
+
+  console.log('distanceData: ', distanceData);
+  console.log('prevLocation: ', prevLocation);
+  console.log('currLocation: ', currLocation);
 
   return (
     <Container marginTop="40px">

@@ -25,6 +25,7 @@ module.exports = {
 
   async getDistance(req, res) {
     const currentPosition = req.body.currentPosition;
+    console.log('currentPosition: ', currentPosition);
     let distanceData = await carportsModel.calcDistance(currentPosition);
     // Google Route APIへのリクエスト数を制御する
     // 開発時はstrict modeによって、２回実行されるのでリクエスト数が増えることに注意
@@ -67,6 +68,8 @@ module.exports = {
       return a > b ? 1 : -1;
     }
     dataToSend.sort((a, b) => {
+      console.log('a.routes: ', a.routes[0]);
+      console.log('b.routes: ', b.routes[0]);
       ascDistanceSort(
         a.routes[0].legs[0].distance.value,
         b.routes[0].legs[0].distance.value

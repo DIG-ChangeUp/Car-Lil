@@ -31,11 +31,7 @@ module.exports = {
           //テーブルに無い列は"?"で仮置き
           `6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(latitude))) AS distance`,
           //仮置きした"?"の順番通りに値を配列で入れる
-          [
-            currentPosition.latitude,
-            currentPosition.longitude,
-            currentPosition.latitude,
-          ]
+          [currentPosition.lat, currentPosition.lng, currentPosition.lat]
         )
       )
       .orderBy('distance', 'asc');

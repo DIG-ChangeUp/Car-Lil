@@ -6,9 +6,8 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 
 import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
-import { useAtom, useAtomValue } from 'jotai/index';
+import { useAtom, useSetAtom } from 'jotai/index';
 import {
-  diffDistanceAtom,
   distanceDataAtom,
   locationAtom,
   prevLocationAtom,
@@ -22,11 +21,8 @@ const Map = () => {
   const { user } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
-  const currLocation = useAtomValue(locationAtom);
-  const prevLocation = useAtomValue(prevLocationAtom);
-  const diffDistance = useAtomValue(diffDistanceAtom);
-
-  const MAX_ROUTE_API_REQUEST = 3;
+  const [currLocation, setCurrLocation] = useAtom(locationAtom);
+  const setPrevLocation = useSetAtom(prevLocationAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -35,21 +31,23 @@ const Map = () => {
   useEffect(() => {
     if (!user) navigate('/');
   }, [user, navigate]);
+
+  useEffect(() => {
+    getGeolocation();
+  }, []);
+
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!user) return null;
 
   async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
     if (mode === 'list') {
-      // Google Route apiへの再取得しないための早期リターン
-      if (JSON.stringify(currLocation) === JSON.stringify(prevLocation)) return;
-      if (diffDistance === null) return;
-      if (diffDistance < MAX_ROUTE_API_REQUEST) return;
+      if (distanceData.length >= 1) return;
 
       const response = await fetch('/api/distance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPosition: location }),
+        body: JSON.stringify({ currentPosition: currLocation }),
       });
       if (response.ok) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -59,6 +57,32 @@ const Map = () => {
       }
     }
   }
+
+  //位置情報取得、ステートに保持
+  function getGeolocation(): void {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 30000,
+    };
+    function success(pos: GeolocationPosition) {
+      const crd = pos.coords;
+      const latestLocation = { lat: crd.latitude, lng: crd.longitude };
+      if (currLocation) {
+        setPrevLocation(currLocation);
+        setCurrLocation(latestLocation);
+      } else {
+        setCurrLocation(latestLocation);
+      }
+    }
+    function error(err: GeolocationPositionError) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  }
+
+  //TODO:Google route api へのリクエストロジック修正が必要
+  const hiddenMode = true;
 
   return (
     <>
@@ -73,41 +97,43 @@ const Map = () => {
               )}
             </Box>
             <Center w="100%">
-              <ButtonGroup
-                variant="outline"
-                w="160px"
-                h="40px"
-                marginTop="3px"
-                // border="solid #c9c9c9 1px"
-                rounded="full"
-                boxShadow="0px 0px 15px -5px #777777"
-                bg="white"
-              >
-                <Button
-                  colorScheme="#289FAB"
-                  w="80px"
+              {hiddenMode ? null : (
+                <ButtonGroup
+                  variant="outline"
+                  w="160px"
                   h="40px"
-                  color={viewMode === 'map' ? 'white' : '#c9c9c9'}
-                  bg={viewMode === 'map' ? '#289FAB' : 'none'}
-                  onClick={() => handleViewModeClick('map')}
-                  border="none"
+                  marginTop="3px"
+                  // border="solid #c9c9c9 1px"
                   rounded="full"
+                  boxShadow="0px 0px 15px -5px #777777"
+                  bg="white"
                 >
-                  Map
-                </Button>
-                <Button
-                  colorScheme="#289FAB"
-                  w="80px"
-                  h="40px"
-                  color={viewMode === 'list' ? 'white' : '#c9c9c9'}
-                  bg={viewMode === 'list' ? '#289FAB' : 'none'}
-                  onClick={() => handleViewModeClick('list')}
-                  border="none"
-                  rounded="full"
-                >
-                  List
-                </Button>
-              </ButtonGroup>
+                  <Button
+                    colorScheme="#289FAB"
+                    w="80px"
+                    h="40px"
+                    color={viewMode === 'map' ? 'white' : '#c9c9c9'}
+                    bg={viewMode === 'map' ? '#289FAB' : 'none'}
+                    onClick={() => handleViewModeClick('map')}
+                    border="none"
+                    rounded="full"
+                  >
+                    Map
+                  </Button>
+                  <Button
+                    colorScheme="#289FAB"
+                    w="80px"
+                    h="40px"
+                    color={viewMode === 'list' ? 'white' : '#c9c9c9'}
+                    bg={viewMode === 'list' ? '#289FAB' : 'none'}
+                    onClick={() => handleViewModeClick('list')}
+                    border="none"
+                    rounded="full"
+                  >
+                    List
+                  </Button>
+                </ButtonGroup>
+              )}
             </Center>
           </ZStack>
         </Center>
