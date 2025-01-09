@@ -56,7 +56,6 @@ const SignUp = () => {
   } = useForm<Data>();
 
   const onSubmit: SubmitHandler<Data> = async (data) => {
-    console.log('submit:', data);
     await handleSingUpSubmit(data);
   };
 
