@@ -32,17 +32,23 @@ const OwnerSelectTime = () => {
   const [startMinutesValue, setStartMinutesValue] = useState<string>('00');
   const [endHourValue, setEndHourValue] = useState<string>('00');
   const [endMinutesValue, setEndMinutesValue] = useState<string>('00');
-  const [isAllTheDay, setIsAllTheDay] = useState<boolean>(false);
+  const [isToggleOn, setIsToggleOn] = useState<boolean>(false);
+  const [validationMsg, setValidationMsg] = useState<string>(
+    '貸出開始と終了の時刻を選択してください'
+  );
   const setAtomSelectedDateAndTimes = useSetAtom(selectedDateAndTimesAtom);
 
   const navigate = useNavigate();
   const { authUser } = UseAuthContext();
 
-  // userが存在しない場合にリダイレクト
+  // userが存在しない場合にリダイレクト+ページを開いた時に
   useEffect(() => {
-    setIsAllTheDay(false);
     if (!authUser) navigate('/login');
   }, [authUser, navigate]);
+  //トグルの状態が変わったタイミングでドロップダウンの時、分を変更
+  useEffect(() => {
+    switchTimesByToggleButton();
+  }, [isToggleOn]);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!authUser) return null;
@@ -52,6 +58,7 @@ const OwnerSelectTime = () => {
   );
   const minutes = ['00', '15', '30', '45'];
 
+  //貸出データの配列を作成
   function makeRentalData() {
     const rentalData: IRentalDateAndTime[] = [];
     atomSelectedDate.forEach((rentalDay) => {
@@ -64,9 +71,9 @@ const OwnerSelectTime = () => {
     setAtomSelectedDateAndTimes(rentalData);
     navigate('/ownerConfirmation');
   }
-
-  function changeTimesByToggleSwitch() {
-    if (isAllTheDay) {
+  //終日設定のトグルボタンのON/OFFでドロップダウンの時、分を切り替え
+  function switchTimesByToggleButton() {
+    if (isToggleOn) {
       setStartHourValue('00');
       setStartMinutesValue('00');
       setEndHourValue('23');
@@ -76,6 +83,27 @@ const OwnerSelectTime = () => {
       setStartMinutesValue('00');
       setEndHourValue('00');
       setEndMinutesValue('00');
+    }
+  }
+
+  function timeValidation(
+    startHr: string,
+    startMin: string,
+    endHr: string,
+    endMin: string
+  ) {
+    const errMsg_01: string = 'レンタル時間の終了時間が開始時間より前です';
+    const errMsg_02: string = 'レンタル時間は最低15分です';
+    const startTime: number = Number(startHr) * 60 + Number(startMin);
+    const endTime: number = Number(endHr) * 60 + Number(endMin);
+    console.log('Start:', startTime, 'End:', endTime);
+    if (startTime > endTime) {
+      setValidationMsg(errMsg_01);
+    } else if (startTime === endTime) {
+      setValidationMsg(errMsg_02);
+    } else {
+      makeRentalData();
+      navigate('/ownerCheckShareData');
     }
   }
 
@@ -118,8 +146,7 @@ const OwnerSelectTime = () => {
                 <Spacer />
                 <Switch
                   onChange={() => {
-                    setIsAllTheDay(!isAllTheDay);
-                    changeTimesByToggleSwitch();
+                    setIsToggleOn(!isToggleOn);
                   }}
                 ></Switch>
               </HStack>
@@ -195,11 +222,23 @@ const OwnerSelectTime = () => {
           </Center>
         </Box>
         <VStack w="100%" h="100px">
+          <Text
+            sx={{
+              textAlign: 'center',
+              color: 'red',
+            }}
+          >
+            {validationMsg}
+          </Text>
           <Button
             marginTop="6"
             onClick={() => {
-              makeRentalData();
-              navigate('/ownerCheckShareData');
+              timeValidation(
+                startHourValue,
+                startMinutesValue,
+                endHourValue,
+                endMinutesValue
+              );
             }}
             sx={{
               bg: '#289FAB',
