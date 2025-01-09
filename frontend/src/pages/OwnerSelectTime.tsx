@@ -94,7 +94,7 @@ const OwnerSelectTime = () => {
   ) {
     const startTime: number = Number(startHr) * 60 + Number(startMin);
     const endTime: number = Number(endHr) * 60 + Number(endMin);
-    if (startTime > endTime)
+    if (startTime > endTime) {
       setValidationMsg('貸出開始時間が終了時間を超過しています');
     } else if (startTime === endTime) {
       setValidationMsg('貸出可能時間は15分以上で設定してください');
