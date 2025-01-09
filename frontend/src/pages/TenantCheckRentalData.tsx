@@ -15,11 +15,22 @@ import { useNavigate } from 'react-router-dom';
 import { atomCheckRentalData } from '../atoms/atomRentalTime.ts';
 import { useAtomValue } from 'jotai';
 import dayjs from 'dayjs';
+import { UseAuthContext } from '../components/AuthContext.tsx';
+import { useEffect } from 'react';
 
 const TenantCheckRentalData = () => {
   const navigate = useNavigate();
-
+  const { authUser } = UseAuthContext();
   const rentalData = useAtomValue(atomCheckRentalData);
+
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
+
   //表示用のデータを準備
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -65,6 +76,7 @@ const TenantCheckRentalData = () => {
     is_refueled: null,
     is_washed: null,
   };
+
   async function addNewReservation(data: Reservations) {
     const response = await fetch('/api/addNewReservation', {
       method: 'POST',

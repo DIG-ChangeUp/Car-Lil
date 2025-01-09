@@ -23,6 +23,7 @@ import {
 } from '../components/TimeBarIndicator.tsx';
 import Footer from '../components/Footer.tsx';
 import Header from '../components/Header.tsx';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const aryWeekday: string[] = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -80,6 +81,8 @@ const aryErrorMessages: string[] = [
 
 export function TenantEmptyData() {
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
+
   const pathParams = useParams();
 
   const setCheckRentalData = useSetAtom(atomCheckRentalData);
@@ -90,6 +93,11 @@ export function TenantEmptyData() {
   const [currentMonth, setCurrentMonth] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState<number>(0);
   const [rentalTime, setRentalTime] = useState<number>(0);
+
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
 
   useEffect(() => {
     (async () => {
@@ -299,6 +307,9 @@ export function TenantEmptyData() {
     currentRentalData?.owner_rental_time,
     currentRentalData?.booking_time,
   ]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   function handlerClickCancel() {
     navigate('/map');

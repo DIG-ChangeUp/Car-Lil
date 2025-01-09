@@ -21,12 +21,23 @@ import {
   IShare,
   // IUser//正規データ用
 } from '../../globals';
+import { useEffect } from 'react';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const OwnerSelectCar = () => {
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
   const setSelectedCarData = useSetAtom(selectedCarDataAtom);
   // const userData = useAtomValue(userDataAtom);//正規データ用
   const shareData: IShare = useAtomValue(shareDataAtom);
+
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   // !!!発表のdemo用データ--------------------
   type Demo = {

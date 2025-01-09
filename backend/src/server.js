@@ -16,7 +16,12 @@ const rentalData = require('./rentalData/rentalData.controller');
 
 function setupServer() {
   const app = express();
-  app.use(cors());
+  const ORIGIN_URL = process.env.VITE_ORIGIN_API_URL;
+  app.use(
+    cors({
+      origin: ORIGIN_URL || '*', // ORIGIN_URL が設定されていなければすべてのオリジンを許可
+    })
+  );
   app.use(express.json());
   app.use('/', express.static(resolve(__dirname, '../dist')));
 

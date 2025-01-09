@@ -79,7 +79,6 @@ const Login = () => {
           <Text fontSize="5xl" fontWeight="extrabold" textAlign="center">
             CAR-LIL
           </Text>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
           <FormControl
             marginTop="6"
             isInvalid={!!errors.email}
@@ -115,6 +114,12 @@ const Login = () => {
               })}
             />
           </FormControl>
+
+          {error && (
+            <p style={{ color: 'red' }}>
+              Emailまたは、Passwordが間違っています
+            </p>
+          )}
 
           <Button type="submit" marginTop="6">
             Login
