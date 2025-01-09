@@ -12,7 +12,6 @@ import {
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
 import { ILocation } from '../../globals';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 
@@ -31,14 +30,17 @@ const Home = () => {
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
-    if (!authUser) navigate('/login');
+    if (!authUser) {
+      navigate('/login');
+    } else {
+      setEmailAddress(authUser.email);
+    }
   }, [authUser, navigate]);
 
   // ページを開いた時にオーナーとしてのデータを取得
   useEffect(() => {
     (async () => {
       getGeolocation();
-      await checkLogin();
       await getOwnerData(emailAddress);
     })();
   }, []);
@@ -70,16 +72,6 @@ const Home = () => {
         }
       }
     }
-  }
-
-  async function checkLogin() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setEmailAddress(user.email);
-      } else {
-        navigate('/login');
-      }
-    });
   }
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
