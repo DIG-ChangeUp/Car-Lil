@@ -33,7 +33,7 @@ export default function OwnerCompleteShareData() {
           </Text>
         </Box>
 
-        <Button h={'4em'} bg={'#289FAB'} color={'white'} onClick={handlerClickTop}>
+        <Button h={'4em'} bg={'#289FAB'} color={'#F4F4F5'} onClick={handlerClickTop}>
           トップへ戻る
         </Button>
 
