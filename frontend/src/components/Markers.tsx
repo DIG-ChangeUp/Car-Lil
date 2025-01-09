@@ -72,7 +72,7 @@ const Markers = () => {
               lat: Number(data.latitude),
               lng: Number(data.longitude),
             }}
-            ref={(marker) => setMarkerRef(marker, data.address)}
+            ref={(marker) => setMarkerRef(marker, data.latitude)}
             clickable={true}
             onClick={(ev) => handleClick(ev, data)}
           >
