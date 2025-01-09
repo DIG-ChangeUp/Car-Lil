@@ -28,9 +28,8 @@ export default function OwnerCompleteShareData() {
       <Header isOwnerMode={false} routePath={'notFound'} headerTitle={''} />
 
       <VStack w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
-
         <Center mt={48} mb={9}>
-          <MdOutlineCheckCircle fontSize="130" color="#289FAB"/>
+          <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
         </Center>
 
         <Box mb={9}>
@@ -41,14 +40,15 @@ export default function OwnerCompleteShareData() {
 
         <Box>
           <Text align={'center'}>
-            MVP開発であるため<br/>実際には登録されません
+            MVP開発であるため
+            <br />
+            実際には登録されません
           </Text>
         </Box>
 
-        <Button h={'4em'} bg={'#289FAB'} color={'#F4F4F5'} onClick={handlerClickTop}>
+        <Button bg={'#289FAB'} color={'#F4F4F5'} onClick={handlerClickTop}>
           トップへ戻る
         </Button>
-
       </VStack>
 
       <Footer isOwnerMode={true} activeMenu={-1} />
