@@ -36,17 +36,14 @@ export default function Footer(props: IFooterSetting) {
     const _aryFooterItems: IFooterItem[] = [];
     if(props.isOwnerMode) {
       _aryFooterItems.push({ labelText: '貸出設定', iconSelector: 0, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '予約状況', iconSelector: 1, menuMode: 'Disabled' });
-      _aryFooterItems.push({ labelText: '車両情報', iconSelector: 2, menuMode: 'Disabled' });
-      _aryFooterItems.push({ labelText: 'バック金額', iconSelector: 3, menuMode: 'Disabled' });
-      _aryFooterItems.push({ labelText: '通知', iconSelector: 4, menuMode: 'Disabled' });
-      _aryFooterItems.push({ labelText: 'その他', iconSelector: 5, menuMode: 'Disabled' });
+      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 1, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 2, menuMode: 'Enabled' });
+
     } else {
-      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 6, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '利用する', iconSelector: 7, menuMode: 'Disabled' });
-      _aryFooterItems.push({ labelText: '予約一覧', iconSelector: 8, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '通知', iconSelector: 9, menuMode: 'Disabled' });
-      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 10, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: '予約', iconSelector: 3, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 4, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 5, menuMode: 'Enabled' });
+
     }
 
     if(props.activeMenu >= 0) _aryFooterItems[props.activeMenu].menuMode = 'Active';
@@ -59,7 +56,7 @@ export default function Footer(props: IFooterSetting) {
     <HStack
       justifyContent="space-between"
       h="80px"
-      paddingX="5"
+      paddingX="15"
       paddingBottom="3"
       fontSize="2xl"
       backgroundColor="#F3F7F7"
