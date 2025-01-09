@@ -15,24 +15,23 @@ import {
   Option,
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { useAtom, useAtomValue } from 'jotai/index';
+import { useAtomValue, useSetAtom } from 'jotai/index';
 import 'dayjs/locale/ja';
 import {
-  rentalDateAndTimesAtom,
-  rentalDaysAtom,
+  selectedDateAndTimesAtom,
+  selectedDateAtom,
 } from '../components/atom/globalState.ts';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { IRentalDateAndTime } from '../../globals';
 
 const OwnerSelectTime = () => {
-  const rentalDays = useAtomValue(rentalDaysAtom);
+  const atomSelectedDate = useAtomValue(selectedDateAtom);
   const [startHourValue, setStartHourValue] = useState<string>('10');
   const [startMinutesValue, setStartMinutesValue] = useState<string>('00');
   const [endHourValue, setEndHourValue] = useState<string>('18');
   const [endMinutesValue, setEndMinutesValue] = useState<string>('00');
-  const [rentalDateAndTimes, setRentalDateAndTimes] = useAtom(
-    rentalDateAndTimesAtom
-  );
+  const setAtomSelectedDateAndTimes = useSetAtom(selectedDateAndTimesAtom);
 
   const navigate = useNavigate();
 
@@ -42,24 +41,17 @@ const OwnerSelectTime = () => {
   const minutes = ['00', '15', '30', '45'];
 
   function makeRentalData() {
-    type rentalData = {
-      date: string;
-      start_at: string | null;
-      end_at: string | null;
-    };
-    const rentalData: rentalData[] = [];
-    rentalDays.forEach((rentalDay) => {
+    const rentalData: IRentalDateAndTime[] = [];
+    atomSelectedDate.forEach((rentalDay) => {
       rentalData.push({
         date: rentalDay,
         start_at: startHourValue + ':' + startMinutesValue,
         end_at: endHourValue + ':' + endMinutesValue,
       });
     });
-    setRentalDateAndTimes(rentalData);
+    setAtomSelectedDateAndTimes(rentalData);
     navigate('/ownerConfirmation');
   }
-
-  console.log('rentalDateAndTimes: ', rentalDateAndTimes);
 
   return (
     <>
@@ -67,7 +59,7 @@ const OwnerSelectTime = () => {
       <Container h="calc(100vh - 180px)" centerContent>
         <Box w="100%" h="calc(100% - 100px)">
           <HStack justifyContent="start" marginTop="6" px="6" h="40px">
-            {rentalDays.map((rentalDay) => {
+            {atomSelectedDate.map((rentalDay) => {
               return (
                 <Box
                   key={rentalDay}

@@ -33,7 +33,7 @@ const aryMoveUrl: string[] = [
   '/timeBarSampling',
   '/map',
   '/timeBarSampling',
-  '/reservationList',
+  '/reservedList',
   '/timeBarSampling',
   '/timeBarSampling',
 ];

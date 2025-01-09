@@ -50,7 +50,7 @@ const OwnerSelectCar = () => {
       carport_id: 1,
       share_car_id: 1,
       user_type: 'オーナー',
-      car_name: 'アクア',
+      car_name: 'ヤリス',
       maker: 'トヨタ',
       car_type: 'コンパクト',
       capacity: 5,

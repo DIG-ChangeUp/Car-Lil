@@ -18,8 +18,8 @@ import {
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
 import {
-  borrowDateAtom,
-  rentalDaysAtom,
+  currentShareDataAtom,
+  selectedDateAtom,
 } from '../components/atom/globalState.ts';
 import { useNavigate } from 'react-router-dom';
 import 'dayjs/locale/ja';
@@ -29,21 +29,17 @@ import BorrowDateTable from '../components/BorrowDateTable.tsx';
 import { useSetAtom } from 'jotai/index';
 
 const OwnerSelectDay = () => {
-  const rentalDays = useAtomValue(rentalDaysAtom);
-
-  const setBorrowDate = useSetAtom(borrowDateAtom);
-
+  const atomSelectedDate = useAtomValue(selectedDateAtom);
+  const setAtomCurrentShareData = useSetAtom(currentShareDataAtom);
   const navigate = useNavigate();
 
-  console.log('rentalDays: ', rentalDays);
-
-  // 🚨🚨🚨🚨🚨 注意！固定のshare_car_idでデータを取得しているので修正が必要！
+  // demo用固定のcar_id で登録
   useEffect(() => {
     (async () => {
       const response = await fetch('/api/share/1');
       if (response.ok) {
         const jsonResponse = await response.json();
-        setBorrowDate(jsonResponse.data);
+        setAtomCurrentShareData(jsonResponse.data);
       }
     })();
   }, []);
@@ -66,7 +62,7 @@ const OwnerSelectDay = () => {
         <VStack w="100%" h="100px">
           <Text
             textAlign="center"
-            color={rentalDays.length > 0 ? 'white' : 'black'}
+            color={atomSelectedDate.length > 0 ? 'white' : 'black'}
           >
             カレンダーから日付を選択してください
           </Text>
@@ -74,7 +70,7 @@ const OwnerSelectDay = () => {
             colorScheme="primary"
             variant="solid"
             onClick={() => navigate('/ownerSelectTime')}
-            isDisabled={rentalDays.length < 1}
+            isDisabled={atomSelectedDate.length < 1}
           >
             時間指定に進む
           </Button>

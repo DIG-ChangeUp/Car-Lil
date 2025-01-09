@@ -13,7 +13,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import {
   shareDataAtom,
-  rentalDateAndTimesAtom,
+  selectedDateAndTimesAtom,
   selectedCarDataAtom,
 } from '../components/atom/globalState.ts';
 import { useAtomValue } from 'jotai';
@@ -24,10 +24,10 @@ export default function OwnerCheckShareData() {
   const navigate = useNavigate();
   const shareData = useAtomValue(shareDataAtom);
   const selectedCarData = useAtomValue(selectedCarDataAtom);
-  const rentalDayAndTimes = useAtomValue(rentalDateAndTimesAtom);
+  const atomSelectedDateAndTime = useAtomValue(selectedDateAndTimesAtom);
   const submitData: IShare[] = [];
 
-  rentalDayAndTimes.map((singleDay) => {
+  atomSelectedDateAndTime.map((singleDay) => {
     return submitData.push({
       user_id: shareData.user_id,
       carport_id: shareData.carport_id,
@@ -74,15 +74,9 @@ export default function OwnerCheckShareData() {
               justifyContent: 'left',
             }}
           >
-            <HStack
-              justifyContent="start"
-              marginTop="6"
-              px="6"
-              h="40px"
-              wrap="wrap"
-              overflow="auto"
-            >
-              {rentalDayAndTimes.map((singleDay, index) => {
+            <HStack justifyContent="start" marginTop="6" px="6" h="40px" wrap="wrap"
+                    overflow="auto">
+              {atomSelectedDateAndTime.map((singleDay, index) => {
                 return (
                   <Box
                     key={index}
@@ -113,8 +107,8 @@ export default function OwnerCheckShareData() {
             <Text>車両：{selectedCarData.car_name}</Text>
 
             <Text>料金：{selectedCarData.share_prise}円/ 15分</Text>
-            <Text>開始：{rentalDayAndTimes[0].start_at}</Text>
-            <Text>終了：{rentalDayAndTimes[0].end_at}</Text>
+            <Text>開始：{atomSelectedDateAndTime[0].start_at}</Text>
+            <Text>終了：{atomSelectedDateAndTime[0].end_at}</Text>
           </VStack>
         </Container>
         <Container sx={{ textAlign: 'center' }}>

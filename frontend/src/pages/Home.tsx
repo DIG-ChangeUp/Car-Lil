@@ -13,7 +13,7 @@ import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { ILocation } from '../components/atom/globalState.ts';
+import { ILocation } from '../../globals';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -114,9 +114,9 @@ const Home = () => {
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
     const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 30000,
+      enableHighAccuracy: false, // 精度の高い位置精度の場合はtrue ただし通信が遅いのでfalseを採用
+      timeout: 5000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
+      maximumAge: 30000, // 設定ms前までの取得値を利用する
     };
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;

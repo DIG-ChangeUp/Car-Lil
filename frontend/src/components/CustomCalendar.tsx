@@ -8,16 +8,15 @@ dayjs.extend(utc);
 // timezoneプラグインを読み込み
 dayjs.extend(timezone);
 import { useAtomValue, useSetAtom } from 'jotai/index';
-import { borrowDateAtom, rentalDaysAtom } from './atom/globalState.ts';
+import { currentShareDataAtom, selectedDateAtom } from './atom/globalState.ts';
 
 const CustomCalendar = () => {
-  const setRentalDays = useSetAtom(rentalDaysAtom);
-  const borrowDate = useAtomValue(borrowDateAtom);
+  const setAtomSelectedDate = useSetAtom(selectedDateAtom);
+  const atomCurrentShareData = useAtomValue(currentShareDataAtom);
   const borrows: string[] = [];
-  borrowDate.forEach((borrow) => {
+  atomCurrentShareData.forEach((borrow) => {
     borrows.push(dayjs(borrow.start_at).tz('Asia/Tokyo').format('YYYY-MM-DD'));
   });
-  console.log('borrows: ', borrows);
 
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
@@ -44,7 +43,7 @@ const CustomCalendar = () => {
     });
 
     formattedDays.sort((a: string, b: string) => descTimeSort(a, b));
-    setRentalDays(formattedDays);
+    setAtomSelectedDate(formattedDays);
   }
 
   return (
