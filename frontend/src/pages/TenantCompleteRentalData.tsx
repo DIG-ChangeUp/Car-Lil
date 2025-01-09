@@ -15,7 +15,7 @@ export default function TenantCompleteRentalData() {
     <>
       <Header isOwnerMode={false} routePath={''} headerTitle={''} />
 
-      <VStack w={'100%'} h="calc(100vh - 180px)" px={'6'} py={'2'}>
+      <VStack w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
         <Center mt={48} mb={9}>
           <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
         </Center>
