@@ -91,8 +91,8 @@ const TenantCheckRentalData = () => {
 
   return (
     <>
-      <Header isOwnerMode={false} headerTitle={'予約確定'} />
-      <Container h="calc(100vh - 180px)" overflow={'auto'}>
+      <Header isOwnerMode={false} routePath={''} headerTitle={'予約確定'} />
+      <Container h="calc(100vh - 130px)" overflow={'auto'}>
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>
           {rentalData.carport_address}
         </Text>
@@ -146,7 +146,8 @@ const TenantCheckRentalData = () => {
               sx={{
                 h: 186,
                 padding: 3,
-                fontSize: 'sm',
+                fontSize: 'xs',
+
                 backgroundColor: '#FFFFFF',
               }}
             >
@@ -161,10 +162,10 @@ const TenantCheckRentalData = () => {
                   <Text>利用開始日時</Text>
                   <Text
                     sx={{
-                      w: 155,
+                      w: 115,
                       m: 'md',
                       backgroundColor: '#F3F7F7',
-                      textAlign: 'center',
+                      textAlign: 'right',
                       marginRight: 11,
                     }}
                   >
@@ -181,10 +182,10 @@ const TenantCheckRentalData = () => {
                   <Text>返却予定日時</Text>
                   <Text
                     sx={{
-                      w: 155,
+                      w: 115,
                       m: 'md',
                       backgroundColor: '#F3F7F7',
-                      textAlign: 'center',
+                      textAlign: 'right',
                       marginRight: 11,
                     }}
                   >
@@ -268,7 +269,7 @@ const TenantCheckRentalData = () => {
               }}
               onClick={async () => {
                 await addNewReservation(submitData);
-                navigate('/tenantCompleteShareData');
+                navigate('/tenantCompleteRentalData');
               }}
             >
               確定

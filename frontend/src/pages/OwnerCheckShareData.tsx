@@ -63,8 +63,12 @@ export default function OwnerCheckShareData() {
 
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
-      <Container sx={{ h: 'calc(100vh - 180px)', overflow: 'auto' }}>
+      <Header
+        isOwnerMode={true}
+        routePath={'ownerSelectTime'}
+        headerTitle={''}
+      />
+      <Container sx={{ h: 'calc(100vh - 130px)', overflow: 'auto' }}>
         <Container>
           <Text
             sx={{

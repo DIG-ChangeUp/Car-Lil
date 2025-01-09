@@ -1,38 +1,47 @@
 import { MdOutlineArrowBackIos } from 'react-icons/md';
 import { Box, Container, Text } from '@yamada-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   isOwnerMode: boolean;
+  routePath: string | '';
   headerTitle: string | '';
 }
 
 // ヘッダーのpropsの説明
-// ・isOwnerMode:オーナー画面の時は true 、テナント画面の時は false を入れる
-// ・headerTitle:オーナー画面の時は '' 、テナント画面の時は 'ヘッダーのタイトルの文字列' を入れる
+// ・isOwnerMode:オーナー画面の時は true を、テナント画面の時は false を入れる
+// ・isOwnerMode:オーナー画面の時は navigate先のパスの文字列 を 、テナント画面の時は '' を入れる
+// ・headerTitle:オーナー画面の時は '' を、テナント画面の時は 'ヘッダーのタイトルの文字列' を入れる
 
-export default function Header({ isOwnerMode, headerTitle }: HeaderProps) {
+export default function Header({
+  isOwnerMode,
+  routePath,
+  headerTitle,
+}: HeaderProps) {
+  const navigate = useNavigate();
   return (
     <>
-      {isOwnerMode ? (
-        <Container h="100px" backgroundColor="#F3F7F7">
-          <Box fontSize="2xl" sx={{ paddingTop: '35' }}>
-            <MdOutlineArrowBackIos />
+      <Container
+        h="50px"
+        backgroundColor="#F3F7F7"
+        borderBottom="1px solid #D9D9D9"
+      >
+        {isOwnerMode ? (
+          <Box fontSize="2xl">
+            <MdOutlineArrowBackIos onClick={() => navigate(`/${routePath}`)} />
           </Box>
-        </Container>
-      ) : (
-        <Container h="100px" backgroundColor="#F3F7F7">
+        ) : (
           <Text
             sx={{
-              fontSize: '2xl',
+              fontSize: 'xl',
               fontWeight: 'bold',
               textAlign: 'center',
-              paddingTop: 'lg',
             }}
           >
             {headerTitle}
           </Text>
-        </Container>
-      )}
+        )}
+      </Container>
     </>
   );
 }

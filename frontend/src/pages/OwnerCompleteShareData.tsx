@@ -1,6 +1,6 @@
 import Header from '../components/Header.tsx';
 import Footer from '../components/Footer.tsx';
-import { Box, Button, Container, Text } from '@yamada-ui/react';
+import { Box, Button, Center, Text, VStack } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -8,6 +8,11 @@ import { UseAuthContext } from '../components/AuthContext.tsx';
 
 export default function OwnerCompleteShareData() {
   const navigate = useNavigate();
+
+  function handlerClickTop() {
+    navigate('/ownerSelectDay');
+  }
+
   const { authUser } = UseAuthContext();
 
   // userが存在しない場合にリダイレクト
@@ -20,40 +25,32 @@ export default function OwnerCompleteShareData() {
 
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
-      <Container
-        sx={{
-          h: 'calc(100vh - 180px)',
-          textAlign: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Box>
-          <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
-          <br></br>
-          <br></br>
-          <Text fontWeight="bold">貸出日設定が完了しました</Text>
-          <br></br>
-          <br></br>
-          <br></br>
+      <Header isOwnerMode={false} routePath={'notFound'} headerTitle={''} />
 
-          <Button
-            sx={{
-              w: '230',
-              h: '55',
-              fontSize: '2xl',
-              backgroundColor: '#289FAB',
-              color: '#FEFEFE',
-            }}
-            onClick={() => {
-              navigate('/');
-            }}
-          >
-            トップへ戻る
-          </Button>
+      <VStack w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
+
+        <Center mt={48} mb={9}>
+          <MdOutlineCheckCircle fontSize="130" color="#289FAB"/>
+        </Center>
+
+        <Box mb={9}>
+          <Text fontWeight="bold" align={'center'}>
+            貸出日登録が完了しました
+          </Text>
         </Box>
-      </Container>
+
+        <Box>
+          <Text align={'center'}>
+            MVP開発であるため<br/>実際には登録されません
+          </Text>
+        </Box>
+
+        <Button h={'4em'} bg={'#289FAB'} color={'#F4F4F5'} onClick={handlerClickTop}>
+          トップへ戻る
+        </Button>
+
+      </VStack>
+
       <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );

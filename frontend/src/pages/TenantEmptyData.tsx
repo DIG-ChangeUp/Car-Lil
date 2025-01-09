@@ -22,6 +22,7 @@ import {
   TimeBarIndicator,
 } from '../components/TimeBarIndicator.tsx';
 import Footer from '../components/Footer.tsx';
+import Header from '../components/Header.tsx';
 import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const aryWeekday: string[] = ['日', '月', '火', '水', '木', '金', '土'];
@@ -361,15 +362,9 @@ export function TenantEmptyData() {
 
   return (
     <>
-      <Box bg={'#F3F7F7'} w={'100%'} pt={'8'} pb={6}>
-        <Center>
-          <Text as={'h1'} fontSize={'18px'} fontWeight={'bolder'}>
-            空き状況確認
-          </Text>
-        </Center>
-      </Box>
+      <Header isOwnerMode={false} routePath={''} headerTitle={'空き状況確認'} />
 
-      <ScrollArea w={'100%'} h="calc(100vh - 180px)" px={'6'} py={'2'}>
+      <ScrollArea w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>
           {currentRentalData?.carport_address}
         </Text>

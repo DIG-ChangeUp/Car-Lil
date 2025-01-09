@@ -36,10 +36,10 @@ export default function Footer(props: IFooterSetting) {
     const _aryFooterItems: IFooterItem[] = [];
     if(props.isOwnerMode) {
       _aryFooterItems.push({ labelText: '貸出設定', iconSelector: 0, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '予約状況', iconSelector: 1, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '車両情報', iconSelector: 2, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'バック金額', iconSelector: 3, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '通知', iconSelector: 4, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: '予約状況', iconSelector: 1, menuMode: 'Disabled' });
+      _aryFooterItems.push({ labelText: '車両情報', iconSelector: 2, menuMode: 'Disabled' });
+      _aryFooterItems.push({ labelText: 'バック金額', iconSelector: 3, menuMode: 'Disabled' });
+      _aryFooterItems.push({ labelText: '通知', iconSelector: 4, menuMode: 'Disabled' });
       _aryFooterItems.push({ labelText: 'その他', iconSelector: 5, menuMode: 'Disabled' });
     } else {
       _aryFooterItems.push({ labelText: 'TOP', iconSelector: 6, menuMode: 'Enabled' });
