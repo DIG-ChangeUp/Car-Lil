@@ -88,7 +88,14 @@ const OwnerSelectTime = () => {
       />
       <Container h="calc(100vh - 130px)" centerContent>
         <Box w="100%" h="calc(100% - 100px)">
-          <HStack justifyContent="start" marginTop="6" px="6" h="40px">
+          <HStack
+            justifyContent="start"
+            marginTop="6"
+            px="6"
+            h="80px"
+            wrap="wrap"
+            overflow="auto"
+          >
             {atomSelectedDate.map((rentalDay) => {
               return (
                 <Box
@@ -194,12 +201,16 @@ const OwnerSelectTime = () => {
               makeRentalData();
               navigate('/ownerCheckShareData');
             }}
+            sx={{
+              bg: '#289FAB',
+              color: '#FEFEFE',
+            }}
           >
             確認画面に進む
           </Button>
         </VStack>
       </Container>
-      <Footer isOwnerMode={true} activeMenu={-1} />
+      <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );
 };

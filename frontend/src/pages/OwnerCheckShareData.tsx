@@ -93,7 +93,7 @@ export default function OwnerCheckShareData() {
               justifyContent="start"
               marginTop="6"
               px="6"
-              h="40px"
+              h="80px"
               wrap="wrap"
               overflow="auto"
             >
@@ -144,7 +144,7 @@ export default function OwnerCheckShareData() {
                 w: 170,
                 h: 45,
                 fontSize: 'xl',
-                backgroundColor: '#F4F4F5',
+                bg: '#F4F4F5',
                 marginX: '3px',
               }}
               onClick={() => {
@@ -176,7 +176,7 @@ export default function OwnerCheckShareData() {
           </HStack>
         </Container>
       </Container>
-      <Footer isOwnerMode={true} activeMenu={-1} />
+      <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );
 }
