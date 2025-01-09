@@ -49,7 +49,7 @@ const CustomCalendar = () => {
   return (
     <>
       <Calendar
-        colorScheme={'green'}
+        colorScheme={'primary'}
         locale="ja"
         dateFormat="YYYY年 MM月"
         fontSize="1xl"
@@ -79,7 +79,13 @@ const CustomCalendar = () => {
                 {date.getDate()}
                 <Float offset={['7', '0']} placement="start-center">
                   {borrows.includes(dayjs(date).format('YYYY-MM-DD')) && (
-                    <Box w="1" py="1" px="1" bg="gray.200" rounded="full"></Box>
+                    <Box
+                      w="1"
+                      py="1"
+                      px="1"
+                      bg="car_lil.500"
+                      rounded="full"
+                    ></Box>
                   )}
                 </Float>
               </Center>
