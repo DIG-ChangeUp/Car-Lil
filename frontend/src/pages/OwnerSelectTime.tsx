@@ -33,9 +33,8 @@ const OwnerSelectTime = () => {
   const [endHourValue, setEndHourValue] = useState<string>('00');
   const [endMinutesValue, setEndMinutesValue] = useState<string>('00');
   const [isToggleOn, setIsToggleOn] = useState<boolean>(false);
-  const [validationMsg, setValidationMsg] = useState<string>(
-    '貸出開始と終了の時刻を選択してください'
-  );
+  const [validationMsg, setValidationMsg] = useState<string>('');
+  const [fontColor, setFontColor] = useState<string>('#0C0C0C');
   const setAtomSelectedDateAndTimes = useSetAtom(selectedDateAndTimesAtom);
 
   const navigate = useNavigate();
@@ -49,6 +48,15 @@ const OwnerSelectTime = () => {
   useEffect(() => {
     switchTimesByToggleButton();
   }, [isToggleOn]);
+
+  useEffect(() => {
+    timeValidation(
+      startHourValue,
+      startMinutesValue,
+      endHourValue,
+      endMinutesValue
+    );
+  }, [startHourValue, startMinutesValue, endHourValue, endMinutesValue]);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!authUser) return null;
@@ -92,15 +100,30 @@ const OwnerSelectTime = () => {
     endHr: string,
     endMin: string
   ) {
+    const defaultMessage: string = '貸出開始と終了の時刻を選択してください';
+    const errorMessage1: string = '貸出開始時間が終了時間を超過しています';
+    const errorMessage2: string = '貸出可能時間は15分以上で設定してください';
+    const registrableMessage: string = '指定の時間で登録可能です';
+
     const startTime: number = Number(startHr) * 60 + Number(startMin);
     const endTime: number = Number(endHr) * 60 + Number(endMin);
-    if (startTime > endTime) {
-      setValidationMsg('貸出開始時間が終了時間を超過しています');
+
+    //時刻未選択または全て00の場合
+    if (!startTime && !endTime) {
+      setFontColor('#0C0C0C');
+      setValidationMsg(defaultMessage);
+      //開始時刻が終了時刻を超過している場合
+    } else if (startTime > endTime) {
+      setFontColor('#FF0404');
+      setValidationMsg(errorMessage1);
+      //開始時刻と終了時刻が同じ場合
     } else if (startTime === endTime) {
-      setValidationMsg('貸出可能時間は15分以上で設定してください');
+      setFontColor('#FF0404');
+      setValidationMsg(errorMessage2);
+      //登録可能な時刻の場合
     } else {
-      makeRentalData();
-      navigate('/ownerCheckShareData');
+      setFontColor('#289FAB');
+      setValidationMsg(registrableMessage);
     }
   }
 
@@ -222,7 +245,7 @@ const OwnerSelectTime = () => {
           <Text
             sx={{
               textAlign: 'center',
-              color: 'red',
+              color: fontColor,
             }}
           >
             {validationMsg}
@@ -230,12 +253,10 @@ const OwnerSelectTime = () => {
           <Button
             marginTop="6"
             onClick={() => {
-              timeValidation(
-                startHourValue,
-                startMinutesValue,
-                endHourValue,
-                endMinutesValue
-              );
+              if (validationMsg === '指定の時間で登録可能です') {
+                makeRentalData();
+                navigate('/ownerCheckShareData');
+              }
             }}
             sx={{
               bg: '#289FAB',
