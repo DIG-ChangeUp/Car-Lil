@@ -18,7 +18,9 @@ cars {
     string car_name "車名"
     string maker "メーカー"
     string car_type "車種区分"
-    string photo_url "車両画像URL"
+    string image1 "車両画像URLその１（外装）"
+    string image2 "車両画像URLその２（内装）"
+    string capacity "乗車定員"
 }
 
 carports {
@@ -70,6 +72,31 @@ requests {
     float longitude "経度"
     string message "リクエスト時のメッセージ"
     timestamp created_at "リクエスト作成日時"
+}
+
+demo_reservations {
+    increments id PK "予約（〜貸出、返却）情報ID"
+    integer user_id FK "ユーザーID"
+    integer share_car_id FK "シェアカーID"
+    integer carport_id FK "駐車場ID"
+    string share_state "シェア状態…予約、貸出、返却"
+    timestamp reserved_at "予約された日時"
+    timestamp rent_at "借りる予定日時"
+    timestamp rented_at "実際に借り始めた日時"
+    timestamp return_at "返却予定日時"
+    timestamp returned_at "返却完了日時"
+    string evaluation "評価…良かった、悪かった、評価しない"
+    boolean is_refueled "給油されたか"
+    boolean is_washed "洗車されたか"
+}
+
+demo_share {
+    increments id PK "オーナー側のシェア情報ID"
+    integer user_id FK "ユーザーID"
+    integer carport_id FK "駐車場ID"
+    integer share_car_id FK "シェアカーID"
+    timestamp start_at "貸し出せる時間帯の始まりの日時"
+    timestamp end_at "貸し出せる時間帯の終わりの日時"
 }
 
 users ||--o{ carports : "一人のユーザーは、0以上の駐車場を持つ"
