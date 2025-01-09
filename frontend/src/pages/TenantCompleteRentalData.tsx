@@ -23,13 +23,13 @@ export default function TenantCompleteRentalData() {
 
         <Box mb={9}>
           <Text fontWeight="bold" align={'center'}>
-            レンタル予約が完了しました。
+            レンタル予約が完了しました
           </Text>
         </Box>
 
         <Box>
           <Text align={'center'}>
-            MVP開発であるため<br/>実際には予約はされません。
+            MVP開発であるため<br/>実際には予約はされません
           </Text>
         </Box>
 

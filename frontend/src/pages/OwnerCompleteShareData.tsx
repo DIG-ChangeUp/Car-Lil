@@ -23,13 +23,13 @@ export default function OwnerCompleteShareData() {
 
         <Box mb={9}>
           <Text fontWeight="bold" align={'center'}>
-            貸出日登録が完了しました。
+            貸出日登録が完了しました
           </Text>
         </Box>
 
         <Box>
           <Text align={'center'}>
-            MVP開発であるため<br/>実際には登録されません。
+            MVP開発であるため<br/>実際には登録されません
           </Text>
         </Box>
 
