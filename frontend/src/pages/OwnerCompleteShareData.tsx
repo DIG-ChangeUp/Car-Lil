@@ -3,9 +3,21 @@ import Footer from '../components/Footer.tsx';
 import { Box, Button, Container, Text } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 export default function OwnerCompleteShareData() {
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
+
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
+
   return (
     <>
       <Header isOwnerMode={true} headerTitle={''} />

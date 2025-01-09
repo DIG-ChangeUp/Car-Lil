@@ -14,9 +14,11 @@ import { auth } from '../components/auth/firebase.ts';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ILocation } from '../../globals';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
 
@@ -27,6 +29,11 @@ const Home = () => {
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDiffDistance = useSetAtom(diffDistanceAtom);
 
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
+
   // ページを開いた時にオーナーとしてのデータを取得
   useEffect(() => {
     (async () => {
@@ -35,6 +42,9 @@ const Home = () => {
       await getOwnerData(emailAddress);
     })();
   }, []);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   async function fetchUserData(email: string | null) {
     if (!email) return;

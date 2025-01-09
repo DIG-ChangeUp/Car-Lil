@@ -27,22 +27,31 @@ import CustomCalendar from '../components/CustomCalendar.tsx';
 import { useEffect } from 'react';
 import BorrowDateTable from '../components/BorrowDateTable.tsx';
 import { useSetAtom } from 'jotai/index';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const OwnerSelectDay = () => {
   const atomSelectedDate = useAtomValue(selectedDateAtom);
   const setAtomCurrentShareData = useSetAtom(currentShareDataAtom);
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
 
   // demo用固定のcar_id で登録
   useEffect(() => {
-    (async () => {
-      const response = await fetch('/api/share/1');
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        setAtomCurrentShareData(jsonResponse.data);
-      }
-    })();
-  }, []);
+    if (!authUser) {
+      navigate('/login');
+    } else {
+      (async () => {
+        const response = await fetch('/api/share/1');
+        if (response.ok) {
+          const jsonResponse = await response.json();
+          setAtomCurrentShareData(jsonResponse.data);
+        }
+      })();
+    }
+  }, [authUser, navigate]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   return (
     <>

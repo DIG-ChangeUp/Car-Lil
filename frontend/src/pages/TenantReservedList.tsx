@@ -14,22 +14,29 @@ import {
   VStack,
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const TenantReservedList = () => {
   const [reservationData, setReservationData] = useState<ReservationData[]>([]);
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
 
   useEffect(() => {
-    async function getReservationData() {
-      const response = await fetch('/api/reservations/tenant/2');
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        setReservationData(jsonResponse.data);
-      }
+    if (!authUser) {
+      navigate('/login');
+    } else {
+      (async () => {
+        const response = await fetch('/api/reservations/tenant/2');
+        if (response.ok) {
+          const jsonResponse = await response.json();
+          setReservationData(jsonResponse.data);
+        }
+      })();
     }
-    getReservationData();
   }, []);
-  console.log('getReservationData: ', reservationData);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   return (
     <>

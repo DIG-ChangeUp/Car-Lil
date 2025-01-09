@@ -22,8 +22,9 @@ import {
   selectedDateAtom,
 } from '../components/atom/globalState.ts';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IRentalDateAndTime } from '../../globals';
+import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const OwnerSelectTime = () => {
   const atomSelectedDate = useAtomValue(selectedDateAtom);
@@ -34,6 +35,15 @@ const OwnerSelectTime = () => {
   const setAtomSelectedDateAndTimes = useSetAtom(selectedDateAndTimesAtom);
 
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
+
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   const hours = Array.from({ length: 24 }, (_, i) =>
     String(i).padStart(2, '0')

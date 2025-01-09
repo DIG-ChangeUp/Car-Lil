@@ -9,7 +9,7 @@ import { auth } from './auth/firebase';
 import { User as FirebaseUser } from 'firebase/auth'; // Firebase の User 型をインポート
 
 interface AuthContextType {
-  user: FirebaseUser | null;
+  authUser: FirebaseUser | null;
   loading: boolean;
 }
 
@@ -28,14 +28,14 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // Firebase Auth の状態変化を監視
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       //console.log(currentUser);
-      setUser(currentUser);
+      setAuthUser(currentUser);
       setLoading(false);
     });
 
@@ -46,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const value: AuthContextType = {
-    user,
+    authUser,
     loading,
   };
   if (loading) {

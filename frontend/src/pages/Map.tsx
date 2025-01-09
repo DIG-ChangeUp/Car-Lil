@@ -18,7 +18,7 @@ import DistanceCardList from '../components/DistanceCardList.tsx';
 
 const Map = () => {
   const navigate = useNavigate();
-  const { user } = UseAuthContext();
+  const { authUser } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
@@ -29,15 +29,15 @@ const Map = () => {
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
-    if (!user) navigate('/');
-  }, [user, navigate]);
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
 
   useEffect(() => {
     getGeolocation();
   }, []);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
-  if (!user) return null;
+  if (!authUser) return null;
 
   async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);

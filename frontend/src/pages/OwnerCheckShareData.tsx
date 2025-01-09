@@ -19,13 +19,24 @@ import {
 import { useAtomValue } from 'jotai';
 import dayjs from 'dayjs';
 import { IShare } from '../../globals';
+import { UseAuthContext } from '../components/AuthContext.tsx';
+import { useEffect } from 'react';
 
 export default function OwnerCheckShareData() {
   const navigate = useNavigate();
+  const { authUser } = UseAuthContext();
   const shareData = useAtomValue(shareDataAtom);
   const selectedCarData = useAtomValue(selectedCarDataAtom);
   const atomSelectedDateAndTime = useAtomValue(selectedDateAndTimesAtom);
   const submitData: IShare[] = [];
+
+  // userが存在しない場合にリダイレクト
+  useEffect(() => {
+    if (!authUser) navigate('/login');
+  }, [authUser, navigate]);
+
+  // navigateによるリダイレクトが完了するまで何もレンダリングしない
+  if (!authUser) return null;
 
   atomSelectedDateAndTime.map((singleDay) => {
     return submitData.push({
@@ -74,8 +85,14 @@ export default function OwnerCheckShareData() {
               justifyContent: 'left',
             }}
           >
-            <HStack justifyContent="start" marginTop="6" px="6" h="40px" wrap="wrap"
-                    overflow="auto">
+            <HStack
+              justifyContent="start"
+              marginTop="6"
+              px="6"
+              h="40px"
+              wrap="wrap"
+              overflow="auto"
+            >
               {atomSelectedDateAndTime.map((singleDay, index) => {
                 return (
                   <Box
