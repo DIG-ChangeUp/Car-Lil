@@ -247,7 +247,7 @@ const TenantCheckRentalData = () => {
                 w: 180,
                 h: 45,
                 fontSize: 'xl',
-                backgroundColor: '#F4F4F5',
+                bg: '#F4F4F5',
                 marginRight: '10px',
               }}
               onClick={() => {

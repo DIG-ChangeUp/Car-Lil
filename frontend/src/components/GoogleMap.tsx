@@ -117,7 +117,12 @@ export default function GoogleMap() {
           </Flex>
           <p>{selectInfoWindow.address}</p>
           <Container minWidth="200px">
-            <Button rounded="full" onClick={handleNavigate}>
+            <Button
+              rounded="full"
+              backgroundColor="#289FAB"
+              color="#FEFEFE"
+              onClick={handleNavigate}
+            >
               利用する
             </Button>
           </Container>

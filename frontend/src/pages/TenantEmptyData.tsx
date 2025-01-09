@@ -530,19 +530,20 @@ export function TenantEmptyData() {
 
         <HStack gap={'4'} mb={'10'}>
           <Button
-            w={'50%'}
-            h={'4em'}
-            bg={'#AAAAAA'}
+            w={'180'}
+            h={'45'}
+            bg={'#AFAFAF'}
+            color={'#FEFEFE'}
             onClick={handlerClickCancel}
           >
             キャンセル
           </Button>
           {!isErrorRentalTimeSetting && (
             <Button
-              w={'50%'}
-              h={'4em'}
+              w={'180'}
+              h={'45'}
               bg={'#289FAB'}
-              color={'white'}
+              color={'#FEFEFE'}
               onClick={handlerClickReservation}
             >
               予約する
