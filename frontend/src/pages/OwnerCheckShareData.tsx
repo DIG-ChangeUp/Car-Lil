@@ -52,8 +52,12 @@ export default function OwnerCheckShareData() {
 
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
-      <Container sx={{ h: 'calc(100vh - 180px)', overflow: 'auto' }}>
+      <Header
+        isOwnerMode={true}
+        routePath={'ownerSelectTime'}
+        headerTitle={''}
+      />
+      <Container sx={{ h: 'calc(100vh - 130px)', overflow: 'auto' }}>
         <Container>
           <Text
             sx={{
@@ -74,8 +78,14 @@ export default function OwnerCheckShareData() {
               justifyContent: 'left',
             }}
           >
-            <HStack justifyContent="start" marginTop="6" px="6" h="40px" wrap="wrap"
-                    overflow="auto">
+            <HStack
+              justifyContent="start"
+              marginTop="6"
+              px="6"
+              h="40px"
+              wrap="wrap"
+              overflow="auto"
+            >
               {atomSelectedDateAndTime.map((singleDay, index) => {
                 return (
                   <Box

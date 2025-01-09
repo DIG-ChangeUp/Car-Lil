@@ -13,12 +13,11 @@ export default function TenantCompleteRentalData() {
 
   return (
     <>
-      <Header isOwnerMode={false} headerTitle={''} />
+      <Header isOwnerMode={false} routePath={''} headerTitle={''} />
 
       <VStack w={'100%'} h="calc(100vh - 180px)" px={'6'} py={'2'}>
-
         <Center mt={48} mb={9}>
-          <MdOutlineCheckCircle fontSize="130" color="#289FAB"/>
+          <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
         </Center>
 
         <Box mb={9}>
@@ -29,14 +28,20 @@ export default function TenantCompleteRentalData() {
 
         <Box>
           <Text align={'center'}>
-            MVP開発であるため<br/>実際には予約はされません
+            MVP開発であるため
+            <br />
+            実際には予約はされません
           </Text>
         </Box>
 
-        <Button h={'4em'} bg={'#289FAB'} color={'#F4F4F5'} onClick={handlerClickTop}>
+        <Button
+          h={'4em'}
+          bg={'#289FAB'}
+          color={'#F4F4F5'}
+          onClick={handlerClickTop}
+        >
           トップへ戻る
         </Button>
-
       </VStack>
 
       <Footer isOwnerMode={false} activeMenu={-1} />

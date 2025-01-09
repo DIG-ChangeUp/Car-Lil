@@ -55,8 +55,12 @@ const OwnerSelectTime = () => {
 
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
-      <Container h="calc(100vh - 180px)" centerContent>
+      <Header
+        isOwnerMode={true}
+        routePath={'ownerSelectDay'}
+        headerTitle={''}
+      />
+      <Container h="calc(100vh - 130px)" centerContent>
         <Box w="100%" h="calc(100% - 100px)">
           <HStack justifyContent="start" marginTop="6" px="6" h="40px">
             {atomSelectedDate.map((rentalDay) => {

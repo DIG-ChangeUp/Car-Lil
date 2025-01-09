@@ -7,7 +7,6 @@ import OneSignal from 'react-onesignal';
 
 import { AuthProvider } from './components/AuthContext.tsx';
 
-import OwnerTop from './pages/OwnerTop.tsx';
 import Map from './pages/Map.tsx';
 import Login from './pages/Login.tsx';
 import OwnerSelectDay from './pages/OwnerSelectDay.tsx';
@@ -18,7 +17,6 @@ import SignUp from './pages/SignUp.tsx';
 import OwnerCompleteShareData from './pages/OwnerCompleteShareData.tsx';
 import OwnerCheckShareData from './pages/OwnerCheckShareData.tsx';
 import { Provider } from 'jotai';
-import { TimeBarSample } from './pages/TimeBarSample.tsx';
 import Home from './pages/Home.tsx';
 import TenantReservedList from './pages/TenantReservedList.tsx';
 import TenantCheckRentalData from './pages/TenantCheckRentalData.tsx';
@@ -54,9 +52,6 @@ export default function App() {
             path="/ownerCompleteShareData"
             element={<OwnerCompleteShareData />}
           />
-          {/*使われていないページ*/}
-          <Route path="/ownerTop" element={<OwnerTop />} />
-          <Route path="/timeBarSample" element={<TimeBarSample />} />
 
           {/*テナントページ*/}
           <Route path="/map" element={<Map />} />

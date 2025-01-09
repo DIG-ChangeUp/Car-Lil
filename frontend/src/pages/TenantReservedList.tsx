@@ -33,8 +33,8 @@ const TenantReservedList = () => {
 
   return (
     <>
-      <Header isOwnerMode={false} headerTitle={'予約一覧'} />
-      <Container h="calc(100vh - 180px)" centerContent>
+      <Header isOwnerMode={false} routePath={''} headerTitle={'予約一覧'} />
+      <Container h="calc(100vh - 130px)" centerContent>
         <ScrollArea w="100%" h="90%">
           {reservationData.map((reservation) => {
             return (
