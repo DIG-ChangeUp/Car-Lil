@@ -41,7 +41,7 @@ const OwnerSelectTime = () => {
   const navigate = useNavigate();
   const { authUser } = UseAuthContext();
 
-  // userが存在しない場合にリダイレクト+ページを開いた時に
+  // userが存在しない場合にリダイレクト
   useEffect(() => {
     if (!authUser) navigate('/login');
   }, [authUser, navigate]);
@@ -85,22 +85,19 @@ const OwnerSelectTime = () => {
       setEndMinutesValue('00');
     }
   }
-
+  //貸出時間の設定が適切かをチェック、適切な場合のみ次のページに移動
   function timeValidation(
     startHr: string,
     startMin: string,
     endHr: string,
     endMin: string
   ) {
-    const errMsg_01: string = 'レンタル時間の終了時間が開始時間より前です';
-    const errMsg_02: string = 'レンタル時間は最低15分です';
     const startTime: number = Number(startHr) * 60 + Number(startMin);
     const endTime: number = Number(endHr) * 60 + Number(endMin);
-    console.log('Start:', startTime, 'End:', endTime);
-    if (startTime > endTime) {
-      setValidationMsg(errMsg_01);
+    if (startTime > endTime)
+      setValidationMsg('貸出開始時間が終了時間を超過しています');
     } else if (startTime === endTime) {
-      setValidationMsg(errMsg_02);
+      setValidationMsg('貸出可能時間は15分以上で設定してください');
     } else {
       makeRentalData();
       navigate('/ownerCheckShareData');
