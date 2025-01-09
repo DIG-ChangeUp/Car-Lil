@@ -74,7 +74,14 @@ export default function OwnerCheckShareData() {
               justifyContent: 'left',
             }}
           >
-            <HStack justifyContent="start" marginTop="6" px="6" h="40px">
+            <HStack
+              justifyContent="start"
+              marginTop="6"
+              px="6"
+              h="40px"
+              wrap="wrap"
+              overflow="auto"
+            >
               {rentalDayAndTimes.map((singleDay, index) => {
                 return (
                   <Box
@@ -98,7 +105,7 @@ export default function OwnerCheckShareData() {
               backgroundColor: '#F3F7F7',
               margin: 'auto',
               paddingX: 8,
-              paddingY: 4,
+              paddingY: 3,
               borderRadius: '10px',
               flexShrink: 1,
             }}
@@ -116,30 +123,29 @@ export default function OwnerCheckShareData() {
             <br />
             よろしいですか？
           </Text>
-          <br></br>
           <HStack sx={{ justifyContent: 'center' }}>
             <Button
               sx={{
-                w: 150,
+                w: 170,
                 h: 45,
                 fontSize: 'xl',
                 backgroundColor: '#F4F4F5',
-                margin: '0 10px',
+                marginX: '3px',
               }}
               onClick={() => {
                 navigate('/selectTime');
               }}
             >
-              戻る
+              キャンセル
             </Button>
             <Button
               sx={{
-                w: 150,
+                w: 170,
                 h: 45,
                 fontSize: 'xl',
                 backgroundColor: '#289FAB',
                 color: '#FEFEFE',
-                margin: '0 10px',
+                marginX: '3px',
               }}
               onClick={async () => {
                 await Promise.all(

@@ -20,7 +20,6 @@ const TenantCheckRentalData = () => {
   const navigate = useNavigate();
 
   const rentalData = useAtomValue(atomCheckRentalData);
-  console.log('rentalData-------', rentalData);
   //表示用のデータを準備
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -29,7 +28,7 @@ const TenantCheckRentalData = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const endDate = new Date(rentalData.end_rental_date).toISOString();
-  const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD HH:mm:');
+  const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD HH:mm');
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const hour: number = rentalData.rental_time / 60;
@@ -58,9 +57,9 @@ const TenantCheckRentalData = () => {
     carport_id: 1,
     share_state: '予約',
     reserved_at: '2025-01-01T0:00:00',
-    rent_at: '2025-01-20T10:00:00',
+    rent_at: startDate,
     rented_at: null,
-    return_at: '2025-01-20T16:00:00',
+    return_at: endDate,
     returned_at: null,
     evaluation: null,
     is_refueled: null,
@@ -81,9 +80,9 @@ const TenantCheckRentalData = () => {
   return (
     <>
       <Header isOwnerMode={false} headerTitle={'予約確定'} />
-      <Container h="calc(100vh - 180px)">
-        <Text fontSize="xl" fontWeight="bold">
-          予約内容
+      <Container h="calc(100vh - 180px)" overflow={'auto'}>
+        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>
+          {rentalData.carport_address}
         </Text>
         <Container>
           <Card
@@ -94,16 +93,25 @@ const TenantCheckRentalData = () => {
           >
             {/*登録車両情報*/}
             <Text>登録車両</Text>
-            <br></br>
-            <Card sx={{ padding: '5', fontSize: 'sm' }}>
-              <HStack w="180" h="100">
+            <Box
+              sx={{ paddingY: 2, paddingX: 4, fontSize: 'sm', border: 'none' }}
+            >
+              <HStack
+                sx={{
+                  w: '100%',
+                  h: 100,
+                  justifyContent: 'space-around',
+                  paddingX: 1,
+                  marginY: 2,
+                }}
+              >
                 <Image
                   src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${rentalData.car_image_url1}`}
-                  sx={{ maxWidth: '100%', maxHeight: '100%' }}
+                  sx={{ maxWidth: '48%', maxHeight: '100%' }}
                 />
                 <Image
                   src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${rentalData.car_image_url2}`}
-                  sx={{ maxWidth: '100%', maxHeight: '100%' }}
+                  sx={{ maxWidth: '48%', maxHeight: '100%' }}
                 />
               </HStack>
               <br></br>
@@ -115,8 +123,9 @@ const TenantCheckRentalData = () => {
               <Separator />
               <Text>定員：{rentalData.car_capacity}</Text>
               <Separator />
-              <Text>貸出料金：{rentalData.share_price}</Text>
-            </Card>
+              <Text>貸出料金：{rentalData.share_price}円 / 15分</Text>
+              <Separator />
+            </Box>
             <br></br>
             {/*予約日時・金額*/}
             <Text>予約日時・金額</Text>
@@ -138,7 +147,7 @@ const TenantCheckRentalData = () => {
                   }}
                 >
                   <Text>利用開始日時</Text>
-                  <Box
+                  <Text
                     sx={{
                       w: 155,
                       m: 'md',
@@ -147,10 +156,8 @@ const TenantCheckRentalData = () => {
                       marginRight: 11,
                     }}
                   >
-                    {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-                    {/*@ts-ignore*/}
                     {formattedStartDate}
-                  </Box>
+                  </Text>
                 </HStack>
                 <HStack
                   sx={{
@@ -160,7 +167,7 @@ const TenantCheckRentalData = () => {
                   }}
                 >
                   <Text>返却予定日時</Text>
-                  <Box
+                  <Text
                     sx={{
                       w: 155,
                       m: 'md',
@@ -169,10 +176,8 @@ const TenantCheckRentalData = () => {
                       marginRight: 11,
                     }}
                   >
-                    {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-                    {/*@ts-ignore*/}
                     {formattedEndDate}
-                  </Box>
+                  </Text>
                 </HStack>
                 <HStack
                   sx={{
@@ -183,7 +188,7 @@ const TenantCheckRentalData = () => {
                 >
                   <Text>利用時間</Text>
                   <HStack>
-                    <Box
+                    <Text
                       sx={{
                         w: 120,
                         m: 'md',
@@ -192,7 +197,7 @@ const TenantCheckRentalData = () => {
                       }}
                     >
                       {hour}
-                    </Box>
+                    </Text>
                     <Text>H</Text>
                   </HStack>
                 </HStack>
@@ -205,7 +210,7 @@ const TenantCheckRentalData = () => {
                 >
                   <Text>利用料金</Text>
                   <HStack>
-                    <Box
+                    <Text
                       sx={{
                         w: 120,
                         m: 'md',
@@ -214,7 +219,7 @@ const TenantCheckRentalData = () => {
                       }}
                     >
                       {price}
-                    </Box>
+                    </Text>
                     <Text>円</Text>
                   </HStack>
                 </HStack>
