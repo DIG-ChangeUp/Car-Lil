@@ -67,7 +67,6 @@ const SignUp = () => {
           <Text fontSize="5xl" fontWeight="extrabold" textAlign="center">
             CAR-LIL
           </Text>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
           <FormControl
             marginTop="6"
             isInvalid={!!errors.email}
@@ -103,6 +102,14 @@ const SignUp = () => {
               })}
             />
           </FormControl>
+
+          {error && (
+            <p style={{ color: 'red', textAlign: 'center' }}>
+              入力されたEmailアドレスは
+              <br />
+              既に登録されています
+            </p>
+          )}
 
           <Button type="submit" marginTop="6">
             SinUp
