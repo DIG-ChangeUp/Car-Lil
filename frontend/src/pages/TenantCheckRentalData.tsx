@@ -256,7 +256,7 @@ const TenantCheckRentalData = () => {
               }}
               onClick={async () => {
                 await addNewReservation(submitData);
-                navigate('/tenantCompleteShareData');
+                navigate('/tenantCompleteRentalData');
               }}
             >
               確定

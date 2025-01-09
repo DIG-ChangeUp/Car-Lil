@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import './index.css';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -22,7 +23,7 @@ import Home from './pages/Home.tsx';
 import TenantReservedList from './pages/TenantReservedList.tsx';
 import TenantCheckRentalData from './pages/TenantCheckRentalData.tsx';
 import { TenantEmptyData } from './pages/TenantEmptyData.tsx';
-import TenantCompleteShareData from './pages/TenantCompleteShareData.tsx';
+import TenantCompleteRentalData from './pages/TenantCompleteRentalData.tsx';
 
 export default function App() {
   useEffect(() => {
@@ -69,8 +70,8 @@ export default function App() {
             element={<TenantCheckRentalData />}
           />
           <Route
-            path="/tenantCompleteShareData"
-            element={<TenantCompleteShareData />}
+            path="/tenantCompleteRentalData"
+            element={<TenantCompleteRentalData />}
           />
           {/*Not foundページ*/}
           <Route path="*" element={<NotFound />} />
