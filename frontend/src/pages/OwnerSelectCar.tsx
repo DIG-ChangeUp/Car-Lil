@@ -63,8 +63,8 @@ const OwnerSelectCar = () => {
 
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
-      <Container w="100%" h="calc(100vh - 180px)">
+      <Header isOwnerMode={true} routePath={''} headerTitle={''} />
+      <Container w="100%" h="calc(100vh - 130px)">
         <Text
           sx={{
             marginTop: 2,

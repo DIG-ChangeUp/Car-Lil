@@ -15,7 +15,7 @@ export function OwnerSelectMenu() {
   // ・日付選択中かどうか＝＞ボタンの切り替えに必要
   // ・編集が完了したかどうか＝＞完了画面への切り替えに必要
   return (
-    <Container h="calc(100vh - 180px)">
+    <Container h="calc(100vh - 130px)">
       <br></br>
       <Text fontSize="2xl" fontWeight="bold">
         オーナーページ

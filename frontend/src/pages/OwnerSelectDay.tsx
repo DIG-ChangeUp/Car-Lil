@@ -46,8 +46,12 @@ const OwnerSelectDay = () => {
 
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
-      <Container h="calc(100vh - 180px)" centerContent>
+      <Header
+        isOwnerMode={true}
+        routePath={'ownerSelectCar'}
+        headerTitle={''}
+      />
+      <Container h="calc(100vh - 130px)" centerContent>
         <Box w="100%" h="calc(100% - 100px)">
           <Center>
             <CustomCalendar />

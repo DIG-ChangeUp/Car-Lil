@@ -5,7 +5,7 @@ import Footer from '../components/Footer.tsx';
 const OwnerTop = () => {
   return (
     <div className="display-container">
-      <Header isOwnerMode={true} headerTitle={''} />
+      <Header isOwnerMode={true} routePath={''} headerTitle={''} />
       <OwnerSelectMenu />
       <Footer isOwnerMode={true} activeMenu={-1} />
     </div>

@@ -8,10 +8,10 @@ export default function TenantCompleteShareData() {
   const navigate = useNavigate();
   return (
     <>
-      <Header isOwnerMode={true} headerTitle={''} />
+      <Header isOwnerMode={false} routePath={''} headerTitle={''} />
       <Container
         sx={{
-          h: 'calc(100vh - 180px)',
+          h: 'calc(100vh - 130px)',
           textAlign: 'center',
           display: 'flex',
           justifyContent: 'center',
