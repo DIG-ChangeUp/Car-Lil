@@ -25,7 +25,7 @@ const colCodeEnabled = '#595959';
 const colCodeDisabled = '#AFAFAF';
 
 const aryMoveUrl: string[] = [
-  '/timeBarSampling',
+  '/ownerSelectDay',
   '/timeBarSampling',
   '/timeBarSampling',
   '/timeBarSampling',
@@ -35,7 +35,7 @@ const aryMoveUrl: string[] = [
   '/timeBarSampling',
   '/reservedList',
   '/timeBarSampling',
-  '/timeBarSampling',
+  '/',
 ];
 
 export function FooterItem(props: IFooterItem) {
@@ -69,7 +69,7 @@ export function FooterItem(props: IFooterItem) {
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      navigate('/');
+      navigate('/login');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       console.log('ログアウト エラー');
