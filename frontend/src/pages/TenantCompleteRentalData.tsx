@@ -4,42 +4,47 @@ import { Box, Button, Center, Text, VStack } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
-export default function OwnerCompleteShareData() {
+export default function TenantCompleteRentalData() {
   const navigate = useNavigate();
 
   function handlerClickTop() {
-    navigate('/ownerSelectDay');
+    navigate('/map');
   }
 
   return (
     <>
-      <Header isOwnerMode={false} routePath={'notFound'} headerTitle={''} />
+      <Header isOwnerMode={false} routePath={''} headerTitle={''} />
 
-      <VStack w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
-
+      <VStack w={'100%'} h="calc(100vh - 180px)" px={'6'} py={'2'}>
         <Center mt={48} mb={9}>
-          <MdOutlineCheckCircle fontSize="130" color="#289FAB"/>
+          <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
         </Center>
 
         <Box mb={9}>
           <Text fontWeight="bold" align={'center'}>
-            貸出日登録が完了しました
+            レンタル予約が完了しました
           </Text>
         </Box>
 
         <Box>
           <Text align={'center'}>
-            MVP開発であるため<br/>実際には登録されません
+            MVP開発であるため
+            <br />
+            実際には予約はされません
           </Text>
         </Box>
 
-        <Button h={'4em'} bg={'#289FAB'} color={'#F4F4F5'} onClick={handlerClickTop}>
+        <Button
+          h={'4em'}
+          bg={'#289FAB'}
+          color={'#F4F4F5'}
+          onClick={handlerClickTop}
+        >
           トップへ戻る
         </Button>
-
       </VStack>
 
-      <Footer isOwnerMode={true} activeMenu={-1} />
+      <Footer isOwnerMode={false} activeMenu={-1} />
     </>
   );
 }
