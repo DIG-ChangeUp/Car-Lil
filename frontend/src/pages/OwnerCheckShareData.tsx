@@ -176,7 +176,7 @@ export default function OwnerCheckShareData() {
           </HStack>
         </Container>
       </Container>
-      <Footer isOwnerMode={true} activeMenu={-1} />
+      <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );
 }

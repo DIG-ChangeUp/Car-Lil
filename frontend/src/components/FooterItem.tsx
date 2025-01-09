@@ -2,15 +2,10 @@ import { useEffect, useState } from 'react';
 import { auth } from './auth/firebase.ts';
 import { useNavigate } from 'react-router-dom';
 import {
-  MdCarCrash,
-  MdCurrencyYen,
   MdEditCalendar,
-  MdMoreHoriz,
-  MdNotificationsNone,
-  MdCarRental,
-  MdDirectionsCar,
+  MdCalendarMonth,
+  MdHome,
   MdLogout,
-  MdChecklistRtl,
 } from 'react-icons/md';
 import { Text, VStack } from '@yamada-ui/react';
 
@@ -26,15 +21,10 @@ const colCodeDisabled = '#AFAFAF';
 
 const aryMoveUrl: string[] = [
   '/ownerSelectDay',
-  '/timeBarSampling',
-  '/timeBarSampling',
-  '/timeBarSampling',
-  '/timeBarSampling',
-  '/timeBarSampling',
+  '/',
+  '/',
   '/map',
-  '/timeBarSampling',
-  '/reservedList',
-  '/timeBarSampling',
+  '/',
   '/',
 ];
 
@@ -57,7 +47,7 @@ export function FooterItem(props: IFooterItem) {
 
   function handlerClick() {
     if (props.menuMode !== 'Disabled') {
-      if (props.iconSelector === 10) {
+      if (props.iconSelector === 2 || props.iconSelector === 5) {
         const checkLogOut = handleLogout();
         console.log(checkLogOut);
       } else {
@@ -84,16 +74,11 @@ export function FooterItem(props: IFooterItem) {
       onClick={handlerClick}
     >
       {props.iconSelector === 0 && <MdEditCalendar />}
-      {props.iconSelector === 1 && <MdCarRental />}
-      {props.iconSelector === 2 && <MdCarCrash />}
-      {props.iconSelector === 3 && <MdCurrencyYen />}
-      {props.iconSelector === 4 && <MdNotificationsNone />}
-      {props.iconSelector === 5 && <MdMoreHoriz />}
-      {props.iconSelector === 6 && <MdEditCalendar />}
-      {props.iconSelector === 7 && <MdDirectionsCar />}
-      {props.iconSelector === 8 && <MdChecklistRtl />}
-      {props.iconSelector === 9 && <MdNotificationsNone />}
-      {props.iconSelector === 10 && <MdLogout />}
+      {props.iconSelector === 1 && <MdHome />}
+      {props.iconSelector === 2 && <MdLogout />}
+      {props.iconSelector === 3 && <MdCalendarMonth />}
+      {props.iconSelector === 4 && <MdHome />}
+      {props.iconSelector === 5 && <MdLogout />}
       <Text fontSize="9px">{props.labelText}</Text>
     </VStack>
   );
