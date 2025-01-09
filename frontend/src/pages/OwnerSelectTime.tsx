@@ -134,7 +134,7 @@ const OwnerSelectTime = () => {
         routePath={'ownerSelectDay'}
         headerTitle={''}
       />
-      <Container h="calc(100vh - 130px)" centerContent>
+      <Container h="calc(100vh - 130px)" centerContent overflow="auto">
         <Box w="100%" h="calc(100% - 100px)">
           <HStack
             justifyContent="start"

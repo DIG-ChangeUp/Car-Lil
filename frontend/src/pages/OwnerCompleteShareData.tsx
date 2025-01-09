@@ -52,7 +52,7 @@ export default function OwnerCompleteShareData() {
           color={'#F4F4F5'}
           onClick={handlerClickTop}
         >
-          トップへ戻る
+          貸出設定に戻る
         </Button>
       </VStack>
 
