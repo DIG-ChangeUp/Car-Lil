@@ -28,10 +28,11 @@ import { UseAuthContext } from '../components/AuthContext.tsx';
 
 const OwnerSelectTime = () => {
   const atomSelectedDate = useAtomValue(selectedDateAtom);
-  const [startHourValue, setStartHourValue] = useState<string>('10');
+  const [startHourValue, setStartHourValue] = useState<string>('00');
   const [startMinutesValue, setStartMinutesValue] = useState<string>('00');
-  const [endHourValue, setEndHourValue] = useState<string>('18');
+  const [endHourValue, setEndHourValue] = useState<string>('00');
   const [endMinutesValue, setEndMinutesValue] = useState<string>('00');
+  const [isAllTheDay, setIsAllTheDay] = useState<boolean>(false);
   const setAtomSelectedDateAndTimes = useSetAtom(selectedDateAndTimesAtom);
 
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const OwnerSelectTime = () => {
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
+    setIsAllTheDay(false);
     if (!authUser) navigate('/login');
   }, [authUser, navigate]);
 
@@ -61,6 +63,20 @@ const OwnerSelectTime = () => {
     });
     setAtomSelectedDateAndTimes(rentalData);
     navigate('/ownerConfirmation');
+  }
+
+  function changeTimesByToggleSwitch() {
+    if (isAllTheDay) {
+      setStartHourValue('00');
+      setStartMinutesValue('00');
+      setEndHourValue('23');
+      setEndMinutesValue('45');
+    } else {
+      setStartHourValue('00');
+      setStartMinutesValue('00');
+      setEndHourValue('00');
+      setEndMinutesValue('00');
+    }
   }
 
   return (
@@ -93,7 +109,12 @@ const OwnerSelectTime = () => {
               <HStack justifyContent="space-between">
                 <Text>終日</Text>
                 <Spacer />
-                <Switch></Switch>
+                <Switch
+                  onChange={() => {
+                    setIsAllTheDay(!isAllTheDay);
+                    changeTimesByToggleSwitch();
+                  }}
+                ></Switch>
               </HStack>
               <Separator />
               <HStack justifyContent="space-between">
