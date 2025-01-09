@@ -80,10 +80,12 @@ const OwnerSelectDay = () => {
             カレンダーから日付を選択してください
           </Text>
           <Button
-            colorScheme="primary"
-            variant="solid"
             onClick={() => navigate('/ownerSelectTime')}
             isDisabled={atomSelectedDate.length < 1}
+            sx={{
+              bg: '#289FAB',
+              color: '#FEFEFE',
+            }}
           >
             時間指定に進む
           </Button>

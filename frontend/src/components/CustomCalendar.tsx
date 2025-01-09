@@ -49,6 +49,7 @@ const CustomCalendar = () => {
   return (
     <>
       <Calendar
+        colorScheme={'green'}
         locale="ja"
         dateFormat="YYYY年 MM月"
         fontSize="1xl"
@@ -66,17 +67,17 @@ const CustomCalendar = () => {
           component: ({ date, isSelected }) => (
             <VStack alignItems="center">
               <Center
-                bg={isSelected ? 'primary' : undefined}
+                bg={isSelected ? 'green.200' : undefined}
                 w={8}
-                lineHeight={5}
-                rounded="100px"
+                lineHeight={8}
+                rounded="full"
                 color={isSelected ? 'white' : undefined}
                 transitionProperty="background"
                 transitionDuration="normal"
                 position="relative"
               >
                 {date.getDate()}
-                <Float offset={['5.5', '0']} placement="start-center">
+                <Float offset={['7', '0']} placement="start-center">
                   {borrows.includes(dayjs(date).format('YYYY-MM-DD')) && (
                     <Box w="1" py="1" px="1" bg="gray.200" rounded="full"></Box>
                   )}
