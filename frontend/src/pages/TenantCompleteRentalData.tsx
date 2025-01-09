@@ -16,7 +16,7 @@ export default function TenantCompleteRentalData() {
       <Header isOwnerMode={false} routePath={''} headerTitle={''} />
 
       <VStack w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
-        <Center mt={48} mb={9}>
+        <Center mt={100} mb={5}>
           <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
         </Center>
 
@@ -35,7 +35,7 @@ export default function TenantCompleteRentalData() {
         </Box>
 
         <Button
-          h={'4em'}
+          h={'45'}
           bg={'#289FAB'}
           color={'#F4F4F5'}
           onClick={handlerClickTop}
