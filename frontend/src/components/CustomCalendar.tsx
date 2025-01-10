@@ -7,16 +7,26 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 // timezoneプラグインを読み込み
 dayjs.extend(timezone);
-import { useAtomValue, useSetAtom } from 'jotai/index';
+import { useAtom, useAtomValue } from 'jotai/index';
 import { currentShareDataAtom, selectedDateAtom } from './atom/globalState.ts';
 
 const CustomCalendar = () => {
-  const setAtomSelectedDate = useSetAtom(selectedDateAtom);
+  const [atomSelectedDate, setAtomSelectedDate] = useAtom(selectedDateAtom);
   const atomCurrentShareData = useAtomValue(currentShareDataAtom);
-  const borrows: string[] = [];
+  let borrows: string[] = [];
+  // 本来はこの処理のみでOK
   atomCurrentShareData.forEach((borrow) => {
     borrows.push(dayjs(borrow.start_at).tz('Asia/Tokyo').format('YYYY-MM-DD'));
   });
+  // demo day用に固定値を際代入、本来は必要ない
+  borrows = [
+    '2025-01-07',
+    '2025-01-10',
+    '2025-01-13',
+    '2025-01-14',
+    '2025-01-30',
+    '2025-01-31',
+  ];
 
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
@@ -50,6 +60,7 @@ const CustomCalendar = () => {
     <>
       <Calendar
         colorScheme={'primary'}
+        maxSelectValues={5}
         locale="ja"
         dateFormat="YYYY年 MM月"
         fontSize="1xl"
@@ -69,7 +80,7 @@ const CustomCalendar = () => {
               <Center
                 bg={isSelected ? 'green.200' : undefined}
                 w={8}
-                lineHeight={8}
+                lineHeight={6}
                 rounded="full"
                 color={isSelected ? 'white' : undefined}
                 transitionProperty="background"
@@ -77,13 +88,19 @@ const CustomCalendar = () => {
                 position="relative"
               >
                 {date.getDate()}
-                <Float offset={['7', '0']} placement="start-center">
+                <Float offset={['6', '0']} placement="start-center">
                   {borrows.includes(dayjs(date).format('YYYY-MM-DD')) && (
                     <Box
                       w="1"
                       py="1"
                       px="1"
-                      bg="car_lil.500"
+                      bg={
+                        atomSelectedDate.includes(
+                          dayjs(date).format('YYYY-MM-DD')
+                        )
+                          ? 'white'
+                          : 'primary'
+                      }
                       rounded="full"
                     ></Box>
                   )}
