@@ -32,7 +32,9 @@ const OwnerSelectTime = () => {
   const [startMinutesValue, setStartMinutesValue] = useState<string>('00');
   const [endHourValue, setEndHourValue] = useState<string>('00');
   const [endMinutesValue, setEndMinutesValue] = useState<string>('00');
-  const [isAllTheDay, setIsAllTheDay] = useState<boolean>(false);
+  const [isToggleOn, setIsToggleOn] = useState<boolean>(false);
+  const [validationMsg, setValidationMsg] = useState<string>('');
+  const [fontColor, setFontColor] = useState<string>('#0C0C0C');
   const setAtomSelectedDateAndTimes = useSetAtom(selectedDateAndTimesAtom);
 
   const navigate = useNavigate();
@@ -40,9 +42,21 @@ const OwnerSelectTime = () => {
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
-    setIsAllTheDay(false);
     if (!authUser) navigate('/login');
   }, [authUser, navigate]);
+  //トグルの状態が変わったタイミングでドロップダウンの時、分を変更
+  useEffect(() => {
+    switchTimesByToggleButton();
+  }, [isToggleOn]);
+
+  useEffect(() => {
+    timeValidation(
+      startHourValue,
+      startMinutesValue,
+      endHourValue,
+      endMinutesValue
+    );
+  }, [startHourValue, startMinutesValue, endHourValue, endMinutesValue]);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!authUser) return null;
@@ -52,6 +66,7 @@ const OwnerSelectTime = () => {
   );
   const minutes = ['00', '15', '30', '45'];
 
+  //貸出データの配列を作成
   function makeRentalData() {
     const rentalData: IRentalDateAndTime[] = [];
     atomSelectedDate.forEach((rentalDay) => {
@@ -64,9 +79,9 @@ const OwnerSelectTime = () => {
     setAtomSelectedDateAndTimes(rentalData);
     navigate('/ownerConfirmation');
   }
-
-  function changeTimesByToggleSwitch() {
-    if (isAllTheDay) {
+  //終日設定のトグルボタンのON/OFFでドロップダウンの時、分を切り替え
+  function switchTimesByToggleButton() {
+    if (isToggleOn) {
       setStartHourValue('00');
       setStartMinutesValue('00');
       setEndHourValue('23');
@@ -78,6 +93,39 @@ const OwnerSelectTime = () => {
       setEndMinutesValue('00');
     }
   }
+  //貸出時間の設定が適切かをチェック、適切な場合のみ次のページに移動
+  function timeValidation(
+    startHr: string,
+    startMin: string,
+    endHr: string,
+    endMin: string
+  ) {
+    const defaultMessage: string = '貸出開始と終了の時刻を選択してください';
+    const errorMessage1: string = '貸出開始時間が終了時間を超過しています';
+    const errorMessage2: string = '貸出可能時間は15分以上で設定してください';
+    const registrableMessage: string = '指定の時間で登録可能です';
+
+    const startTime: number = Number(startHr) * 60 + Number(startMin);
+    const endTime: number = Number(endHr) * 60 + Number(endMin);
+
+    //時刻未選択または全て00の場合
+    if (!startTime && !endTime) {
+      setFontColor('#0C0C0C');
+      setValidationMsg(defaultMessage);
+      //開始時刻が終了時刻を超過している場合
+    } else if (startTime > endTime) {
+      setFontColor('#FF0404');
+      setValidationMsg(errorMessage1);
+      //開始時刻と終了時刻が同じ場合
+    } else if (startTime === endTime) {
+      setFontColor('#FF0404');
+      setValidationMsg(errorMessage2);
+      //登録可能な時刻の場合
+    } else {
+      setFontColor('#289FAB');
+      setValidationMsg(registrableMessage);
+    }
+  }
 
   return (
     <>
@@ -86,7 +134,7 @@ const OwnerSelectTime = () => {
         routePath={'ownerSelectDay'}
         headerTitle={''}
       />
-      <Container h="calc(100vh - 130px)" centerContent>
+      <Container h="calc(100vh - 130px)" centerContent overflow="auto">
         <Box w="100%" h="calc(100% - 100px)">
           <HStack
             justifyContent="start"
@@ -118,8 +166,7 @@ const OwnerSelectTime = () => {
                 <Spacer />
                 <Switch
                   onChange={() => {
-                    setIsAllTheDay(!isAllTheDay);
-                    changeTimesByToggleSwitch();
+                    setIsToggleOn(!isToggleOn);
                   }}
                 ></Switch>
               </HStack>
@@ -195,12 +242,23 @@ const OwnerSelectTime = () => {
           </Center>
         </Box>
         <VStack w="100%" h="100px">
+          <Text
+            sx={{
+              textAlign: 'center',
+              color: fontColor,
+            }}
+          >
+            {validationMsg}
+          </Text>
           <Button
             marginTop="6"
             onClick={() => {
-              makeRentalData();
-              navigate('/ownerCheckShareData');
+              if (validationMsg === '指定の時間で登録可能です') {
+                makeRentalData();
+                navigate('/ownerCheckShareData');
+              }
             }}
+            isDisabled={validationMsg !== '指定の時間で登録可能です'}
             sx={{
               bg: '#289FAB',
               color: '#FEFEFE',

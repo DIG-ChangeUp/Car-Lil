@@ -10,8 +10,6 @@ const carportsController = require('./carports/carports.controller');
 const shareCarsController = require('./shareCars/shareCars.controller');
 const reservationsController = require('./reservations/reservations.controller');
 const shareController = require('./share/share.controller');
-//テスト用
-const calcDistance = require('./calcDistance');
 const rentalData = require('./rentalData/rentalData.controller');
 
 function setupServer() {
@@ -44,18 +42,12 @@ function setupServer() {
   app.post('/api/addNewShareData', shareController.addNewShareData); //オーナーの貸出設定を登録
   app.post('/api/addNewReservation', reservationsController.addNewReservation); //テナントの予約を登録し、対象車両のshare_stateも'予約'状態に変更
   app.post('/api/distance', carportsController.getDistance); //DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
-  //テスト用
-  app.get('/distance', calcDistance.calcDistance); //テスト用
 
   // MuuSan追加分
   app.post('/api/rentalData', rentalData.index); //レンタル情報
 
   return app;
 }
-
-module.exports = {
-  setupServer,
-};
 
 const app = setupServer();
 const PORT = process.env.PORT;
