@@ -11,15 +11,17 @@ import {
 import dayjs from 'dayjs';
 // demo day用にコメントアウト
 import { useAtomValue } from 'jotai/index';
-import { currentShareDataAtom } from './atom/globalState.ts';
+import { currentShareDataAtom, selectedDateAtom } from './atom/globalState.ts';
+import { useEffect, useState } from 'react';
 
 const BorrowDateTable = () => {
-  // demo day用にコメントアウト
-  const atomCurrentShareData = useAtomValue(currentShareDataAtom);
-  console.log(atomCurrentShareData);
-
   // demo day用に固定値を使用、本来は必要ない
-  const demodata = [
+  type Demo = {
+    start_at: string;
+    end_at: string;
+  };
+  type DemoData = Demo[];
+  const demoData: DemoData = [
     {
       start_at: '2025-01-07T01:00:00.000Z',
       end_at: '2025-01-07T09:00:00.000Z',
@@ -45,6 +47,37 @@ const BorrowDateTable = () => {
       end_at: '2025-01-31T09:00:00.000Z',
     },
   ];
+  const atomCurrentShareData = useAtomValue(currentShareDataAtom);
+  const selectedDay = useAtomValue(selectedDateAtom);
+  const [filteredDemoData, setFilteredDemoData] = useState<DemoData>([]);
+  const [listData, setListData] = useState<DemoData>(demoData);
+  console.log('selectedDay-----', selectedDay);
+  console.log('atomCurrentShareData', atomCurrentShareData);
+
+  //日付が選択されたらその日付がdemoDataに含まれるかを見て、あればその日付だけで絞ったデータを保持
+  useEffect(() => {
+    filterDataBySelectedDays();
+  }, [selectedDay]);
+  //↑でdemoDataに該当する日付がなければ全demoDataを、絞り込まれていればその日付だけをリスト表示
+  useEffect(() => {
+    if (selectedDay.length === 0) {
+      setListData(demoData);
+    } else {
+      setListData(filteredDemoData);
+    }
+  }, [filteredDemoData]);
+  //
+  function filterDataBySelectedDays() {
+    const resultArr: DemoData = [];
+    selectedDay.forEach((singleDay) => {
+      demoData.forEach((data) => {
+        if (data.start_at.includes(singleDay)) {
+          resultArr.push(data);
+        }
+      });
+    });
+    setFilteredDemoData(resultArr);
+  }
 
   return (
     <>
@@ -61,7 +94,7 @@ const BorrowDateTable = () => {
             </Thead>
             <Tbody>
               {/*本来はatomCurrentShareDataで map する demo day用*/}
-              {demodata.map((borrow) => {
+              {listData.map((borrow) => {
                 return (
                   <Tr key={borrow.start_at} fontSize="16px">
                     <Td>
