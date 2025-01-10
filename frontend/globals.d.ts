@@ -141,3 +141,8 @@ export interface IDistance {
   text: string;
   value: number;
 }
+
+export interface IMapSelectedPointData {
+  zoom: number;
+  latLng: ILocation;
+}

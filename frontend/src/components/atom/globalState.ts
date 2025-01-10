@@ -8,6 +8,7 @@ import {
   IAllCarPort,
   ILocation,
   IDistanceData,
+  IMapSelectedPointData,
 } from '../../../globals';
 
 // export const userDataAtom = atom({ email: '', userId: '' });
@@ -43,3 +44,5 @@ export const isOpenInfoWindowAtom = atom<boolean>(false);
 export const viewModeAtom = atom<'map' | 'list'>('map');
 export const allCarPorteAtom = atom<IAllCarPort[]>([]);
 export const distanceDataAtom = atom<IDistanceData[]>([]);
+
+export const mapSelectPointData = atom<IMapSelectedPointData | null>(null);

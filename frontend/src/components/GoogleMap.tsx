@@ -12,6 +12,7 @@ import { useAtomValue, useSetAtom } from 'jotai/index';
 import {
   isOpenInfoWindowAtom,
   locationAtom,
+  mapSelectPointData,
   prevLocationAtom,
   selectInfoWindowAtom,
   viewModeAtom,
@@ -29,6 +30,8 @@ export default function GoogleMap() {
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const viewMode = useAtomValue(viewModeAtom);
+  const [atomMapSelectPointData, setAtomMapSelectPointData] =
+    useAtom(mapSelectPointData);
   const navigate = useNavigate();
   const map = useMap();
 
@@ -78,6 +81,20 @@ export default function GoogleMap() {
     [map, setIsOpenInfoWindow]
   );
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  function handleClickedMapPoint(e) {
+    setAtomMapSelectPointData({
+      zoom: e.map.zoom,
+      latLng: {
+        lat: e.detail.latLng.lat,
+        lng: e.detail.latLng.lng,
+      },
+    });
+  }
+
+  console.log('click event: ', atomMapSelectPointData);
+
   return (
     <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>
       <Map
@@ -85,6 +102,7 @@ export default function GoogleMap() {
         defaultCenter={position}
         mapId="da37f3254c6a6d1c"
         disableDefaultUI={true}
+        onClick={(e) => handleClickedMapPoint(e)}
       ></Map>
       <AdvancedMarker
         position={position}
