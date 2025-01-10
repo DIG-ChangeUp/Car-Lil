@@ -63,7 +63,7 @@ const arySelectableMinutes: SelectItem[] = [
   { label: '45', value: '45' },
 ];
 
-const errMsg_01: string = 'レンタル時間をすべて入力してください';
+const errMsg_01: string = '予約時間を入力してください';
 const errMsg_02: string = 'レンタル時間の終了時間が開始時間より前です';
 const errMsg_03: string = 'レンタル時間は最低15分です';
 const errMsg_04: string = '指定時間は貸出可能時間外です';

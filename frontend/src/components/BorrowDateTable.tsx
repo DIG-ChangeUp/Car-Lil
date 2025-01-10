@@ -23,10 +23,6 @@ const BorrowDateTable = () => {
   type DemoData = Demo[];
   const demoData: DemoData = [
     {
-      start_at: '2025-01-07T01:00:00.000Z',
-      end_at: '2025-01-07T09:00:00.000Z',
-    },
-    {
       start_at: '2025-01-10T01:00:00.000Z',
       end_at: '2025-01-10T09:00:00.000Z',
     },
@@ -37,6 +33,14 @@ const BorrowDateTable = () => {
     {
       start_at: '2025-01-14T01:00:00.000Z',
       end_at: '2025-01-14T09:00:00.000Z',
+    },
+    {
+      start_at: '2025-01-20T01:00:00.000Z',
+      end_at: '2025-01-20T09:00:00.000Z',
+    },
+    {
+      start_at: '2025-01-23T01:00:00.000Z',
+      end_at: '2025-01-23T09:00:00.000Z',
     },
     {
       start_at: '2025-01-30T01:00:00.000Z',
