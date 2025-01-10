@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   MdEditCalendar,
   MdCalendarMonth,
+  MdFormatListBulleted,
   MdHome,
   MdLogout,
 } from 'react-icons/md';
@@ -24,6 +25,7 @@ const aryMoveUrl: string[] = [
   '/',
   '/',
   '/map',
+  '/reservedList',
   '/',
   '/',
 ];
@@ -47,7 +49,7 @@ export function FooterItem(props: IFooterItem) {
 
   function handlerClick() {
     if (props.menuMode !== 'Disabled') {
-      if (props.iconSelector === 2 || props.iconSelector === 5) {
+      if (props.iconSelector === 2 || props.iconSelector === 6) {
         const checkLogOut = handleLogout();
         console.log(checkLogOut);
       } else {
@@ -77,8 +79,9 @@ export function FooterItem(props: IFooterItem) {
       {props.iconSelector === 1 && <MdHome />}
       {props.iconSelector === 2 && <MdLogout />}
       {props.iconSelector === 3 && <MdCalendarMonth />}
-      {props.iconSelector === 4 && <MdHome />}
-      {props.iconSelector === 5 && <MdLogout />}
+      {props.iconSelector === 4 && <MdFormatListBulleted />}
+      {props.iconSelector === 5 && <MdHome />}
+      {props.iconSelector === 6 && <MdLogout />}
       <Text fontSize="9px">{props.labelText}</Text>
     </VStack>
   );
