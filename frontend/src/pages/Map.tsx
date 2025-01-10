@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
@@ -16,6 +16,7 @@ import {
 } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
 import DistanceCardList from '../components/DistanceCardList.tsx';
+import MyLoading from '../components/MyLoading.tsx';
 
 const Map = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Map = () => {
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const [atomAllCarPorte, setAtomAllCarPorte] = useAtom(allCarPorteAtom);
+  const [isLoading, setIsLoading] = useState(false);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -55,8 +57,10 @@ const Map = () => {
 
   useEffect(() => {
     if (atomAllCarPorte.length < 1) {
+      setIsLoading(true);
       (async () => {
         await getCars();
+        setIsLoading(false);
       })();
     }
   }, [atomAllCarPorte, getCars]);
@@ -108,6 +112,8 @@ const Map = () => {
 
   //TODO:Google route api へのリクエストロジック修正が必要
   const hiddenMode = true;
+
+  if (isLoading) return <MyLoading />;
 
   return (
     <>
