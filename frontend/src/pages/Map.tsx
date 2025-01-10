@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
@@ -8,6 +8,7 @@ import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
 import { useAtom, useSetAtom } from 'jotai/index';
 import {
+  allCarPorteAtom,
   distanceDataAtom,
   locationAtom,
   prevLocationAtom,
@@ -15,6 +16,7 @@ import {
 } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
 import DistanceCardList from '../components/DistanceCardList.tsx';
+import MyLoading from '../components/MyLoading.tsx';
 
 const Map = () => {
   const navigate = useNavigate();
@@ -23,6 +25,8 @@ const Map = () => {
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
+  const [atomAllCarPorte, setAtomAllCarPorte] = useAtom(allCarPorteAtom);
+  const [isLoading, setIsLoading] = useState(false);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -35,6 +39,31 @@ const Map = () => {
   useEffect(() => {
     getGeolocation();
   }, []);
+
+  const getCars = useCallback(async () => {
+    if (!currLocation) return;
+    const response = await fetch('/api/allCarports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPosition: currLocation }),
+    });
+    if (response.ok) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const jsonResponse = await response.json();
+      setAtomAllCarPorte(jsonResponse.data);
+    }
+  }, [currLocation, setAtomAllCarPorte]);
+
+  useEffect(() => {
+    if (atomAllCarPorte.length < 1) {
+      setIsLoading(true);
+      (async () => {
+        await getCars();
+        setIsLoading(false);
+      })();
+    }
+  }, [atomAllCarPorte, getCars]);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!authUser) return null;
@@ -60,6 +89,7 @@ const Map = () => {
 
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
+    setIsLoading(true);
     const options = {
       enableHighAccuracy: false, // 精度の高い位置精度の場合はtrue ただし通信が遅いのでfalseを採用
       timeout: 5000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
@@ -74,15 +104,19 @@ const Map = () => {
       } else {
         setCurrLocation(latestLocation);
       }
+      setIsLoading(false);
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
+      setIsLoading(false);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
   //TODO:Google route api へのリクエストロジック修正が必要
   const hiddenMode = true;
+
+  if (isLoading) return <MyLoading />;
 
   return (
     <>
