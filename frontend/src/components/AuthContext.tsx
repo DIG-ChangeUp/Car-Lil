@@ -6,7 +6,8 @@ import {
   ReactNode,
 } from 'react';
 import { auth } from './auth/firebase';
-import { User as FirebaseUser } from 'firebase/auth'; // Firebase の User 型をインポート
+import { User as FirebaseUser } from 'firebase/auth';
+import MyLoading from './MyLoading.tsx'; // Firebase の User 型をインポート
 
 interface AuthContextType {
   authUser: FirebaseUser | null;
@@ -50,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     loading,
   };
   if (loading) {
-    return <p>loading...</p>;
+    return <MyLoading />;
   } else {
     return (
       <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

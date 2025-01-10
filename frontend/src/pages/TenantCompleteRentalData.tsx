@@ -3,11 +3,15 @@ import Footer from '../components/Footer.tsx';
 import { Box, Button, Center, Text, VStack } from '@yamada-ui/react';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { isOpenInfoWindowAtom } from '../components/atom/globalState.ts';
+import { useSetAtom } from 'jotai/index';
 
 export default function TenantCompleteRentalData() {
   const navigate = useNavigate();
+  const setIsOpenInfoWindow = useSetAtom(isOpenInfoWindowAtom);
 
   function handlerClickTop() {
+    setIsOpenInfoWindow(false);
     navigate('/map');
   }
 
