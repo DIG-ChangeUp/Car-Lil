@@ -74,7 +74,7 @@ export function TimeBarIndicator(props:props) {
           )}
         </For>
       </Grid>
-      <Grid templateColumns="repeat(12, 1fr)" gap="0" marginBottom={'md'}>
+      <Grid templateColumns="repeat(12, 1fr)" gap="0" mb={"12px"}>
         <For each={aryClockAM}>
           {(bg, index) => (
             <GridItem key={index} w="full" h="18px">
