@@ -11,7 +11,7 @@ import {
   Button,
   Center,
   Container,
-  ScrollArea,
+  // ScrollArea,
   Text,
   VStack,
 } from '@yamada-ui/react';
@@ -61,19 +61,27 @@ const OwnerSelectDay = () => {
         headerTitle={''}
       />
       <Container h="calc(100vh - 130px)" centerContent>
-        <Box w="100%" h="calc(100% - 100px)">
+        <Box
+          w="100%"
+          h="calc(100% - 100px)"
+          // overflow="auto"
+          overflow="scroll"
+        >
           <Center>
             <CustomCalendar />
           </Center>
           <Container>
             <Text textAlign="center">貸出予定一覧</Text>
-            <ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>
+            {/*<ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>*/}
+            <Container h="180" gap="md" overflow="auto">
               <BorrowDateTable />
-            </ScrollArea>
+            </Container>
+            {/*</ScrollArea>*/}
           </Container>
         </Box>
         <VStack w="100%" h="100px">
           <Text
+            fontSize="sm"
             textAlign="center"
             color={atomSelectedDate.length > 0 ? 'white' : 'black'}
           >
