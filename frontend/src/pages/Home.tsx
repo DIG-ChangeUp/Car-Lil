@@ -161,12 +161,13 @@ const Home = () => {
         >
           <Text
             sx={{
-              fontSize: '5xl',
+              fontSize: '6xl',
+              textAlign: 'center',
               marginTop: '3xl',
               paddingLeft: 5,
             }}
           >
-            メニュー選択
+            TOP
           </Text>
           <HStack
             sx={{
