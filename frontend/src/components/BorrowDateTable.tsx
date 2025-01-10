@@ -55,7 +55,6 @@ const BorrowDateTable = () => {
   const selectedDay = useAtomValue(selectedDateAtom);
   const [filteredDemoData, setFilteredDemoData] = useState<DemoData>([]);
   const [listData, setListData] = useState<DemoData>(demoData);
-  console.log('selectedDay-----', selectedDay);
   console.log('atomCurrentShareData', atomCurrentShareData);
 
   //日付が選択されたらその日付がdemoDataに含まれるかを見て、あればその日付だけで絞ったデータを保持
@@ -70,7 +69,7 @@ const BorrowDateTable = () => {
       setListData(filteredDemoData);
     }
   }, [filteredDemoData]);
-  //
+
   function filterDataBySelectedDays() {
     const resultArr: DemoData = [];
     selectedDay.forEach((singleDay) => {

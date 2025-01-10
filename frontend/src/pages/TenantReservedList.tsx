@@ -20,6 +20,9 @@ const TenantReservedList = () => {
   const [reservationData, setReservationData] = useState<ReservationData[]>([]);
   const navigate = useNavigate();
   const { authUser } = UseAuthContext();
+  const [filteredReservationsData, setFilteredReservationsData] = useState<
+    ReservationData[]
+  >([]);
 
   useEffect(() => {
     if (!authUser) {
@@ -35,6 +38,31 @@ const TenantReservedList = () => {
     }
   }, []);
 
+  useEffect(() => {
+    filterDataBySelectedDays();
+  }, []);
+
+  // 確認用
+  useEffect(() => {
+    console.log('reservationData---', reservationData);
+  }, [reservationData]);
+
+  //テナントの予約データが今日の日付以降のもので絞り込む
+  function filterDataBySelectedDays() {
+    const today = new Date().toLocaleDateString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const resultArr: ReservationData[] = [];
+    reservationData.filter((data) => {
+      console.log(Date.parse(data.rent_at), Date.parse(today));
+      if (Date.parse(data.rent_at) >= Date.parse(today)) {
+        resultArr.push(data);
+      }
+    });
+    setFilteredReservationsData(resultArr);
+  }
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!authUser) return null;
 
@@ -43,7 +71,7 @@ const TenantReservedList = () => {
       <Header isOwnerMode={false} routePath={''} headerTitle={'予約一覧'} />
       <Container h="calc(100vh - 130px)" centerContent>
         <ScrollArea w="100%" h="90%">
-          {reservationData.map((reservation) => {
+          {filteredReservationsData.map((reservation) => {
             return (
               <Card
                 marginTop="3px"
