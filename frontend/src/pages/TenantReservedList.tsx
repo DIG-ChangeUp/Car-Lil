@@ -9,7 +9,6 @@ import {
   Container,
   HStack,
   ScrollArea,
-  Spacer,
   Text,
   VStack,
 } from '@yamada-ui/react';
@@ -95,15 +94,13 @@ const TenantReservedList = () => {
             );
           })}
         </ScrollArea>
-        <HStack w="100%" h="10%">
-          <Spacer />
+        <HStack w="100%" h="10%" justifyContent="start">
           <Button
             sx={{
               w: 180,
               h: 45,
               fontSize: 'xl',
               backgroundColor: '#F4F4F5',
-              marginRight: '10px',
             }}
             onClick={() => {
               navigate('/map');
