@@ -1,5 +1,6 @@
 import {
   NativeTable,
+  ScrollArea,
   TableContainer,
   Tbody,
   Td,
@@ -46,38 +47,43 @@ const BorrowDateTable = () => {
   ];
 
   return (
-    <TableContainer>
-      <NativeTable variant="striped">
-        <Thead>
-          <Tr>
-            <Th>日付</Th>
-            <Th>開始</Th>
-            <Th></Th>
-            <Th>終了</Th>
-          </Tr>
-        </Thead>
-
-        <Tbody>
-          {/*本来はatomCurrentShareDataで map する demo day用*/}
-          {demodata.map((borrow) => {
-            return (
-              <Tr key={borrow.start_at}>
-                <Td fontSize="16px">
-                  {dayjs(borrow.start_at).tz('Asia/Tokyo').format('MM月DD日')}
-                </Td>
-                <Td fontSize="16px">
-                  {dayjs(borrow.start_at).tz('Asia/Tokyo').format('HH:mm')}
-                </Td>
-                <Td fontSize="16px">~</Td>
-                <Td fontSize="16px">
-                  {dayjs(borrow.end_at).tz('Asia/Tokyo').format('HH:mm')}
-                </Td>
+    <>
+      <ScrollArea type="always">
+        <TableContainer>
+          <NativeTable variant="striped">
+            <Thead>
+              <Tr>
+                <Th>日付</Th>
+                <Th>開始</Th>
+                <Th></Th>
+                <Th>終了</Th>
               </Tr>
-            );
-          })}
-        </Tbody>
-      </NativeTable>
-    </TableContainer>
+            </Thead>
+            <Tbody>
+              {/*本来はatomCurrentShareDataで map する demo day用*/}
+              {demodata.map((borrow) => {
+                return (
+                  <Tr key={borrow.start_at} fontSize="16px">
+                    <Td>
+                      {dayjs(borrow.start_at)
+                        .tz('Asia/Tokyo')
+                        .format('MM月DD日')}
+                    </Td>
+                    <Td>
+                      {dayjs(borrow.start_at).tz('Asia/Tokyo').format('HH:mm')}
+                    </Td>
+                    <Td>~</Td>
+                    <Td>
+                      {dayjs(borrow.end_at).tz('Asia/Tokyo').format('HH:mm')}
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </NativeTable>
+        </TableContainer>
+      </ScrollArea>
+    </>
   );
 };
 
