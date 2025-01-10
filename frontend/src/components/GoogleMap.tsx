@@ -125,8 +125,8 @@ export default function GoogleMap() {
             <HStack mb={2}>
               <img
                 src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${selectInfoWindow.image1}`}
-                width={40}
-                height={30}
+                width={80}
+                height={60}
                 object-fit="cover"
                 alt="car_icon"
               />
