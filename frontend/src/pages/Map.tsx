@@ -89,6 +89,7 @@ const Map = () => {
 
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
+    setIsLoading(true);
     const options = {
       enableHighAccuracy: false, // 精度の高い位置精度の場合はtrue ただし通信が遅いのでfalseを採用
       timeout: 5000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
@@ -103,9 +104,11 @@ const Map = () => {
       } else {
         setCurrLocation(latestLocation);
       }
+      setIsLoading(false);
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
+      setIsLoading(false);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
   }

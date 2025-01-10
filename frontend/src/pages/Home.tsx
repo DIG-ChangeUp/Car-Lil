@@ -7,6 +7,7 @@ import {
   locationAtom,
   prevLocationAtom,
   diffDistanceAtom,
+  isOpenInfoWindowAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
@@ -19,12 +20,11 @@ const Home = () => {
   const { authUser } = UseAuthContext();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
-
-  //ユーザーデータを保持
   const setUserData = useSetAtom(userDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDiffDistance = useSetAtom(diffDistanceAtom);
+  const setIsOpenInfoWindow = useSetAtom(isOpenInfoWindowAtom);
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
@@ -204,6 +204,7 @@ const Home = () => {
               }}
               onClick={async () => {
                 await fetchUserData(emailAddress);
+                setIsOpenInfoWindow(false);
                 navigate('/map');
               }}
             >
