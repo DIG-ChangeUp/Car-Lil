@@ -18,11 +18,25 @@ import {
   viewModeAtom,
 } from './atom/globalState.ts';
 import { useAtom } from 'jotai';
-import { Button, Container, Flex, Float, Text } from '@yamada-ui/react';
+import { Button, Float, HStack, Text } from '@yamada-ui/react';
 import { MdNavigation } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 import { ILocation } from '../../globals';
+
+import { TimeBarIndicator, ITimeZone } from './TimeBarIndicator.tsx';
+
+const ownerRentalTime: ITimeZone = {
+  strTime: '07:00',
+  endTime: '23:00'
+}
+
+const bookingTime: ITimeZone[] = [
+  {
+    strTime: '14:00',
+    endTime: '16:00'
+  }
+]
 
 export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
@@ -110,32 +124,38 @@ export default function GoogleMap() {
       ></AdvancedMarker>
       <Markers />
       {isOpenInfoWindow && selectInfoWindow && (
+        // infoWindowのカスタム表示については以下を参照
+        // https://visgl.github.io/react-google-maps/docs/api-reference/components/info-window
         <InfoWindow
+          pixelOffset={[0, -50]}
           position={{
             lat: Number(selectInfoWindow.latitude),
             lng: Number(selectInfoWindow.longitude),
           }}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          options={{
-            // pinが隠れるので上にオフセットさせる
-            pixelOffset: new google.maps.Size(0, -50),
-          }}
           onClose={() => setIsOpenInfoWindow(false)}
+          headerContent={
+            <Text fontSize={'16px'} fontWeight={'bold'}>
+              {selectInfoWindow.car_name}
+            </Text>
+          }
+          minWidth={320}
         >
-          <Flex alignItems="center" gap="3">
-            <img
-              src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${selectInfoWindow.image1}`}
-              width={40}
-              height={30}
-              object-fit="cover"
-              alt="car_icon"
+            <HStack mb={2}>
+              <img
+                src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${selectInfoWindow.image1}`}
+                width={80}
+                height={60}
+                object-fit="cover"
+                alt="car_icon"
+              />
+              <Text>{selectInfoWindow.address}</Text>
+            </HStack>
+            <TimeBarIndicator
+              ownerRentalTime={ownerRentalTime}
+              bookingTime={bookingTime}
             />
-            <Text>{selectInfoWindow.car_name}</Text>
-          </Flex>
-          <p>{selectInfoWindow.address}</p>
-          <Container minWidth="200px">
             <Button
+              w={'100%'}
               rounded="full"
               backgroundColor="#289FAB"
               color="#FEFEFE"
@@ -143,7 +163,7 @@ export default function GoogleMap() {
             >
               利用する
             </Button>
-          </Container>
+
         </InfoWindow>
       )}
       {viewMode === 'map' && (

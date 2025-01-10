@@ -4,10 +4,10 @@ import { GrUserAdmin, GrUser } from 'react-icons/gr';
 import {
   userEmailAtom,
   userDataAtom,
-  allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
   diffDistanceAtom,
+  isOpenInfoWindowAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
@@ -20,13 +20,11 @@ const Home = () => {
   const { authUser } = UseAuthContext();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
-
-  //ユーザーデータを保持
   const setUserData = useSetAtom(userDataAtom);
-  const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDiffDistance = useSetAtom(diffDistanceAtom);
+  const setIsOpenInfoWindow = useSetAtom(isOpenInfoWindowAtom);
 
   // userが存在しない場合にリダイレクト
   useEffect(() => {
@@ -88,20 +86,6 @@ const Home = () => {
     }
   }
 
-  async function getCars() {
-    if (!currLocation) return;
-    const response = await fetch('/api/allCarports', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: currLocation }),
-    });
-    if (response.ok) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const jsonResponse = await response.json();
-      setAllCarPorte(jsonResponse.data);
-    }
-  }
   //ログアウト
   const handleLogout = async () => {
     try {
@@ -177,12 +161,13 @@ const Home = () => {
         >
           <Text
             sx={{
-              fontSize: '5xl',
+              fontSize: '6xl',
+              textAlign: 'center',
               marginTop: '3xl',
               paddingLeft: 5,
             }}
           >
-            メニュー選択
+            TOP
           </Text>
           <HStack
             sx={{
@@ -220,7 +205,7 @@ const Home = () => {
               }}
               onClick={async () => {
                 await fetchUserData(emailAddress);
-                await getCars();
+                setIsOpenInfoWindow(false);
                 navigate('/map');
               }}
             >

@@ -41,8 +41,9 @@ export default function Footer(props: IFooterSetting) {
 
     } else {
       _aryFooterItems.push({ labelText: '予約', iconSelector: 3, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 4, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 5, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: '予約一覧', iconSelector: 4, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 5, menuMode: 'Enabled' });
+      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 6, menuMode: 'Enabled' });
 
     }
 
