@@ -210,7 +210,7 @@ exports.seed = async function (knex) {
       reserved_at: '2024-12-24 09:15:00',
       rent_at: '2025-01-17 10:00:00',
       rented_at: null,
-      return_at: '2025-01-18 11:00:00',
+      return_at: '2025-01-17 11:00:00',
       returned_at: null,
       evaluation: null,
       is_refueled: null,
