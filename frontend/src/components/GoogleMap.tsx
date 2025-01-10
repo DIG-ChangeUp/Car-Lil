@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import {
   Map,
@@ -12,7 +12,7 @@ import { useAtomValue, useSetAtom } from 'jotai/index';
 import {
   isOpenInfoWindowAtom,
   locationAtom,
-  mapSelectPointData,
+  // mapSelectPointData,
   prevLocationAtom,
   selectInfoWindowAtom,
   viewModeAtom,
@@ -21,22 +21,22 @@ import { useAtom } from 'jotai';
 import { Button, Float, HStack, Text } from '@yamada-ui/react';
 import { MdNavigation } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
 import { ILocation } from '../../globals';
 
 import { TimeBarIndicator, ITimeZone } from './TimeBarIndicator.tsx';
+import { useCallback } from 'react';
 
 const ownerRentalTime: ITimeZone = {
   strTime: '07:00',
-  endTime: '23:00'
-}
+  endTime: '23:00',
+};
 
 const bookingTime: ITimeZone[] = [
   {
     strTime: '14:00',
-    endTime: '16:00'
-  }
-]
+    endTime: '16:00',
+  },
+];
 
 export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
@@ -44,8 +44,7 @@ export default function GoogleMap() {
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const viewMode = useAtomValue(viewModeAtom);
-  const [atomMapSelectPointData, setAtomMapSelectPointData] =
-    useAtom(mapSelectPointData);
+  // const setAtomMapSelectPointData = useSetAtom(mapSelectPointData);
   const navigate = useNavigate();
   const map = useMap();
 
@@ -95,19 +94,18 @@ export default function GoogleMap() {
     [map, setIsOpenInfoWindow]
   );
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  function handleClickedMapPoint(e) {
-    setAtomMapSelectPointData({
-      zoom: e.map.zoom,
-      latLng: {
-        lat: e.detail.latLng.lat,
-        lng: e.detail.latLng.lng,
-      },
-    });
-  }
-
-  console.log('click event: ', atomMapSelectPointData);
+  // map event残し
+  // function handleClickedMapPoint(e: MapMouseEvent | null) {
+  //   if (!e || !e.detail.latLng) return;
+  //   if (e.map.getZoom() === undefined) return;
+  //   setAtomMapSelectPointData({
+  //     zoom: e.map.getZoom(),
+  //     latLng: {
+  //       lat: e.detail.latLng.lat,
+  //       lng: e.detail.latLng.lng,
+  //     },
+  //   });
+  // }
 
   return (
     <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>
@@ -116,7 +114,7 @@ export default function GoogleMap() {
         defaultCenter={position}
         mapId="da37f3254c6a6d1c"
         disableDefaultUI={true}
-        onClick={(e) => handleClickedMapPoint(e)}
+        // onClick={(e) => handleClickedMapPoint(e)}
       ></Map>
       <AdvancedMarker
         position={position}
@@ -140,30 +138,29 @@ export default function GoogleMap() {
           }
           minWidth={320}
         >
-            <HStack mb={2}>
-              <img
-                src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${selectInfoWindow.image1}`}
-                width={80}
-                height={60}
-                object-fit="cover"
-                alt="car_icon"
-              />
-              <Text>{selectInfoWindow.address}</Text>
-            </HStack>
-            <TimeBarIndicator
-              ownerRentalTime={ownerRentalTime}
-              bookingTime={bookingTime}
+          <HStack mb={2}>
+            <img
+              src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${selectInfoWindow.image1}`}
+              width={80}
+              height={60}
+              object-fit="cover"
+              alt="car_icon"
             />
-            <Button
-              w={'100%'}
-              rounded="full"
-              backgroundColor="#289FAB"
-              color="#FEFEFE"
-              onClick={handleNavigate}
-            >
-              利用する
-            </Button>
-
+            <Text>{selectInfoWindow.address}</Text>
+          </HStack>
+          <TimeBarIndicator
+            ownerRentalTime={ownerRentalTime}
+            bookingTime={bookingTime}
+          />
+          <Button
+            w={'100%'}
+            rounded="full"
+            backgroundColor="#289FAB"
+            color="#FEFEFE"
+            onClick={handleNavigate}
+          >
+            利用する
+          </Button>
         </InfoWindow>
       )}
       {viewMode === 'map' && (
