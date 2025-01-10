@@ -258,6 +258,7 @@ const OwnerSelectTime = () => {
                 navigate('/ownerCheckShareData');
               }
             }}
+            isDisabled={validationMsg !== '指定の時間で登録可能です'}
             sx={{
               bg: '#289FAB',
               color: '#FEFEFE',
