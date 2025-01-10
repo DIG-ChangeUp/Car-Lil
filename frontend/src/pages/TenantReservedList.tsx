@@ -40,7 +40,7 @@ const TenantReservedList = () => {
 
   useEffect(() => {
     filterDataBySelectedDays();
-  }, []);
+  }, [reservationData]);
 
   // 確認用
   useEffect(() => {
@@ -56,7 +56,6 @@ const TenantReservedList = () => {
     });
     const resultArr: ReservationData[] = [];
     reservationData.filter((data) => {
-      console.log(Date.parse(data.rent_at), Date.parse(today));
       if (Date.parse(data.rent_at) >= Date.parse(today)) {
         resultArr.push(data);
       }
