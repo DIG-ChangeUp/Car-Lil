@@ -86,7 +86,7 @@ const TenantReservedList = () => {
           </Button>
         </HStack>
       </Container>
-      <Footer isOwnerMode={false} activeMenu={0} />
+      <Footer isOwnerMode={false} activeMenu={1} />
     </>
   );
 };
