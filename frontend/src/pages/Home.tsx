@@ -4,7 +4,6 @@ import { GrUserAdmin, GrUser } from 'react-icons/gr';
 import {
   userEmailAtom,
   userDataAtom,
-  allCarPorteAtom,
   locationAtom,
   prevLocationAtom,
   diffDistanceAtom,
@@ -23,7 +22,6 @@ const Home = () => {
 
   //ユーザーデータを保持
   const setUserData = useSetAtom(userDataAtom);
-  const setAllCarPorte = useSetAtom(allCarPorteAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDiffDistance = useSetAtom(diffDistanceAtom);
@@ -88,20 +86,6 @@ const Home = () => {
     }
   }
 
-  async function getCars() {
-    if (!currLocation) return;
-    const response = await fetch('/api/allCarports', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPosition: currLocation }),
-    });
-    if (response.ok) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const jsonResponse = await response.json();
-      setAllCarPorte(jsonResponse.data);
-    }
-  }
   //ログアウト
   const handleLogout = async () => {
     try {
@@ -220,7 +204,6 @@ const Home = () => {
               }}
               onClick={async () => {
                 await fetchUserData(emailAddress);
-                await getCars();
                 navigate('/map');
               }}
             >

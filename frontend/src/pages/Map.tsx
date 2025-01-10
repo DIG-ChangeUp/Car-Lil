@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
@@ -8,6 +8,7 @@ import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
 
 import { useAtom, useSetAtom } from 'jotai/index';
 import {
+  allCarPorteAtom,
   distanceDataAtom,
   locationAtom,
   prevLocationAtom,
@@ -23,6 +24,7 @@ const Map = () => {
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const setPrevLocation = useSetAtom(prevLocationAtom);
+  const [atomAllCarPorte, setAtomAllCarPorte] = useAtom(allCarPorteAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -35,6 +37,29 @@ const Map = () => {
   useEffect(() => {
     getGeolocation();
   }, []);
+
+  const getCars = useCallback(async () => {
+    if (!currLocation) return;
+    const response = await fetch('/api/allCarports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPosition: currLocation }),
+    });
+    if (response.ok) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const jsonResponse = await response.json();
+      setAtomAllCarPorte(jsonResponse.data);
+    }
+  }, [currLocation, setAtomAllCarPorte]);
+
+  useEffect(() => {
+    if (atomAllCarPorte.length < 1) {
+      (async () => {
+        await getCars();
+      })();
+    }
+  }, [atomAllCarPorte, getCars]);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
   if (!authUser) return null;
