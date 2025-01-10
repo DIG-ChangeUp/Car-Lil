@@ -113,7 +113,7 @@ const Map = () => {
                     w="80px"
                     h="40px"
                     color={viewMode === 'map' ? 'white' : '#c9c9c9'}
-                    bg={viewMode === 'map' ? '#289FAB' : 'none'}
+                    bg={viewMode === 'map' ? 'primary' : 'none'}
                     onClick={() => handleViewModeClick('map')}
                     border="none"
                     rounded="full"
@@ -125,7 +125,7 @@ const Map = () => {
                     w="80px"
                     h="40px"
                     color={viewMode === 'list' ? 'white' : '#c9c9c9'}
-                    bg={viewMode === 'list' ? '#289FAB' : 'none'}
+                    bg={viewMode === 'list' ? '#primary' : 'none'}
                     onClick={() => handleViewModeClick('list')}
                     border="none"
                     rounded="full"

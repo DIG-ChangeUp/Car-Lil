@@ -139,7 +139,7 @@ export default function GoogleMap() {
             marginBottom="10"
             transform="rotate(45deg)"
             colorScheme="blackAlpha"
-            opacity="0.5"
+            opacity="1"
           >
             <MdNavigation color="white" />
           </Button>
