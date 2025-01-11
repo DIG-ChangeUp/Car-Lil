@@ -141,8 +141,9 @@ const TenantCheckRentalData = () => {
               sx={{
                 h: 120,
                 mt: 1,
-                p: 3,
-                fontSize: 'xs',
+                px: 5,
+                py: 3,
+                fontSize: 'sm',
                 backgroundColor: '#FFFFFF',
               }}
             >
@@ -157,11 +158,13 @@ const TenantCheckRentalData = () => {
                   <Text>利用開始日時</Text>
                   <Text
                     sx={{
-                      w: 120,
+                      w: 140,
                       m: 'md',
+                      px: 1,
                       backgroundColor: '#F3F7F7',
                       textAlign: 'right',
-                      marginRight: 11,
+                      marginRight: 7,
+                      borderRadius: 5,
                     }}
                   >
                     {formattedStartDate}
@@ -177,11 +180,13 @@ const TenantCheckRentalData = () => {
                   <Text>返却予定日時</Text>
                   <Text
                     sx={{
-                      w: 120,
+                      w: 140,
                       m: 'md',
+                      px: 1,
                       backgroundColor: '#F3F7F7',
                       textAlign: 'right',
-                      marginRight: 11,
+                      marginRight: 7,
+                      borderRadius: 5,
                     }}
                   >
                     {formattedEndDate}
@@ -198,10 +203,11 @@ const TenantCheckRentalData = () => {
                   <HStack>
                     <Text
                       sx={{
-                        w: 120,
-                        m: 'md',
+                        px: 1,
+                        w: 140,
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
+                        borderRadius: 5,
                       }}
                     >
                       {hour}
@@ -220,10 +226,11 @@ const TenantCheckRentalData = () => {
                   <HStack>
                     <Text
                       sx={{
-                        w: 120,
-                        m: 'md',
+                        px: 1,
+                        w: 140,
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
+                        borderRadius: 5,
                       }}
                     >
                       {price}
