@@ -113,7 +113,8 @@ export default function GoogleMap() {
         defaultZoom={18}
         defaultCenter={position}
         mapId="da37f3254c6a6d1c"
-        disableDefaultUI={true}
+        disableDefaultUI={true} //Map上のストリートViewなどのボタンを非表示にする
+        reuseMaps={true} // Map表示するたびにapiリクエストするのを防ぐ
         // onClick={(e) => handleClickedMapPoint(e)}
       ></Map>
       <AdvancedMarker
