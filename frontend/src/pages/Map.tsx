@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
-import { Box, Button, ButtonGroup, Center, ZStack } from '@yamada-ui/react';
+import { Box, Center, Flex, ZStack } from '@yamada-ui/react';
 
 import { useAtom, useSetAtom } from 'jotai/index';
 import {
@@ -114,9 +114,6 @@ const Map = () => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  //TODO:Google route api へのリクエストロジック修正が必要
-  const hiddenMode = false;
-
   if (isLoading) return <MyLoading />;
 
   return (
@@ -128,43 +125,44 @@ const Map = () => {
               {viewMode === 'map' ? <GoogleMap /> : <DistanceCardList />}
             </Box>
             <Center w="100%">
-              {hiddenMode ? null : (
-                <ButtonGroup
-                  variant="outline"
-                  w="160px"
-                  h="40px"
-                  marginTop="3px"
-                  // border="solid #c9c9c9 1px"
+              <Flex
+                w="160px"
+                h="36px"
+                marginTop="3px"
+                border="none"
+                rounded="full"
+                boxShadow="0px 0px 15px -5px #777777"
+                bg="white"
+              >
+                <Box
+                  textAlign="center"
+                  lineHeight="36px"
+                  // colorScheme={'primary'}
+                  w="80px"
+                  h="36px"
+                  color={viewMode === 'map' ? 'white' : '#c9c9c9'}
+                  bg={viewMode === 'map' ? '#289fab' : 'none'}
+                  onClick={() => handleViewModeClick('map')}
+                  border="none"
                   rounded="full"
-                  boxShadow="0px 0px 15px -5px #777777"
-                  bg="white"
                 >
-                  <Button
-                    colorScheme="#289FAB"
-                    w="80px"
-                    h="40px"
-                    color={viewMode === 'map' ? 'white' : '#c9c9c9'}
-                    bg={viewMode === 'map' ? 'primary' : 'none'}
-                    onClick={() => handleViewModeClick('map')}
-                    border="none"
-                    rounded="full"
-                  >
-                    Map
-                  </Button>
-                  <Button
-                    colorScheme="#289FAB"
-                    w="80px"
-                    h="40px"
-                    color={viewMode === 'list' ? 'white' : '#c9c9c9'}
-                    bg={viewMode === 'list' ? '#primary' : 'none'}
-                    onClick={() => handleViewModeClick('list')}
-                    border="none"
-                    rounded="full"
-                  >
-                    List
-                  </Button>
-                </ButtonGroup>
-              )}
+                  Map
+                </Box>
+                <Box
+                  textAlign="center"
+                  lineHeight="36px"
+                  // colorScheme={'primary'}
+                  w="80px"
+                  h="36px"
+                  color={viewMode === 'list' ? 'white' : '#c9c9c9'}
+                  bg={viewMode === 'list' ? '#289fab' : 'none'}
+                  onClick={() => handleViewModeClick('list')}
+                  border="none"
+                  rounded="full"
+                >
+                  List
+                </Box>
+              </Flex>
             </Center>
           </ZStack>
         </Center>
