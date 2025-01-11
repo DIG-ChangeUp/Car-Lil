@@ -120,7 +120,8 @@ export function TenantEmptyData() {
       const _resultJSON = await fetchResult.json();
       const _resultRentalData: IRentalData = _resultJSON.data as IRentalData;
 
-      const _rentalDate = new Date(_resultRentalData.rental_date);
+      // const _rentalDate = new Date(_resultRentalData.rental_date);
+      const _rentalDate = new Date();
 
       const _month = _rentalDate.getMonth() + 1;
       const _date = _rentalDate.getDate();
