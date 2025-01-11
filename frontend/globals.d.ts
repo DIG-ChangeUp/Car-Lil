@@ -125,6 +125,8 @@ export interface IDistanceCardListProps {
 
 // ルート距離リスト google routes api
 export interface IDistanceData {
+  rows: any;
+  carData: any;
   routes: IRoute[];
 }
 

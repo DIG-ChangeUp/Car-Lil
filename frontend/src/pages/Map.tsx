@@ -83,6 +83,7 @@ const Map = () => {
         // @ts-ignore
         const jsonResponse = await response.json();
         setDistanceData(jsonResponse.data);
+        console.log('Get: ', jsonResponse.data);
       }
     }
   }
@@ -114,7 +115,7 @@ const Map = () => {
   }
 
   //TODO:Google route api へのリクエストロジック修正が必要
-  const hiddenMode = true;
+  const hiddenMode = false;
 
   if (isLoading) return <MyLoading />;
 
@@ -124,11 +125,7 @@ const Map = () => {
         <Center height="calc(100vh - 80px)" maxWidth="100vw">
           <ZStack width="100%">
             <Box height="calc(100vh - 80px)" width="100%">
-              {viewMode === 'map' ? (
-                <GoogleMap />
-              ) : (
-                <DistanceCardList distanceData={distanceData} />
-              )}
+              {viewMode === 'map' ? <GoogleMap /> : <DistanceCardList />}
             </Box>
             <Center w="100%">
               {hiddenMode ? null : (
