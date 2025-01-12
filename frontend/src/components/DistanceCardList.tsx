@@ -37,9 +37,7 @@ const DistanceCardList = () => {
     <Container marginTop="40px">
       <ScrollArea h="calc(100vh - 80px - 90px)" w="100%">
         <Container>
-          {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-          {/*@ts-ignore*/}
-          {distanceData.rows.map((distance, i) => {
+          {distanceData.map((data, i) => {
             return (
               <Card
                 marginTop="3px"
@@ -51,11 +49,11 @@ const DistanceCardList = () => {
               >
                 <HStack>
                   <VStack>
-                    <Text fontSize="14px">{distance.carData.address}</Text>
+                    <Text fontSize="14px">{data.carData.address}</Text>
                     <HStack>
-                      <Text>{distance.carData.car_name}</Text>
+                      <Text>{data.carData.car_name}</Text>
                       <Spacer />
-                      <Text>{distance.elements[i].distance.text}</Text>
+                      <Text>{data.distance.text}</Text>
                     </HStack>
                   </VStack>
                   <Button

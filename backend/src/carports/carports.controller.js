@@ -52,25 +52,7 @@ module.exports = {
 
       //GoogleAPIへのデータ送信
       async function getRootDistance() {
-        // const _destLat = calculatedData.latitude;
-        // const _destLng = calculatedData.longitude;
-        // const _originLat = currentPosition.latitude;
-        // const _originLng = currentPosition.longitude;
-
         let API_URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${_origin}&destinations=${_destination}&mode=walking&language=ja`;
-
-        // let API_URL =
-        //   'https://maps.googleapis.com/maps/api/distancematrix/json?avoid=highways';
-        // // API_URL += '&destination=' + _destLat + ',' + _destLng;
-        // API_URL +=
-        //   '&destination=' +
-        //   '34.997965,137.039477|34.997965,137.039477|34.997965,137.039477';
-        // API_URL += '&mode=walking';
-        // // API_URL += '&origin=' + _originLat + ',' + _originLng;
-        // API_URL +=
-        //   '&origin=' +
-        //   '35.015926,137.004285|35.081304,136.965405|35.143327,136.911475';
-        // API_URL += '&language=ja'; // 帰値の住所を日本語表示にする
         //import.meta.envはESモジュールで利用できないためprocess.envを使う
         API_URL += '&key=' + process.env.GOOGLE_API_KEY;
 
@@ -79,38 +61,23 @@ module.exports = {
       }
 
       const apiResponseData = await getRootDistance();
-
-      console.log(apiResponseData);
       distanceData.forEach(
         (distance, i) => (apiResponseData.rows[i].carData = distance)
       );
 
-      // GoogleAPIからのレスポンスをクライアントにsendする
-      // const dataToSend = [];
-      // await Promise.all(
-      //   distanceData.map(async (data, _) => {
-      //     const apiResponseData = await getRootDistance(data);
-      //     apiResponseData.carData = data;
-      //     dataToSend.push(apiResponseData);
-      //   })
-      // );
+      const filteredApiResponseData = apiResponseData.rows.map((data, i) => {
+        return {
+          carData: data.carData,
+          distance: data.elements[i].distance,
+          duration: data.elements[i].duration,
+        };
+      });
 
-      // console.log('dataToSend: ', dataToSend);
+      const sortData = filteredApiResponseData.sort(
+        (a, b) => a.distance.value - b.distance.value
+      );
 
-      // function ascDistanceSort(a, b) {
-      //   return a > b ? 1 : -1;
-      // }
-
-      // dataToSend.sort((a, b) => {
-      //   console.log('a.routes: ', a.routes[0]);
-      //   console.log('b.routes: ', b.routes[0]);
-      //   ascDistanceSort(
-      //     a.routes[0].legs[0].distance.value,
-      //     b.routes[0].legs[0].distance.value
-      //   );
-      // });
-
-      res.status(200).send({ data: apiResponseData });
+      res.status(200).send({ data: sortData });
     } catch (error) {
       res.status(400).send('response error:');
     }
