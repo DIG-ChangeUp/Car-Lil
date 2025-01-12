@@ -233,7 +233,7 @@ exports.seed = async function (knex) {
     {
       user_id: 2,
       share_car_id: 10,
-      carport_id: 9,
+      carport_id: 10,
       share_state: '予約',
       reserved_at: '2024-12-24 09:15:00',
       rent_at: '2025-01-20 12:00:00',
