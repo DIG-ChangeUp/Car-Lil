@@ -16,7 +16,7 @@ import {
   viewModeAtom,
 } from './atom/globalState.ts';
 import { useAtom } from 'jotai';
-import { Button, Float, HStack, Text } from '@yamada-ui/react';
+import { Box, Button, Float, HStack, Text } from '@yamada-ui/react';
 import { MdNavigation } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { ILocation } from '../../globals';
@@ -48,8 +48,9 @@ export default function GoogleMap() {
 
   const map = useMap();
 
-  const MIDLAND_POSITION = { lat: 35.1704169, lng: 136.8849973 };
-  const position = currLocation ? currLocation : MIDLAND_POSITION;
+  // const MIDLAND = { lat: 35.1704169, lng: 136.8849973 };
+  const SUPPLIERS_CENTER = { lat: 35.05274, lng: 137.158755 };
+  const position = currLocation ? currLocation : SUPPLIERS_CENTER;
 
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
@@ -153,15 +154,19 @@ export default function GoogleMap() {
             ownerRentalTime={ownerRentalTime}
             bookingTime={bookingTime}
           />
-          <Button
+          <Box
             w={'100%'}
+            h="40px"
+            textAlign="center"
+            lineHeight="40px"
+            fontSize="xl"
             rounded="full"
             backgroundColor="#289FAB"
             color="#FEFEFE"
             onClick={handleNavigate}
           >
             利用する
-          </Button>
+          </Box>
         </InfoWindow>
       )}
       {viewMode === 'map' && (
