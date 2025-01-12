@@ -24,7 +24,7 @@ exports.seed = async function (knex) {
     {
       email: 'taroutanaka@mail.com',
       user_name: 'tanakatarou',
-      user_type: 'ユーザー',
+      user_type: 'オーナー',
     },
     {
       email: 'saburosuzuki@mail.com',
