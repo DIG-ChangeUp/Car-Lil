@@ -23,9 +23,9 @@ const DistanceCardList = () => {
 
   const navigate = useNavigate();
 
-  function handleNavigate() {
+  function handleNavigate(carport_id: number) {
     // TODO: パスパラメータを修正する
-    navigate('/emptyData/2/2');
+    navigate(`/emptyData/${carport_id}/${carport_id}`);
   }
 
   console.log('distanceData: ', distanceData);
@@ -62,7 +62,7 @@ const DistanceCardList = () => {
                     rounded="full"
                     w="50px"
                     h="46px"
-                    onClick={handleNavigate}
+                    onClick={() => handleNavigate(data.carData.carport_id)}
                   >
                     予約
                   </Button>

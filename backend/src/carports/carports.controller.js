@@ -28,6 +28,7 @@ module.exports = {
   },
 
   async getDistance(req, res) {
+    console.log('🚀🚀🚀🚀🚀  getDistanceが呼ばれた！！');
     const currentPosition = req.body.currentPosition;
     try {
       let distanceData = await carportsModel.calcDistance(currentPosition);
