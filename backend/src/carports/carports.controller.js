@@ -80,7 +80,7 @@ module.exports = {
 
       res.status(200).send({ data: sortData });
     } catch (error) {
-      res.status(400).send('response error:');
+      res.status(400).send('response error');
     }
   },
 };
