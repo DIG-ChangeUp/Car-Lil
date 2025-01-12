@@ -37,7 +37,7 @@ export const selectedDateAndTimesAtom = atom<IRentalDateAndTime[]>([]);
 export const currentShareDataAtom = atom<IShareData[] | []>([]);
 
 export const locationAtom = atom<ILocation | null>(null);
-export const prevLocationAtom = atom<ILocation | null>(null);
+export const getDistanceApiRequestTimeAtom = atom<Date | null>(null);
 export const diffDistanceAtom = atom<number | null>(null);
 export const selectInfoWindowAtom = atom<IAllCarPort | null>(null);
 export const isOpenInfoWindowAtom = atom<boolean>(false);

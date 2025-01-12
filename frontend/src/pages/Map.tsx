@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
@@ -10,6 +10,7 @@ import { useAtom, useSetAtom } from 'jotai/index';
 import {
   allCarPorteAtom,
   distanceDataAtom,
+  getDistanceApiRequestTimeAtom,
   locationAtom,
   viewModeAtom,
 } from '../components/atom/globalState.ts';
@@ -25,7 +26,8 @@ const Map = () => {
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const [atomAllCarPorte, setAtomAllCarPorte] = useAtom(allCarPorteAtom);
   const [isLoading, setIsLoading] = useState(false);
-  const getDistanceApiRequestTime = useRef<Date | null>(null);
+  const [atomGetDistanceApiRequestTime, setAtomGetDistanceApiRequestTime] =
+    useAtom<Date | null>(getDistanceApiRequestTimeAtom);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -81,16 +83,16 @@ const Map = () => {
         // @ts-ignore
         const jsonResponse = await response.json();
         setDistanceData(jsonResponse.data);
-        getDistanceApiRequestTime.current = new Date();
+        setAtomGetDistanceApiRequestTime(new Date());
       }
     }
   }
 
   function checkRequestTiming() {
     const currentTime = new Date();
-    if (getDistanceApiRequestTime.current === null) return false;
+    if (atomGetDistanceApiRequestTime === null) return false;
     const timeDiff =
-      currentTime.getTime() - getDistanceApiRequestTime.current.getTime();
+      currentTime.getTime() - atomGetDistanceApiRequestTime.getTime();
     return timeDiff <= 5 * 60 * 1000; // 5分以内は実行しない
   }
 
