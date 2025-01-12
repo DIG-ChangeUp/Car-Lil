@@ -8,12 +8,10 @@ import {
 } from '@vis.gl/react-google-maps';
 
 import Markers from './Markers.tsx';
-import { useAtomValue, useSetAtom } from 'jotai/index';
+import { useAtomValue } from 'jotai/index';
 import {
   isOpenInfoWindowAtom,
   locationAtom,
-  // mapSelectPointData,
-  prevLocationAtom,
   selectInfoWindowAtom,
   viewModeAtom,
 } from './atom/globalState.ts';
@@ -24,7 +22,8 @@ import { useNavigate } from 'react-router-dom';
 import { ILocation } from '../../globals';
 
 import { TimeBarIndicator, ITimeZone } from './TimeBarIndicator.tsx';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import MyLoading from './MyLoading.tsx';
 
 const ownerRentalTime: ITimeZone = {
   strTime: '07:00',
@@ -42,10 +41,11 @@ export default function GoogleMap() {
   const selectInfoWindow = useAtomValue(selectInfoWindowAtom);
   const [isOpenInfoWindow, setIsOpenInfoWindow] = useAtom(isOpenInfoWindowAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
-  const setPrevLocation = useSetAtom(prevLocationAtom);
   const viewMode = useAtomValue(viewModeAtom);
   // const setAtomMapSelectPointData = useSetAtom(mapSelectPointData);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const map = useMap();
 
   const MIDLAND_POSITION = { lat: 35.1704169, lng: 136.8849973 };
@@ -53,6 +53,7 @@ export default function GoogleMap() {
 
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
+    setIsLoading(true);
     const options = {
       enableHighAccuracy: false, // 精度の高い位置精度の場合はtrue ただし通信が遅いのでfalseを採用
       timeout: 5000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
@@ -61,16 +62,13 @@ export default function GoogleMap() {
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
       const latestLocation = { lat: crd.latitude, lng: crd.longitude };
-      if (currLocation) {
-        setPrevLocation(currLocation);
-        setCurrLocation(latestLocation);
-      } else {
-        setCurrLocation(latestLocation);
-      }
+      setCurrLocation(latestLocation);
       handlePanTo(latestLocation);
+      setIsLoading(false);
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
+      setIsLoading(false);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
@@ -106,6 +104,8 @@ export default function GoogleMap() {
   //     },
   //   });
   // }
+
+  if (isLoading) return <MyLoading />;
 
   return (
     <div style={{ height: 'calc(100vh - 80px)', width: '100%' }}>

@@ -10,15 +10,10 @@ import {
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue } from 'jotai/index';
-import {
-  distanceDataAtom,
-  locationAtom,
-  prevLocationAtom,
-} from './atom/globalState.ts';
+import { distanceDataAtom, locationAtom } from './atom/globalState.ts';
 
 const DistanceCardList = () => {
   const currLocation = useAtomValue(locationAtom);
-  const prevLocation = useAtomValue(prevLocationAtom);
   const distanceData = useAtomValue(distanceDataAtom);
 
   const navigate = useNavigate();
@@ -29,7 +24,6 @@ const DistanceCardList = () => {
   }
 
   console.log('distanceData: ', distanceData);
-  console.log('prevLocation: ', prevLocation);
   console.log('currLocation: ', currLocation);
 
   if (distanceData.length < 1) return;

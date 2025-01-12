@@ -6,12 +6,11 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 
 import { Box, Center, Flex, ZStack } from '@yamada-ui/react';
 
-import { useAtom, useSetAtom } from 'jotai/index';
+import { useAtom } from 'jotai/index';
 import {
   allCarPorteAtom,
   distanceDataAtom,
   locationAtom,
-  prevLocationAtom,
   viewModeAtom,
 } from '../components/atom/globalState.ts';
 import Footer from '../components/Footer.tsx';
@@ -24,7 +23,6 @@ const Map = () => {
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
-  const setPrevLocation = useSetAtom(prevLocationAtom);
   const [atomAllCarPorte, setAtomAllCarPorte] = useAtom(allCarPorteAtom);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -99,12 +97,7 @@ const Map = () => {
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
       const latestLocation = { lat: crd.latitude, lng: crd.longitude };
-      if (currLocation) {
-        setPrevLocation(currLocation);
-        setCurrLocation(latestLocation);
-      } else {
-        setCurrLocation(latestLocation);
-      }
+      setCurrLocation(latestLocation);
       setIsLoading(false);
     }
     function error(err: GeolocationPositionError) {
