@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { UseAuthContext } from '../components/AuthContext.tsx';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import GoogleMap from '../components/GoogleMap.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 
 import { Box, Center, Flex, ZStack } from '@yamada-ui/react';
 
-import { useAtom } from 'jotai/index';
+import { useAtom, useSetAtom } from 'jotai/index';
 import {
   allCarPorteAtom,
   distanceDataAtom,
@@ -21,10 +21,11 @@ const Map = () => {
   const navigate = useNavigate();
   const { authUser } = UseAuthContext();
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
-  const [distanceData, setDistanceData] = useAtom(distanceDataAtom);
+  const setDistanceData = useSetAtom(distanceDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
   const [atomAllCarPorte, setAtomAllCarPorte] = useAtom(allCarPorteAtom);
   const [isLoading, setIsLoading] = useState(false);
+  const getDistanceApiRequestTime = useRef<Date | null>(null);
 
   const GOOGLE_API_KEY =
     import.meta.env.VITE_GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
@@ -69,8 +70,7 @@ const Map = () => {
   async function handleViewModeClick(mode: 'map' | 'list') {
     setViewMode(mode);
     if (mode === 'list') {
-      if (distanceData.length >= 1) return;
-
+      if (checkRequestTiming()) return;
       const response = await fetch('/api/distance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -81,9 +81,17 @@ const Map = () => {
         // @ts-ignore
         const jsonResponse = await response.json();
         setDistanceData(jsonResponse.data);
-        console.log('Get: ', jsonResponse.data);
+        getDistanceApiRequestTime.current = new Date();
       }
     }
+  }
+
+  function checkRequestTiming() {
+    const currentTime = new Date();
+    if (getDistanceApiRequestTime.current === null) return false;
+    const timeDiff =
+      currentTime.getTime() - getDistanceApiRequestTime.current.getTime();
+    return timeDiff <= 5 * 60 * 1000; // 5分以内は実行しない
   }
 
   //位置情報取得、ステートに保持
