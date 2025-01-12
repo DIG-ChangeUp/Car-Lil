@@ -96,11 +96,11 @@ const TenantCheckRentalData = () => {
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'}>
           {rentalData.carport_address}
         </Text>
-        <Card mx="3" border="none">
+        <Box mx="3">
           <Card
             sx={{
               p: 3,
-              backgroundColor: '#F3F7F7',
+              bg: '#F3F7F7',
             }}
           >
             {/*登録車両情報*/}
@@ -109,7 +109,7 @@ const TenantCheckRentalData = () => {
               <HStack
                 sx={{
                   w: '100%',
-                  h: 100,
+                  h: 90,
                   justifyContent: 'space-around',
                   px: 1,
                   my: 2,
@@ -139,18 +139,18 @@ const TenantCheckRentalData = () => {
             <Text>予約日時・金額</Text>
             <Card
               sx={{
-                h: 120,
+                h: 105,
                 mt: 1,
-                px: 5,
+                px: 4,
                 py: 3,
-                fontSize: 'sm',
+                fontSize: 'xs',
                 backgroundColor: '#FFFFFF',
               }}
             >
               <VStack>
                 <HStack
                   sx={{
-                    h: 3,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -158,7 +158,7 @@ const TenantCheckRentalData = () => {
                   <Text>利用開始日時</Text>
                   <Text
                     sx={{
-                      w: 140,
+                      w: 120,
                       m: 'md',
                       px: 1,
                       backgroundColor: '#F3F7F7',
@@ -172,7 +172,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 3,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -180,7 +180,7 @@ const TenantCheckRentalData = () => {
                   <Text>返却予定日時</Text>
                   <Text
                     sx={{
-                      w: 140,
+                      w: 120,
                       m: 'md',
                       px: 1,
                       backgroundColor: '#F3F7F7',
@@ -194,7 +194,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 3,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -204,7 +204,7 @@ const TenantCheckRentalData = () => {
                     <Text
                       sx={{
                         px: 1,
-                        w: 140,
+                        w: 120,
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
                         borderRadius: 5,
@@ -217,7 +217,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 3,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -227,7 +227,7 @@ const TenantCheckRentalData = () => {
                     <Text
                       sx={{
                         px: 1,
-                        w: 140,
+                        w: 120,
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
                         borderRadius: 5,
@@ -241,17 +241,17 @@ const TenantCheckRentalData = () => {
               </VStack>
             </Card>
           </Card>
-        </Card>
+        </Box>
 
         {/*ボタン*/}
-        <HStack justifyContent="center">
+        <HStack justifyContent="center" mx="3">
           <Button
             sx={{
               w: 180,
               h: 45,
               fontSize: 'xl',
               bg: '#F4F4F5',
-              marginRight: '10px',
+              mr: 1,
             }}
             onClick={() => {
               navigate(
@@ -266,9 +266,9 @@ const TenantCheckRentalData = () => {
               w: 180,
               h: 45,
               fontSize: 'xl',
-              backgroundColor: '#289FAB',
+              bg: '#289FAB',
               color: '#FEFEFE',
-              marginLeft: '10px',
+              ml: 1,
             }}
             onClick={async () => {
               await addNewReservation(submitData);
