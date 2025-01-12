@@ -10,21 +10,16 @@ import {
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue } from 'jotai/index';
-import { distanceDataAtom, locationAtom } from './atom/globalState.ts';
+import { distanceDataAtom } from './atom/globalState.ts';
 
 const DistanceCardList = () => {
-  const currLocation = useAtomValue(locationAtom);
   const distanceData = useAtomValue(distanceDataAtom);
 
   const navigate = useNavigate();
 
   function handleNavigate(carport_id: number) {
-    // TODO: パスパラメータを修正する
     navigate(`/emptyData/${carport_id}/${carport_id}`);
   }
-
-  console.log('distanceData: ', distanceData);
-  console.log('currLocation: ', currLocation);
 
   if (distanceData.length < 1) return;
   return (
