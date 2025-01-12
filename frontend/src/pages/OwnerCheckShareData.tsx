@@ -70,15 +70,8 @@ export default function OwnerCheckShareData() {
       />
       <Container h="calc(100vh - 130px)">
         <Box>
-          <Text
-            sx={{
-              w: 320,
-              textAlign: 'left',
-              fontWeight: 'bold',
-              margin: 'auto',
-            }}
-          >
-            貸出設定
+          <Text mt="5" fontSize="xl" fontWeight="bold" textAlign="center">
+            新規貸出設定
           </Text>
           <Wrap
             sx={{
@@ -148,7 +141,7 @@ export default function OwnerCheckShareData() {
                 marginX: '3px',
               }}
               onClick={() => {
-                navigate('/selectTime');
+                navigate('/ownerSelectTime');
               }}
             >
               キャンセル

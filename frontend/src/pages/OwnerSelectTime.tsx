@@ -136,6 +136,9 @@ const OwnerSelectTime = () => {
       />
       <Container h="calc(100vh - 130px)" centerContent overflow="auto">
         <Box w="100%" h="calc(100% - 100px)">
+          <Text mt="5" fontSize="xl" fontWeight="bold" textAlign="center">
+            時間指定
+          </Text>
           <HStack
             justifyContent="start"
             marginTop="6"
