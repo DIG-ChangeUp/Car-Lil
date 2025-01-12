@@ -4,11 +4,11 @@ import dayjs from 'dayjs';
 
 import { useEffect, useState } from 'react';
 import {
+  Box,
   Button,
   Card,
   Container,
   HStack,
-  ScrollArea,
   Text,
   VStack,
 } from '@yamada-ui/react';
@@ -68,7 +68,7 @@ const TenantReservedList = () => {
     <>
       <Header isOwnerMode={false} routePath={''} headerTitle={'予約一覧'} />
       <Container h="calc(100vh - 130px)" centerContent>
-        <ScrollArea w="100%" h="90%">
+        <Box w="100%" h="90%" overflow="auto">
           {filteredReservationsData.map((reservation) => {
             return (
               <Card
@@ -93,7 +93,7 @@ const TenantReservedList = () => {
               </Card>
             );
           })}
-        </ScrollArea>
+        </Box>
         <HStack w="100%" h="10%" justifyContent="start">
           <Button
             sx={{
