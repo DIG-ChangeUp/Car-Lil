@@ -29,6 +29,7 @@ module.exports = {
     return db(RESERVATIONS_TABLE)
       .select(
         `${RESERVATIONS_TABLE}.id`,
+        `${RESERVATIONS_TABLE}.user_id`,
         `${RESERVATIONS_TABLE}.share_car_id`,
         `${RESERVATIONS_TABLE}.reserved_at`,
         `${RESERVATIONS_TABLE}.rent_at`,
