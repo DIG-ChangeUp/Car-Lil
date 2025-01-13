@@ -33,15 +33,15 @@ const Home = () => {
       navigate('/login');
     } else {
       setEmailAddress(authUser.email);
+      (async () => {
+        await getOwnerData(authUser.email);
+      })();
     }
   }, [authUser, navigate]);
 
   // ページを開いた時にオーナーとしてのデータを取得
   useEffect(() => {
-    (async () => {
-      getGeolocation();
-      await getOwnerData(emailAddress);
-    })();
+    getGeolocation();
   }, []);
 
   // navigateによるリダイレクトが完了するまで何もレンダリングしない
@@ -75,13 +75,13 @@ const Home = () => {
 
   //メールアドレスからオーナーに紐づくすべてのデータを取得
   async function getOwnerData(email: string | null) {
+    if (!email) return;
     //emailからusersテーブルのユーザーID(id)を取得
     const response = await fetch('/api/users/owner/email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email }),
     });
-    console.log('mail---', email);
     if (response.ok) {
       const jsonResponse = await response.json();
       setUserData(jsonResponse.data);
