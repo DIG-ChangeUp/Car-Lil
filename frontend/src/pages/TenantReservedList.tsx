@@ -122,27 +122,10 @@ export default TenantReservedList;
 
 type ReservationData = {
   id: number;
-  user_id: number;
   share_car_id: number;
-  carport_id: number;
-  share_state: string;
   reserved_at: string;
   rent_at: string;
-  rented_at: string | null;
-  return_at: string;
-  returned_at: string | null;
-  evaluation: string | null;
-  is_refueled: boolean | null;
-  is_washed: boolean | null;
-  car_id: number;
-  share_prise: number;
+  owner_user_id: number;
   car_name: string;
-  maker: string;
-  car_type: string;
-  image1: string;
-  image2: string;
-  capacity: number;
   address: string;
-  latitude: string;
-  longitude: string;
 };

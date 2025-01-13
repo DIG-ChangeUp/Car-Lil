@@ -5,24 +5,25 @@ import {
   userEmailAtom,
   userDataAtom,
   locationAtom,
-  prevLocationAtom,
   diffDistanceAtom,
   isOpenInfoWindowAtom,
 } from '../components/atom/globalState.ts';
 import { useAtom, useSetAtom } from 'jotai/index';
 import { auth } from '../components/auth/firebase.ts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ILocation } from '../../globals';
 import { UseAuthContext } from '../components/AuthContext.tsx';
+import MyLoading from '../components/MyLoading.tsx';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const { authUser } = UseAuthContext();
   //ログイン時に取得したメールアドレスをユーザーデータ取得に利用
   const [emailAddress, setEmailAddress] = useAtom(userEmailAtom);
   const setUserData = useSetAtom(userDataAtom);
   const [currLocation, setCurrLocation] = useAtom(locationAtom);
-  const setPrevLocation = useSetAtom(prevLocationAtom);
   const setDiffDistance = useSetAtom(diffDistanceAtom);
   const setIsOpenInfoWindow = useSetAtom(isOpenInfoWindowAtom);
 
@@ -99,6 +100,7 @@ const Home = () => {
 
   //位置情報取得、ステートに保持
   function getGeolocation(): void {
+    setIsLoading(true);
     const options = {
       enableHighAccuracy: false, // 精度の高い位置精度の場合はtrue ただし通信が遅いのでfalseを採用
       timeout: 5000, // 位置情報が取得できない場合のタイムアウト（ms）、デフォルトはinfinityなので取得できるまでになる
@@ -107,16 +109,13 @@ const Home = () => {
     function success(pos: GeolocationPosition) {
       const crd = pos.coords;
       const latestLocation = { lat: crd.latitude, lng: crd.longitude };
-      if (currLocation) {
-        setPrevLocation(currLocation);
-        setCurrLocation(latestLocation);
-      } else {
-        setCurrLocation(latestLocation);
-      }
+      setCurrLocation(latestLocation);
       calcDistance(currLocation, latestLocation);
+      setIsLoading(false);
     }
     function error(err: GeolocationPositionError) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
+      setIsLoading(false);
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
@@ -150,6 +149,9 @@ const Home = () => {
   if (!emailAddress) {
     return <></>;
   }
+
+  if (isLoading) return <MyLoading />;
+
   return (
     <>
       <div>

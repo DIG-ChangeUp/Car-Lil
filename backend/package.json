@@ -1,11 +1,4 @@
 {
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "knex": "^3.1.0",
-    "pg": "^8.13.1"
-  },
   "scripts": {
     "migrate-make": "knex migrate:make",
     "migrate-latest": "knex migrate:latest",
@@ -14,9 +7,21 @@
     "seed-data": "knex seed:run",
     "dev": "nodemon ./src/server.js",
     "build": "npm install && npm run migrate-latest && npm run seed-data",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "clear && mocha --require test/setup.js",
+    "test:watch": "mocha --watch"
+  },
+  "dependencies": {
+    "axios": "^1.7.8",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.8.2",
     "nodemon": "^3.1.7"
   }
 }

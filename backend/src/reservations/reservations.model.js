@@ -27,14 +27,24 @@ module.exports = {
   },
   async findByUserId(user_id) {
     return db(RESERVATIONS_TABLE)
+      .select(
+        `${RESERVATIONS_TABLE}.id`,
+        `${RESERVATIONS_TABLE}.user_id`,
+        `${RESERVATIONS_TABLE}.share_car_id`,
+        `${RESERVATIONS_TABLE}.reserved_at`,
+        `${RESERVATIONS_TABLE}.rent_at`,
+        'share_cars.user_id as owner_user_id',
+        'cars.car_name',
+        'carports.address'
+      )
       .where(`${RESERVATIONS_TABLE}.user_id`, user_id)
-      .leftJoin(
+      .join(
         'share_cars',
         `${RESERVATIONS_TABLE}.share_car_id`,
         'share_cars.car_id'
       )
-      .leftJoin('cars', `${RESERVATIONS_TABLE}.share_car_id`, 'cars.id')
-      .leftJoin('carports', 'share_cars.user_id', 'carports.user_id')
+      .join('cars', `share_cars.car_id`, 'cars.id')
+      .join('carports', 'share_cars.user_id', 'carports.user_id')
       .orderBy('rent_at');
   },
 
