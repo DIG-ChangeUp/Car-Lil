@@ -81,6 +81,7 @@ const Home = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email }),
     });
+    console.log('mail---', email);
     if (response.ok) {
       const jsonResponse = await response.json();
       setUserData(jsonResponse.data);

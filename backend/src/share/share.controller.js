@@ -11,8 +11,12 @@ module.exports = {
       end_at: req.body.end_at,
     };
     console.log('newShareData------', newShareData);
-    const addedData = await shareModel.save(newShareData);
-    res.status(200).send({ data: addedData });
+    try {
+      const addedData = await shareModel.save(newShareData);
+      res.status(200).send({ data: addedData });
+    } catch (error) {
+      res.status(400).send('response error');
+    }
   },
 
   async findShareByShareCarId(req, res) {

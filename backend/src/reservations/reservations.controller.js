@@ -3,25 +3,29 @@ const reservationsModel = require('./reservations.model');
 module.exports = {
   async addNewReservation(req, res) {
     //reservationsテーブルに新しい予約情報を登録
-    const newData = await reservationsModel.save({
-      user_id: req.body.user_id,
-      share_car_id: req.body.share_car_id,
-      carport_id: req.body.carport_id,
-      share_state: req.body.share_state,
-      reserved_at: req.body.reserved_at,
-      rent_at: req.body.rent_at,
-      rented_at: req.body.rented_at,
-      return_at: req.body.return_at,
-      returned_at: req.body.returned_at,
-      evaluation: req.body.evaluation,
-      is_refueled: null,
-      is_washed: null,
-    });
-    const checkedNewData = await reservationsModel.findById(newData.id);
-    if (checkedNewData) {
-      res.status(200).json('登録が完了しました');
-    } else {
-      res.status(400).json('登録ができませんでした');
+    try {
+      const newData = await reservationsModel.save({
+        user_id: req.body.user_id,
+        share_car_id: req.body.share_car_id,
+        carport_id: req.body.carport_id,
+        share_state: req.body.share_state,
+        reserved_at: req.body.reserved_at,
+        rent_at: req.body.rent_at,
+        rented_at: req.body.rented_at,
+        return_at: req.body.return_at,
+        returned_at: req.body.returned_at,
+        evaluation: req.body.evaluation,
+        is_refueled: null,
+        is_washed: null,
+      });
+      const checkedNewData = await reservationsModel.findById(newData.id);
+      if (checkedNewData) {
+        res.status(200).json('登録が完了しました');
+      } else {
+        res.status(400).json('登録ができませんでした');
+      }
+    } catch (error) {
+      res.status(400).send('response error');
     }
 
     //!!!デモのため下の処理は行わない------------
