@@ -73,7 +73,6 @@ module.exports = {
           duration: data.elements[i].duration,
         };
       });
-
       const sortData = filteredApiResponseData.sort(
         (a, b) => a.distance.value - b.distance.value
       );

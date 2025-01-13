@@ -11,19 +11,31 @@ module.exports = {
   //!!!ユーザーの存在確認用
   async confirmationByEmail(req, res) {
     const email = req.body.email;
-    const [user] = await userModel.findByEmail(email);
-    if (user) {
-      res.status(200).send(user);
-    } else {
-      res.send({ data: false });
+    try {
+      const [user] = await userModel.findByEmail(email);
+      if (user) {
+        res.status(200).send(user);
+      } else {
+        res.status(400).send('response error');
+      }
+    } catch (error) {
+      res.status(400).send('response error');
     }
   },
   //ユーザメールアドレスからユーザ（オーナーorテナント）データを取得してレスポンスとして送る
   //!!!paramsではなくPOSTされたメールアドレスから取得
   async viewOfOwnerByEmail(req, res) {
     const email = req.body.email;
-    const user = await userModel.findOwnerByEmail(email);
-    res.status(200).send({ data: user });
+    try {
+      const user = await userModel.findOwnerByEmail(email);
+      if (user.length >= 1) {
+        res.status(200).send({ data: user });
+      } else {
+        res.status(400).send('response error');
+      }
+    } catch (error) {
+      res.status(400).send('response error');
+    }
   },
   async viewOfTenantByEmail(req, res) {
     const email = req.body.email;
@@ -37,9 +49,13 @@ module.exports = {
       email: req.body.email,
       user_type: req.body.user_type,
     };
-    const user = await userModel.save(addUserData);
-    //返り値は現状使っていない
-    res.status(200).send({ data: user });
+    try {
+      const user = await userModel.save(addUserData);
+      //返り値は現状使っていない
+      res.status(200).send({ data: user });
+    } catch (error) {
+      res.status(400).send('response error');
+    }
   },
 
   async editUserType(req, res) {

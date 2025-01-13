@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex.schema.table('cars', function (table) {
     table.renameColumn('photo_url', 'image1');
     table.string('image2');
@@ -13,9 +13,9 @@ exports.up = function(knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.table('cars', function (table) {
-    table.renameColumn('photo_url', 'image1');
+    table.renameColumn('image1', 'photo_url');
     table.dropColumn('image2');
   });
 };
