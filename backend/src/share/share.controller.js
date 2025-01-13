@@ -17,7 +17,12 @@ module.exports = {
 
   async findShareByShareCarId(req, res) {
     const share_car_id = Number(req.params.share_car_id);
-    const result = await shareModel.findByShareCarId(share_car_id);
-    res.status(200).send({ data: result });
+    console.log('🚀🚀🚀🚀 share_car_id--->> ', share_car_id);
+    try {
+      const result = await shareModel.findByShareCarId(share_car_id);
+      res.status(200).send({ data: result });
+    } catch (error) {
+      res.status(400).send('response error');
+    }
   },
 };
