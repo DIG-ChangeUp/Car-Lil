@@ -136,6 +136,9 @@ const OwnerSelectTime = () => {
       />
       <Container h="calc(100vh - 130px)" centerContent overflow="auto">
         <Box w="100%" h="calc(100% - 100px)">
+          <Text mt="5" fontSize="xl" fontWeight="bold" textAlign="center">
+            時間指定
+          </Text>
           <HStack
             justifyContent="start"
             marginTop="6"
@@ -241,7 +244,7 @@ const OwnerSelectTime = () => {
             </Container>
           </Center>
         </Box>
-        <VStack w="100%" h="100px">
+        <VStack w="100%" h="100px" mb="65">
           <Text
             sx={{
               textAlign: 'center',
@@ -251,7 +254,7 @@ const OwnerSelectTime = () => {
             {validationMsg}
           </Text>
           <Button
-            marginTop="6"
+            marginTop="1"
             onClick={() => {
               if (validationMsg === '指定の時間で登録可能です') {
                 makeRentalData();

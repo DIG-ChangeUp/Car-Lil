@@ -68,17 +68,10 @@ export default function OwnerCheckShareData() {
         routePath={'ownerSelectTime'}
         headerTitle={''}
       />
-      <Container sx={{ h: 'calc(100vh - 130px)', overflow: 'auto' }}>
-        <Container>
-          <Text
-            sx={{
-              w: 320,
-              textAlign: 'left',
-              fontWeight: 'bold',
-              margin: 'auto',
-            }}
-          >
-            貸出設定
+      <Container h="calc(100vh - 130px)">
+        <Box>
+          <Text mt="5" fontSize="xl" fontWeight="bold" textAlign="center">
+            新規貸出設定
           </Text>
           <Wrap
             sx={{
@@ -118,20 +111,20 @@ export default function OwnerCheckShareData() {
               w: 320,
               h: 'auto',
               backgroundColor: '#F3F7F7',
-              margin: 'auto',
-              paddingX: 8,
-              paddingY: 3,
+              mx: 'auto',
+              mt: 2,
+              px: 10,
+              py: 3,
               borderRadius: '10px',
               flexShrink: 1,
             }}
           >
             <Text>車両：{selectedCarData.car_name}</Text>
-
             <Text>料金：{selectedCarData.share_prise}円/ 15分</Text>
             <Text>開始：{atomSelectedDateAndTime[0].start_at}</Text>
             <Text>終了：{atomSelectedDateAndTime[0].end_at}</Text>
           </VStack>
-        </Container>
+        </Box>
         <Container sx={{ textAlign: 'center' }}>
           <Text fontWeight="bold">
             貸出設定を確定します
@@ -148,7 +141,7 @@ export default function OwnerCheckShareData() {
                 marginX: '3px',
               }}
               onClick={() => {
-                navigate('/selectTime');
+                navigate('/ownerSelectTime');
               }}
             >
               キャンセル

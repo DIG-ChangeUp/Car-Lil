@@ -44,7 +44,8 @@ module.exports = {
         'share_cars.car_id'
       )
       .join('cars', `share_cars.car_id`, 'cars.id')
-      .join('carports', 'share_cars.user_id', 'carports.user_id')
+      // .join('carports', 'share_cars.user_id', 'carports.user_id')
+      .join('carports', 'share_cars.carport_id', 'carports.id')
       .orderBy('rent_at');
   },
 

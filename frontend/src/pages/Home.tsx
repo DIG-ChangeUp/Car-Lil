@@ -153,85 +153,81 @@ const Home = () => {
   if (isLoading) return <MyLoading />;
 
   return (
-    <>
-      <div>
-        <Container
+    <Container
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Text
+        sx={{
+          fontSize: '6xl',
+          textAlign: 'center',
+          mt: '3xl',
+          mb: 'lg',
+          pl: 5,
+        }}
+      >
+        TOP
+      </Text>
+      <HStack
+        sx={{
+          h: 'max-content',
+          textAlign: 'center',
+          mx: 'auto',
+        }}
+      >
+        <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
+            w: '40',
+            aspectRatio: '1/1',
+            bg: '#F3F7F7',
+            pt: 'xl',
+            rounded: 'xl',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+          }}
+          onClick={async () => {
+            await fetchUserData(emailAddress);
+            navigate('/ownerSelectCar');
           }}
         >
-          <Text
-            sx={{
-              fontSize: '6xl',
-              textAlign: 'center',
-              marginTop: '3xl',
-              paddingLeft: 5,
-            }}
-          >
-            TOP
-          </Text>
-          <HStack
-            sx={{
-              h: 'max-content',
-              textAlign: 'center',
-              marginX: 'auto',
-              marginY: 'xl',
-            }}
-          >
-            <Box
-              sx={{
-                w: 40,
-                h: 40,
-                backgroundColor: '#F3F7F7',
-                paddingTop: 'xl',
-                rounded: 'xl',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-              }}
-              onClick={async () => {
-                await fetchUserData(emailAddress);
-                navigate('/ownerSelectCar');
-              }}
-            >
-              <GrUserAdmin size="50" />
-              <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
-            </Box>
-            <Box
-              sx={{
-                w: '40',
-                h: '40',
-                backgroundColor: '#F3F7F7',
-                paddingTop: 'xl',
-                rounded: 'xl',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-              }}
-              onClick={async () => {
-                await fetchUserData(emailAddress);
-                setIsOpenInfoWindow(false);
-                navigate('/map');
-              }}
-            >
-              <GrUser size="50" />
-              <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
-            </Box>
-          </HStack>
-          <Button
-            sx={{
-              w: 350,
-              h: 55,
-              fontSize: 'xl',
-              backgroundColor: '#289FAB',
-              color: '#FEFEFE',
-              marginX: 'auto',
-              marginY: 90,
-            }}
-            onClick={() => handleLogout()}
-          >
-            サインアウト
-          </Button>
-        </Container>
-      </div>
-    </>
+          <GrUserAdmin size="50" />
+          <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
+        </Box>
+        <Box
+          sx={{
+            w: '40',
+            aspectRatio: '1/1',
+            bg: '#F3F7F7',
+            pt: 'xl',
+            rounded: 'xl',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+          }}
+          onClick={async () => {
+            await fetchUserData(emailAddress);
+            setIsOpenInfoWindow(false);
+            navigate('/map');
+          }}
+        >
+          <GrUser size="50" />
+          <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
+        </Box>
+      </HStack>
+      <Button
+        sx={{
+          w: 350,
+          h: 55,
+          fontSize: 'xl',
+          bg: '#289FAB',
+          color: '#FEFEFE',
+          mx: 'auto',
+          mt: 140,
+        }}
+        onClick={() => handleLogout()}
+      >
+        サインアウト
+      </Button>
+    </Container>
   );
 };
 

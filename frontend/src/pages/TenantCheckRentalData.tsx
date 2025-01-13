@@ -92,29 +92,27 @@ const TenantCheckRentalData = () => {
   return (
     <>
       <Header isOwnerMode={false} routePath={''} headerTitle={'予約確定'} />
-      <Container h="calc(100vh - 130px)" overflow={'auto'}>
-        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>
+      <Container h="calc(100vh - 130px)">
+        <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'}>
           {rentalData.carport_address}
         </Text>
-        <Container>
+        <Box mx="3">
           <Card
             sx={{
-              padding: 3,
-              backgroundColor: '#F3F7F7',
+              p: 3,
+              bg: '#F3F7F7',
             }}
           >
             {/*登録車両情報*/}
-            <Text>登録車両</Text>
-            <Box
-              sx={{ paddingY: 2, paddingX: 4, fontSize: 'sm', border: 'none' }}
-            >
+            <Text>登録車両1</Text>
+            <Box sx={{ mb: 5, px: 4, fontSize: 'sm', border: 'none' }}>
               <HStack
                 sx={{
                   w: '100%',
-                  h: 100,
+                  h: 90,
                   justifyContent: 'space-around',
-                  paddingX: 1,
-                  marginY: 2,
+                  px: 1,
+                  my: 2,
                 }}
               >
                 <Image
@@ -126,7 +124,6 @@ const TenantCheckRentalData = () => {
                   sx={{ maxWidth: '48%', maxHeight: '100%' }}
                 />
               </HStack>
-              <br></br>
               <Text>メーカー：{rentalData.car_maker}</Text>
               <Separator />
               <Text>車名：{rentalData.car_name}</Text>
@@ -138,23 +135,22 @@ const TenantCheckRentalData = () => {
               <Text>貸出料金：{rentalData.share_price}円 / 15分</Text>
               <Separator />
             </Box>
-            <br></br>
             {/*予約日時・金額*/}
             <Text>予約日時・金額</Text>
-            <br></br>
             <Card
               sx={{
-                h: 186,
-                padding: 3,
+                h: 105,
+                mt: 1,
+                px: 4,
+                py: 3,
                 fontSize: 'xs',
-
                 backgroundColor: '#FFFFFF',
               }}
             >
               <VStack>
                 <HStack
                   sx={{
-                    h: 7,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -162,11 +158,13 @@ const TenantCheckRentalData = () => {
                   <Text>利用開始日時</Text>
                   <Text
                     sx={{
-                      w: 115,
+                      w: 120,
                       m: 'md',
+                      px: 1,
                       backgroundColor: '#F3F7F7',
                       textAlign: 'right',
-                      marginRight: 11,
+                      marginRight: 7,
+                      borderRadius: 5,
                     }}
                   >
                     {formattedStartDate}
@@ -174,7 +172,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 7,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -182,11 +180,13 @@ const TenantCheckRentalData = () => {
                   <Text>返却予定日時</Text>
                   <Text
                     sx={{
-                      w: 115,
+                      w: 120,
                       m: 'md',
+                      px: 1,
                       backgroundColor: '#F3F7F7',
                       textAlign: 'right',
-                      marginRight: 11,
+                      marginRight: 7,
+                      borderRadius: 5,
                     }}
                   >
                     {formattedEndDate}
@@ -194,7 +194,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 7,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -203,20 +203,21 @@ const TenantCheckRentalData = () => {
                   <HStack>
                     <Text
                       sx={{
+                        px: 1,
                         w: 120,
-                        m: 'md',
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
+                        borderRadius: 5,
                       }}
                     >
                       {hour}
                     </Text>
-                    <Text>H</Text>
+                    <Text>Ｈ</Text>
                   </HStack>
                 </HStack>
                 <HStack
                   sx={{
-                    h: 7,
+                    h: 2,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -225,10 +226,11 @@ const TenantCheckRentalData = () => {
                   <HStack>
                     <Text
                       sx={{
+                        px: 1,
                         w: 120,
-                        m: 'md',
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
+                        borderRadius: 5,
                       }}
                     >
                       {price}
@@ -239,43 +241,43 @@ const TenantCheckRentalData = () => {
               </VStack>
             </Card>
           </Card>
+        </Box>
 
-          {/*ボタン*/}
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              sx={{
-                w: 180,
-                h: 45,
-                fontSize: 'xl',
-                bg: '#F4F4F5',
-                marginRight: '10px',
-              }}
-              onClick={() => {
-                navigate(
-                  `/emptyData/${rentalData.carport_id}/${rentalData.share_car_id}`
-                );
-              }}
-            >
-              キャンセル
-            </Button>
-            <Button
-              sx={{
-                w: 180,
-                h: 45,
-                fontSize: 'xl',
-                backgroundColor: '#289FAB',
-                color: '#FEFEFE',
-                marginLeft: '10px',
-              }}
-              onClick={async () => {
-                await addNewReservation(submitData);
-                navigate('/tenantCompleteRentalData');
-              }}
-            >
-              確定
-            </Button>
-          </Box>
-        </Container>
+        {/*ボタン*/}
+        <HStack justifyContent="center" mx="3">
+          <Button
+            sx={{
+              w: 180,
+              h: 45,
+              fontSize: 'xl',
+              bg: '#F4F4F5',
+              mr: 1,
+            }}
+            onClick={() => {
+              navigate(
+                `/emptyData/${rentalData.carport_id}/${rentalData.share_car_id}`
+              );
+            }}
+          >
+            キャンセル
+          </Button>
+          <Button
+            sx={{
+              w: 180,
+              h: 45,
+              fontSize: 'xl',
+              bg: '#289FAB',
+              color: '#FEFEFE',
+              ml: 1,
+            }}
+            onClick={async () => {
+              await addNewReservation(submitData);
+              navigate('/tenantCompleteRentalData');
+            }}
+          >
+            確定
+          </Button>
+        </HStack>
       </Container>
       <Footer isOwnerMode={true} activeMenu={0} />
     </>
