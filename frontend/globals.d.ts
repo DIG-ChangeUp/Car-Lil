@@ -119,13 +119,16 @@ export interface ILocation {
   lng: number;
 }
 
-export interface IDistanceCardListProps {
-  distanceData: IDistanceData[];
-}
-
 // ルート距離リスト google routes api
 export interface IDistanceData {
-  routes: IRoute[];
+  carData: IAllCarPort;
+  distance: IDistance;
+  duration: IDuration;
+}
+
+export interface IDuration {
+  text: string;
+  value: number;
 }
 
 export interface IRoute {
@@ -140,4 +143,9 @@ export interface ILeg {
 export interface IDistance {
   text: string;
   value: number;
+}
+
+export interface IMapSelectedPointData {
+  zoom: number | undefined;
+  latLng: ILocation;
 }

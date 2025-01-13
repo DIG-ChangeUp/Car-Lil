@@ -8,37 +8,29 @@ import {
   Text,
   VStack,
 } from '@yamada-ui/react';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue } from 'jotai/index';
-import { locationAtom, prevLocationAtom } from './atom/globalState.ts';
-import { IDistanceCardListProps } from '../../globals';
+import { distanceDataAtom } from './atom/globalState.ts';
 
-const DistanceCardList: React.FC<IDistanceCardListProps> = ({
-  distanceData,
-}) => {
-  const currLocation = useAtomValue(locationAtom);
-  const prevLocation = useAtomValue(prevLocationAtom);
+const DistanceCardList = () => {
+  const distanceData = useAtomValue(distanceDataAtom);
+
   const navigate = useNavigate();
 
-  function handleNavigate() {
-    // TODO: パスパラメータを修正する
-    navigate('/emptyData/2/2');
+  function handleNavigate(carport_id: number) {
+    navigate(`/emptyData/${carport_id}/${carport_id}`);
   }
 
-  console.log('distanceData: ', distanceData);
-  console.log('prevLocation: ', prevLocation);
-  console.log('currLocation: ', currLocation);
-
+  if (distanceData.length < 1) return;
   return (
     <Container marginTop="40px">
       <ScrollArea h="calc(100vh - 80px - 90px)" w="100%">
         <Container>
-          {distanceData.map((distance, index) => {
+          {distanceData.map((data, i) => {
             return (
               <Card
                 marginTop="3px"
-                key={index + 1}
+                key={i}
                 sx={{
                   padding: '3',
                 }}
@@ -46,26 +38,20 @@ const DistanceCardList: React.FC<IDistanceCardListProps> = ({
               >
                 <HStack>
                   <VStack>
-                    <Text fontSize="14px">
-                      {
-                        distance.routes[0].legs[0].end_address
-                          .replace('日本、', '')
-                          .split(' ')[1]
-                      }
-                    </Text>
+                    <Text fontSize="14px">{data.carData.address}</Text>
                     <HStack>
-                      {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-                      {/*@ts-ignore*/}
-                      <Text>{distance.carData.car_name}</Text>
+                      <Text>{data.carData.car_name}</Text>
                       <Spacer />
-                      <Text>{distance.routes[0].legs[0].distance.text}</Text>
+                      <Text>{data.distance.text}</Text>
                     </HStack>
                   </VStack>
                   <Button
+                    colorScheme="primary"
+                    shadow="2px 4px 10px -1px #777777"
                     rounded="full"
                     w="50px"
                     h="46px"
-                    onClick={handleNavigate}
+                    onClick={() => handleNavigate(data.carData.carport_id)}
                   >
                     予約
                   </Button>

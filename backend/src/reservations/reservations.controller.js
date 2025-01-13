@@ -43,9 +43,13 @@ module.exports = {
   },
 
   async findReservationByUserId(req, res) {
-    const user_id = req.params.user_id;
-    const result = await reservationsModel.findByUserId(user_id);
-    res.status(200).send({ data: result });
+    const user_id = Number(req.params.user_id);
+    try {
+      const result = await reservationsModel.findByUserId(user_id);
+      res.status(200).send({ data: result });
+    } catch (error) {
+      res.status(400).send('response error');
+    }
   },
 
   async findReservationByShareCarId(req, res) {

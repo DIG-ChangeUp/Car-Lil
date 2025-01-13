@@ -26,22 +26,30 @@ module.exports = {
     return result;
   },
   async findByUserId(user_id) {
-    return await db(RESERVATIONS_TABLE)
+    return db(RESERVATIONS_TABLE)
+      .select(
+        `${RESERVATIONS_TABLE}.id`,
+        `${RESERVATIONS_TABLE}.user_id`,
+        `${RESERVATIONS_TABLE}.share_car_id`,
+        `${RESERVATIONS_TABLE}.reserved_at`,
+        `${RESERVATIONS_TABLE}.rent_at`,
+        'share_cars.user_id as owner_user_id',
+        'cars.car_name',
+        'carports.address'
+      )
       .where(`${RESERVATIONS_TABLE}.user_id`, user_id)
-      .leftJoin(
+      .join(
         'share_cars',
         `${RESERVATIONS_TABLE}.share_car_id`,
         'share_cars.car_id'
       )
-      .leftJoin('cars', `share_cars.car_id`, 'cars.id')
-      .leftJoin('carports', 'share_cars.carport_id', 'carports.id')
-      .whereNotNull(`${RESERVATIONS_TABLE}.id`)
+      .join('cars', `share_cars.car_id`, 'cars.id')
+      // .join('carports', 'share_cars.user_id', 'carports.user_id')
+      .join('carports', 'share_cars.carport_id', 'carports.id')
       .orderBy('rent_at');
   },
 
   async findByShareCarId(share_car_id) {
-    return await db(RESERVATIONS_TABLE)
-      .where({ share_car_id })
-      .orderBy('rent_at');
+    return db(RESERVATIONS_TABLE).where({ share_car_id }).orderBy('rent_at');
   },
 };

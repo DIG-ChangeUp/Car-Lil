@@ -1,6 +1,6 @@
 const carportsModel = require('./carports.model');
 // Google Route APIへのリクエスト数を
-const GOOGLE_ROUTE_API_MAX_REQUEST = 3;
+const GOOGLE_ROUTE_API_MAX_REQUEST = 10;
 
 module.exports = {
   //全ユーザデータを取得してレスポンスとして送る
@@ -28,8 +28,8 @@ module.exports = {
   },
 
   async getDistance(req, res) {
+    console.log('🚀🚀🚀🚀🚀  getDistanceが呼ばれた！！');
     const currentPosition = req.body.currentPosition;
-    console.log('currentPosition: ', currentPosition);
     try {
       let distanceData = await carportsModel.calcDistance(currentPosition);
       // Google Route APIへのリクエスト数を制御する
@@ -38,55 +38,49 @@ module.exports = {
         (data, i) => i < GOOGLE_ROUTE_API_MAX_REQUEST
       );
 
-      //GoogleAPIへのデータ送信
-      async function getRootDistance(calculatedData) {
-        const _destLat = calculatedData.latitude;
-        const _destLng = calculatedData.longitude;
-        const _originLat = currentPosition.latitude;
-        const _originLng = currentPosition.longitude;
+      // 出発地点の文字列作成 "lat,lng | lat,lng ... "
+      const currLocations = Array.from(
+        { length: distanceData.length },
+        () => `${currentPosition.lat},${currentPosition.lng}`
+      );
+      const _origin = currLocations.join('|');
 
-        let API_URL =
-          'https://maps.googleapis.com/maps/api/directions/json?avoid=highways';
-        API_URL += '&destination=' + _destLat + ',' + _destLng;
-        API_URL += '&mode=walking';
-        API_URL += '&origin=' + _originLat + ',' + _originLng;
-        API_URL += '&language=ja'; // 帰値の住所を日本語表示にする
+      // carportの緯度経度文字列作成 "lat1,lng1 | lat2,lng2 ..."
+      const latLongs = distanceData.map(
+        (distance) => `${distance.latitude},${distance.longitude}`
+      );
+      const _destination = latLongs.join('|');
+
+      //GoogleAPIへのデータ送信
+      async function getRootDistance() {
+        let API_URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${_origin}&destinations=${_destination}&mode=walking&language=ja`;
         //import.meta.envはESモジュールで利用できないためprocess.envを使う
         API_URL += '&key=' + process.env.GOOGLE_API_KEY;
 
         const _resultRootDistance = await fetch(API_URL);
-        const _aryRootDistance = await _resultRootDistance.json();
-        // console.log('_aryRootDistance-----', _aryRootDistance);
-        return _aryRootDistance;
+        return await _resultRootDistance.json();
       }
 
-      // GoogleAPIからのレスポンスをクライアントにsendする
-      const dataToSend = [];
-      await Promise.all(
-        distanceData.map(async (data, _) => {
-          const apiResponseData = await getRootDistance(data);
-          apiResponseData.carData = data;
-          dataToSend.push(apiResponseData);
-        })
+      const apiResponseData = await getRootDistance();
+      distanceData.forEach(
+        (distance, i) => (apiResponseData.rows[i].carData = distance)
       );
 
-      console.log('dataToSend: ', dataToSend);
-
-      function ascDistanceSort(a, b) {
-        return a > b ? 1 : -1;
-      }
-
-      dataToSend.sort((a, b) => {
-        console.log('a.routes: ', a.routes[0]);
-        console.log('b.routes: ', b.routes[0]);
-        ascDistanceSort(
-          a.routes[0].legs[0].distance.value,
-          b.routes[0].legs[0].distance.value
-        );
+      const filteredApiResponseData = apiResponseData.rows.map((data, i) => {
+        return {
+          carData: data.carData,
+          distance: data.elements[i].distance,
+          duration: data.elements[i].duration,
+        };
       });
-      res.status(200).send({ data: dataToSend });
+
+      const sortData = filteredApiResponseData.sort(
+        (a, b) => a.distance.value - b.distance.value
+      );
+
+      res.status(200).send({ data: sortData });
     } catch (error) {
-      res.status(400).send('response error:');
+      res.status(400).send('response error');
     }
   },
 };
