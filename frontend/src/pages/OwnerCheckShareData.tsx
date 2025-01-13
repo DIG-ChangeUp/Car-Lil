@@ -52,7 +52,6 @@ export default function OwnerCheckShareData() {
     const response: Response = await fetch('/api/addNewShareData', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // !!!テスト用------------
       body: JSON.stringify(data),
     });
     if (response.ok) {
