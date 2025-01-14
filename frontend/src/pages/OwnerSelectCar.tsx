@@ -5,7 +5,6 @@ import {
   Container,
   HStack,
   Image,
-  Separator,
   Text,
 } from '@yamada-ui/react';
 import Header from '../components/Header.tsx';
@@ -125,21 +124,65 @@ const OwnerSelectCar = () => {
                     sx={{ maxWidth: '48%', maxHeight: '100%' }}
                   />
                 </HStack>
-                <Text>メーカー：{data.maker}</Text>
-                <Separator />
-                <Text>車名：{data.car_name}</Text>
-                <Separator />
-                <Text>タイプ：{data.car_type}</Text>
-                <Separator />
-                <Text>定員：{data.capacity}</Text>
-                <Separator />
-                <Text>貸出料金：{data.share_prise}円 / 15分</Text>
-                <Separator />
+
+                <HStack
+                  gap={'0'}
+                  mb={'2'}
+                  pb={'1'}
+                  borderBottom={'1px solid #D9D9D9'}
+                >
+                  <Text w={'30%'}>メーカー</Text>
+                  <Text w={'3%'}>:</Text>
+                  <Text>{data.maker}</Text>
+                </HStack>
+
+                <HStack
+                  gap={'0'}
+                  mb={'2'}
+                  pb={'1'}
+                  borderBottom={'1px solid #D9D9D9'}
+                >
+                  <Text w={'30%'}>車名</Text>
+                  <Text w={'3%'}>:</Text>
+                  <Text>{data.car_name}</Text>
+                </HStack>
+
+                <HStack
+                  gap={'0'}
+                  mb={'2'}
+                  pb={'1'}
+                  borderBottom={'1px solid #D9D9D9'}
+                >
+                  <Text w={'30%'}>タイプ</Text>
+                  <Text w={'3%'}>:</Text>
+                  <Text>{data.car_type}</Text>
+                </HStack>
+
+                <HStack
+                  gap={'0'}
+                  mb={'2'}
+                  pb={'1'}
+                  borderBottom={'1px solid #D9D9D9'}
+                >
+                  <Text w={'30%'}>乗車定員</Text>
+                  <Text w={'3%'}>:</Text>
+                  <Text>{data.capacity}</Text>
+                </HStack>
+
+                <HStack
+                  gap={'0'}
+                  mb={'4'}
+                  pb={'1'}
+                  borderBottom={'1px solid #D9D9D9'}
+                >
+                  <Text w={'30%'}>貸出料金</Text>
+                  <Text w={'3%'}>:</Text>
+                  <Text>{data.share_prise}円 / 15分</Text>
+                </HStack>
                 <Button
                   sx={{
                     bg: '#289FAB',
                     color: '#FEFEFE',
-                    marginTop: 4,
                   }}
                   onClick={() => {
                     setSelectedCarData(data);

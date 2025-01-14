@@ -156,6 +156,7 @@ const Home = () => {
   return (
     <Container
       sx={{
+        h: '100vh',
         display: 'flex',
         justifyContent: 'center',
       }}
@@ -164,9 +165,7 @@ const Home = () => {
         sx={{
           fontSize: '6xl',
           textAlign: 'center',
-          mt: '3xl',
-          mb: 'lg',
-          pl: 5,
+          h: '15%',
         }}
       >
         TOP
@@ -174,13 +173,16 @@ const Home = () => {
       <HStack
         sx={{
           h: 'max-content',
-          textAlign: 'center',
           mx: 'auto',
+          mb: '25%',
+          textAlign: 'center',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <Box
           sx={{
-            w: '40',
+            w: '160',
             aspectRatio: '1/1',
             bg: '#F3F7F7',
             pt: 'xl',
@@ -197,7 +199,7 @@ const Home = () => {
         </Box>
         <Box
           sx={{
-            w: '40',
+            w: '160',
             aspectRatio: '1/1',
             bg: '#F3F7F7',
             pt: 'xl',
@@ -214,22 +216,23 @@ const Home = () => {
           <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
         </Box>
       </HStack>
-      <Box
-        sx={{
-          w: 350,
-          h: 55,
-          fontSize: 'xl',
-          bg: '#289FAB',
-          color: '#FEFEFE',
-          mx: 'auto',
-          mt: 140,
-          textAlign: 'center',
-          lineHeight: '55px',
-          rounded: '10px',
-        }}
-        onClick={() => handleLogout()}
-      >
-        サインアウト
+      <Box>
+        <Box
+          sx={{
+            w: 350,
+            h: 55,
+            fontSize: 'xl',
+            bg: '#289FAB',
+            color: '#FEFEFE',
+            mx: 'auto',
+            textAlign: 'center',
+            lineHeight: '55px',
+            rounded: '10px',
+          }}
+          onClick={() => handleLogout()}
+        >
+          サインアウト
+        </Box>
       </Box>
     </Container>
   );

@@ -5,7 +5,6 @@ import {
   Container,
   HStack,
   Image,
-  Separator,
   Text,
   VStack,
 } from '@yamada-ui/react';
@@ -93,10 +92,10 @@ const TenantCheckRentalData = () => {
     <>
       <Header
         isOwnerMode={true}
-        routePath={'reservedList'}
+        routePath={`emptyData/${rentalData.carport_id}/${rentalData.share_car_id}`}
         headerTitle={'予約確定'}
       />
-      <Container h="calc(100vh - 130px)">
+      <Container h="calc(100vh - 130px)" overflow="auto">
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'}>
           {rentalData.carport_address}
         </Text>
@@ -116,7 +115,8 @@ const TenantCheckRentalData = () => {
                   h: 90,
                   justifyContent: 'space-around',
                   px: 1,
-                  my: 2,
+                  mt: 2,
+                  mb: 4,
                 }}
               >
                 <Image
@@ -128,33 +128,78 @@ const TenantCheckRentalData = () => {
                   sx={{ maxWidth: '48%', maxHeight: '100%' }}
                 />
               </HStack>
-              <Text>メーカー：{rentalData.car_maker}</Text>
-              <Separator />
-              <Text>車名：{rentalData.car_name}</Text>
-              <Separator />
-              <Text>タイプ：{rentalData.car_type}</Text>
-              <Separator />
-              <Text>定員：{rentalData.car_capacity}</Text>
-              <Separator />
-              <Text>貸出料金：{rentalData.share_price}円 / 15分</Text>
-              <Separator />
+
+              <HStack
+                gap={'0'}
+                mb={'2'}
+                pb={'1'}
+                borderBottom={'1px solid #D9D9D9'}
+              >
+                <Text w={'30%'}>メーカー</Text>
+                <Text w={'3%'}>:</Text>
+                <Text>{rentalData.car_maker}</Text>
+              </HStack>
+
+              <HStack
+                gap={'0'}
+                mb={'2'}
+                pb={'1'}
+                borderBottom={'1px solid #D9D9D9'}
+              >
+                <Text w={'30%'}>車名</Text>
+                <Text w={'3%'}>:</Text>
+                <Text>{rentalData.car_name}</Text>
+              </HStack>
+
+              <HStack
+                gap={'0'}
+                mb={'2'}
+                pb={'1'}
+                borderBottom={'1px solid #D9D9D9'}
+              >
+                <Text w={'30%'}>タイプ</Text>
+                <Text w={'3%'}>:</Text>
+                <Text>{rentalData.car_type}</Text>
+              </HStack>
+
+              <HStack
+                gap={'0'}
+                mb={'2'}
+                pb={'1'}
+                borderBottom={'1px solid #D9D9D9'}
+              >
+                <Text w={'30%'}>乗車定員</Text>
+                <Text w={'3%'}>:</Text>
+                <Text>{rentalData.car_capacity}</Text>
+              </HStack>
+
+              <HStack
+                gap={'0'}
+                mb={'2'}
+                pb={'1'}
+                borderBottom={'1px solid #D9D9D9'}
+              >
+                <Text w={'30%'}>貸出料金</Text>
+                <Text w={'3%'}>:</Text>
+                <Text>{rentalData.share_price}円 / 15分</Text>
+              </HStack>
             </Box>
             {/*予約日時・金額*/}
             <Text>予約日時・金額</Text>
             <Card
               sx={{
-                h: 105,
+                h: 135,
                 mt: 1,
                 px: 4,
                 py: 3,
-                fontSize: 'xs',
+                fontSize: '13',
                 backgroundColor: '#FFFFFF',
               }}
             >
               <VStack>
                 <HStack
                   sx={{
-                    h: 2,
+                    h: 4,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -162,12 +207,12 @@ const TenantCheckRentalData = () => {
                   <Text>利用開始日時</Text>
                   <Text
                     sx={{
-                      w: 120,
+                      w: 125,
                       m: 'md',
+                      mr: 7,
                       px: 1,
                       backgroundColor: '#F3F7F7',
                       textAlign: 'right',
-                      marginRight: 7,
                       borderRadius: 5,
                     }}
                   >
@@ -176,7 +221,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 2,
+                    h: 4,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -184,12 +229,12 @@ const TenantCheckRentalData = () => {
                   <Text>返却予定日時</Text>
                   <Text
                     sx={{
-                      w: 120,
+                      w: 125,
                       m: 'md',
+                      mr: 7,
                       px: 1,
                       backgroundColor: '#F3F7F7',
                       textAlign: 'right',
-                      marginRight: 7,
                       borderRadius: 5,
                     }}
                   >
@@ -198,7 +243,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 2,
+                    h: 4,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -208,7 +253,7 @@ const TenantCheckRentalData = () => {
                     <Text
                       sx={{
                         px: 1,
-                        w: 120,
+                        w: 125,
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
                         borderRadius: 5,
@@ -221,7 +266,7 @@ const TenantCheckRentalData = () => {
                 </HStack>
                 <HStack
                   sx={{
-                    h: 2,
+                    h: 4,
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
@@ -231,7 +276,7 @@ const TenantCheckRentalData = () => {
                     <Text
                       sx={{
                         px: 1,
-                        w: 120,
+                        w: 125,
                         backgroundColor: '#F3F7F7',
                         textAlign: 'right',
                         borderRadius: 5,
