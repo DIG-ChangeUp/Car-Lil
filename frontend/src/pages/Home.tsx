@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Container, HStack, Text } from '@yamada-ui/react';
+import { Box, Container, HStack, Text } from '@yamada-ui/react';
 import { GrUserAdmin, GrUser } from 'react-icons/gr';
 import {
   userEmailAtom,
@@ -214,7 +214,7 @@ const Home = () => {
           <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
         </Box>
       </HStack>
-      <Button
+      <Box
         sx={{
           w: 350,
           h: 55,
@@ -223,11 +223,14 @@ const Home = () => {
           color: '#FEFEFE',
           mx: 'auto',
           mt: 140,
+          textAlign: 'center',
+          lineHeight: '55px',
+          rounded: '10px',
         }}
         onClick={() => handleLogout()}
       >
         サインアウト
-      </Button>
+      </Box>
     </Container>
   );
 };
