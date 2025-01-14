@@ -1,5 +1,5 @@
 import { MdOutlineArrowBackIos } from 'react-icons/md';
-import { Box, Container, Text } from '@yamada-ui/react';
+import { Box, Container, HStack, Spacer, Text } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
@@ -27,9 +27,25 @@ export default function Header({
         borderBottom="1px solid #D9D9D9"
       >
         {isOwnerMode ? (
-          <Box fontSize="2xl">
-            <MdOutlineArrowBackIos onClick={() => navigate(`/${routePath}`)} />
-          </Box>
+          <HStack>
+            <Box fontSize="2xl" w="24px" h="36px">
+              <MdOutlineArrowBackIos
+                onClick={() => navigate(`/${routePath}`)}
+              />
+            </Box>
+            <Spacer />
+            <Text
+              sx={{
+                fontSize: 'xl',
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}
+            >
+              {headerTitle}
+            </Text>
+            <Spacer />
+            <Box fontSize="2xl" w="24px" h="36px"></Box>
+          </HStack>
         ) : (
           <Text
             sx={{

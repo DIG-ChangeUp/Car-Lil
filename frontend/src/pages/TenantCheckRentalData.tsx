@@ -78,20 +78,24 @@ const TenantCheckRentalData = () => {
   };
 
   async function addNewReservation(data: Reservations) {
-    const response = await fetch('/api/addNewReservation', {
+    await fetch('/api/addNewReservation', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (response.ok) {
-      const jsonResponse = await response.json();
-      console.log(jsonResponse);
-    }
+    // if (response.ok) {
+    //   const jsonResponse = await response.json();
+    //   console.log(jsonResponse);
+    // }
   }
 
   return (
     <>
-      <Header isOwnerMode={false} routePath={''} headerTitle={'予約確定'} />
+      <Header
+        isOwnerMode={true}
+        routePath={'reservedList'}
+        headerTitle={'予約確定'}
+      />
       <Container h="calc(100vh - 130px)">
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'}>
           {rentalData.carport_address}
