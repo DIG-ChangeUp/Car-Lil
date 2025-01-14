@@ -149,3 +149,9 @@ export interface IMapSelectedPointData {
   zoom: number | undefined;
   latLng: ILocation;
 }
+
+export interface ILoginData {
+  name: string;
+  password: string;
+  email: string;
+}
