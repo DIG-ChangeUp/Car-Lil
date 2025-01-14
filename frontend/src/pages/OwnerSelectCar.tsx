@@ -127,8 +127,8 @@ const OwnerSelectCar = () => {
 
                 <HStack
                   gap={'0'}
-                  mb={'2'}
-                  pb={'1'}
+                  // mb={'2'}
+                  // pb={'1'}
                   borderBottom={'1px solid #D9D9D9'}
                 >
                   <Text w={'30%'}>メーカー</Text>
@@ -138,8 +138,8 @@ const OwnerSelectCar = () => {
 
                 <HStack
                   gap={'0'}
-                  mb={'2'}
-                  pb={'1'}
+                  // mb={'2'}
+                  // pb={'1'}
                   borderBottom={'1px solid #D9D9D9'}
                 >
                   <Text w={'30%'}>車名</Text>
@@ -149,8 +149,8 @@ const OwnerSelectCar = () => {
 
                 <HStack
                   gap={'0'}
-                  mb={'2'}
-                  pb={'1'}
+                  // mb={'2'}
+                  // pb={'1'}
                   borderBottom={'1px solid #D9D9D9'}
                 >
                   <Text w={'30%'}>タイプ</Text>
@@ -160,8 +160,8 @@ const OwnerSelectCar = () => {
 
                 <HStack
                   gap={'0'}
-                  mb={'2'}
-                  pb={'1'}
+                  // mb={'2'}
+                  // pb={'1'}
                   borderBottom={'1px solid #D9D9D9'}
                 >
                   <Text w={'30%'}>乗車定員</Text>
