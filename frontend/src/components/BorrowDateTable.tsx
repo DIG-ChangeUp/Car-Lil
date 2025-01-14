@@ -11,7 +11,7 @@ import {
 import dayjs from 'dayjs';
 // demo day用にコメントアウト
 import { useAtomValue } from 'jotai/index';
-import { currentShareDataAtom, selectedDateAtom } from './atom/globalState.ts';
+import { selectedDateAtom } from './atom/globalState.ts';
 import { useEffect, useState } from 'react';
 
 const BorrowDateTable = () => {
@@ -51,11 +51,9 @@ const BorrowDateTable = () => {
       end_at: '2025-01-31T09:00:00.000Z',
     },
   ];
-  const atomCurrentShareData = useAtomValue(currentShareDataAtom);
   const selectedDay = useAtomValue(selectedDateAtom);
   const [filteredDemoData, setFilteredDemoData] = useState<DemoData>([]);
   const [listData, setListData] = useState<DemoData>(demoData);
-  console.log('atomCurrentShareData', atomCurrentShareData);
 
   //日付が選択されたらその日付がdemoDataに含まれるかを見て、あればその日付だけで絞ったデータを保持
   useEffect(() => {

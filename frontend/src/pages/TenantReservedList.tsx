@@ -66,7 +66,7 @@ const TenantReservedList = () => {
 
   return (
     <>
-      <Header isOwnerMode={false} routePath={''} headerTitle={'予約一覧'} />
+      <Header isOwnerMode={true} routePath={''} headerTitle={'予約一覧'} />
       <Container h="calc(100vh - 130px)" centerContent>
         <Box w="100%" h="90%" overflow="auto">
           {filteredReservationsData.map((reservation) => {

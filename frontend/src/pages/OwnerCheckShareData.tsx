@@ -49,15 +49,15 @@ export default function OwnerCheckShareData() {
   });
 
   async function submitShareData(data: IShare) {
-    const response: Response = await fetch('/api/addNewShareData', {
+    await fetch('/api/addNewShareData', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (response.ok) {
-      const jsonResponse = await response.json();
-      console.log('登録されたシェアデータ-----', jsonResponse.data);
-    }
+    // if (response.ok) {
+    //   const jsonResponse = await response.json();
+    //   console.log('登録されたシェアデータ-----', jsonResponse.data);
+    // }
   }
 
   return (
@@ -65,7 +65,7 @@ export default function OwnerCheckShareData() {
       <Header
         isOwnerMode={true}
         routePath={'ownerSelectTime'}
-        headerTitle={''}
+        headerTitle={'新規貸出設定'}
       />
       <Container h="calc(100vh - 130px)">
         <Box>
