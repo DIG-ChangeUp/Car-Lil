@@ -69,9 +69,6 @@ export default function OwnerCheckShareData() {
       />
       <Container h="calc(100vh - 130px)">
         <Box>
-          <Text mt="5" fontSize="xl" fontWeight="bold" textAlign="center">
-            新規貸出設定
-          </Text>
           <Wrap
             sx={{
               w: 320,
