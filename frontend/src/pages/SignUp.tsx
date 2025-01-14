@@ -60,7 +60,12 @@ const SignUp = () => {
   return (
     <Center p="10" h="100vh" minW="300px" maxW="400px" m="0 auto">
       <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Text fontSize="5xl" fontWeight="extrabold" textAlign="center">
+        <Text
+          fontSize="5xl"
+          fontWeight="extrabold"
+          textAlign="center"
+          color="primary"
+        >
           CAR-LIL
         </Text>
         <FormControl
@@ -107,7 +112,7 @@ const SignUp = () => {
           </p>
         )}
 
-        <Button type="submit" mt="6">
+        <Button type="submit" mt="6" bg="primary" color="#F4F4F5">
           SignUp
         </Button>
         <HStack mt="6">
