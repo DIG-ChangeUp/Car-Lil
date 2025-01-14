@@ -5,6 +5,7 @@ import { useState } from 'react';
 import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
 import { useSetAtom } from 'jotai/index';
 import { userEmailAtom } from '../components/atom/globalState.ts';
+import { ILoginData } from '../../globals';
 
 import { auth } from '../components/auth/firebase.ts';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -21,7 +22,6 @@ import {
   HStack,
   Text,
 } from '@yamada-ui/react';
-import { ILoginData } from '../../globals';
 
 const SignUp = () => {
   const setEmailAddress = useSetAtom(userEmailAtom);

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import GoogleAuthButton from '../components/auth/GoogleAuthButton.tsx';
 import { useSetAtom } from 'jotai';
 import { userEmailAtom } from '../components/atom/globalState.ts';
+import { ILoginData } from '../../globals';
 
 import {
   getAuth,
@@ -24,7 +25,6 @@ import {
   HStack,
   Text,
 } from '@yamada-ui/react';
-import { ILoginData } from '../../globals';
 
 const Login = () => {
   const setEmailAddress = useSetAtom(userEmailAtom);
