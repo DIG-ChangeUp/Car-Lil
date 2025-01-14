@@ -16,7 +16,7 @@ module.exports = {
   },
   //emailからオーナーに紐づくすべての情報を取得
   async findOwnerByEmail(email) {
-    return await db(USERS_TABLE)
+    return db(USERS_TABLE)
       .leftJoin('share_cars', 'users.id', 'share_cars.user_id')
       .leftJoin('cars', 'share_cars.car_id', 'cars.id')
       .leftJoin('carports', 'share_cars.carport_id', 'carports.id')
@@ -49,7 +49,7 @@ module.exports = {
   },
   //emailからユーザーに紐づくすべての情報を取得
   async findTenantByEmail(email) {
-    return await db(USERS_TABLE)
+    return db(USERS_TABLE)
       .leftJoin('reservations', 'users.id', 'reservations.user_id')
       .leftJoin('share_cars', 'reservations.share_car_id', 'share_cars.id')
       .leftJoin('cars', 'share_cars.car_id', 'cars.id')
