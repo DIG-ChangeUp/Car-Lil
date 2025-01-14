@@ -24,35 +24,37 @@ export default function OwnerCompleteShareData() {
 
   return (
     <>
-      <VStack w={'100%'} h="calc(100vh - 80px)" px={'6'} py={'2'}>
-        <Center mt={100} mb={5}>
-          <MdOutlineCheckCircle fontSize="130" color="#289FAB" />
-        </Center>
+      <Center
+        p="10"
+        h="calc(100vh - 80px)"
+        minW="300px"
+        maxW="400px"
+        m="0 auto"
+      >
+        <VStack>
+          <Center mt={90} mb={5}>
+            <MdOutlineCheckCircle fontSize="130" color="#289fab" />
+          </Center>
 
-        <Box mb={9}>
-          <Text fontWeight="bold" align={'center'}>
-            貸出日登録が完了しました
-          </Text>
-        </Box>
+          <Box mb={9}>
+            <Text fontWeight="bold" align={'center'}>
+              貸出日登録が完了しました
+            </Text>
+          </Box>
 
-        <Box>
-          <Text align={'center'}>
-            MVP開発であるため
-            <br />
-            実際には登録されません
-          </Text>
-        </Box>
+          <Box>
+            <Text align={'center'}>
+              MVP開発であるため
+              <br />
+              実際には登録されません
+            </Text>
+          </Box>
 
-        <Button
-          h={'45'}
-          bg={'#289FAB'}
-          color={'#F4F4F5'}
-          onClick={handlerClickTop}
-        >
-          貸出設定に戻る
-        </Button>
-      </VStack>
-
+          <Button h="45" bg="primary" color="#F4F4F5" onClick={handlerClickTop}>
+            貸出設定に戻る
+          </Button>
+        </VStack>
+      </Center>
       <Footer isOwnerMode={true} activeMenu={-1} />
     </>
   );
