@@ -100,7 +100,7 @@ const OwnerSelectTime = () => {
     endHr: string,
     endMin: string
   ) {
-    const defaultMessage: string = '貸出開始と終了の時刻を選択してください';
+    const defaultMessage: string = '貸出開始と終了時刻を選択してください';
     const errorMessage1: string = '貸出開始時間が終了時間を超過しています';
     const errorMessage2: string = '貸出可能時間は15分以上で設定してください';
     const registrableMessage: string = '指定の時間で登録可能です';
@@ -129,145 +129,137 @@ const OwnerSelectTime = () => {
 
   return (
     <>
-      <Header
-        isOwnerMode={true}
-        routePath={'ownerSelectDay'}
-        headerTitle={'貸出時間選択'}
-      />
-      <Container h="calc(100vh - 130px)" centerContent overflow="auto">
-        <Box w="100%" h="calc(100% - 100px)">
-          <HStack
-            justifyContent="start"
-            marginTop="6"
-            px="6"
-            h="80px"
-            wrap="wrap"
-            overflow="auto"
-          >
-            {atomSelectedDate.map((rentalDay) => {
-              return (
-                <Box
-                  key={rentalDay}
-                  rounded="full"
-                  bg="yellow.500"
-                  px="3"
-                  py="1"
-                  w="75px"
-                >
-                  <Center>{dayjs(rentalDay).format('M/D')}</Center>
-                </Box>
-              );
-            })}
-          </HStack>
-          <Center>
-            <Container h="200" bg="blackAlpha.50" rounded="20" marginTop="6">
-              <HStack justifyContent="space-between">
-                <Text>終日</Text>
-                <Spacer />
-                <Switch
-                  onChange={() => {
-                    setIsToggleOn(!isToggleOn);
-                  }}
-                ></Switch>
-              </HStack>
-              <Separator />
-              <HStack justifyContent="space-between">
-                <Text w="200px">開始</Text>
-                <Spacer />
-                <Select
-                  bg="white"
-                  w="180px"
-                  value={startHourValue}
-                  onChange={setStartHourValue}
-                >
-                  {hours.map((hour) => {
-                    return (
-                      <Option key={hour} value={hour}>
-                        {hour}
-                      </Option>
-                    );
-                  })}
-                </Select>
-                <Text>:</Text>
-                <Select
-                  bg="white"
-                  w="180px"
-                  value={startMinutesValue}
-                  onChange={setStartMinutesValue}
-                >
-                  {minutes.map((minute) => {
-                    return (
-                      <Option key={minute} value={minute}>
-                        {minute}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </HStack>
-              <Separator />
-              <HStack justifyContent="space-between">
-                <Text w="200px">終了</Text>
-                <Spacer />
-                <Select
-                  bg="white"
-                  w="180px"
-                  value={endHourValue}
-                  onChange={setEndHourValue}
-                >
-                  {hours.map((hour) => {
-                    return (
-                      <Option key={hour} value={hour}>
-                        {hour}
-                      </Option>
-                    );
-                  })}
-                </Select>
-                <Text>:</Text>
-                <Select
-                  bg="white"
-                  w="180px"
-                  value={endMinutesValue}
-                  onChange={setEndMinutesValue}
-                >
-                  {minutes.map((minute) => {
-                    return (
-                      <Option key={minute} value={minute}>
-                        {minute}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </HStack>
-            </Container>
-          </Center>
-        </Box>
-        <VStack w="100%" h="100px" mb="65">
-          <Text
-            sx={{
-              textAlign: 'center',
-              color: fontColor,
-            }}
-          >
-            {validationMsg}
-          </Text>
-          <Button
-            marginTop="1"
-            onClick={() => {
-              if (validationMsg === '指定の時間で登録可能です') {
-                makeRentalData();
-                navigate('/ownerCheckShareData');
-              }
-            }}
-            isDisabled={validationMsg !== '指定の時間で登録可能です'}
-            sx={{
-              bg: '#289FAB',
-              color: '#FEFEFE',
-            }}
-          >
-            確認画面に進む
-          </Button>
+      <Header routePath={'ownerSelectDay'} headerTitle={'貸出時間選択'} />
+      <Center
+        p="10"
+        h="calc(100vh - 130px)"
+        minW="300px"
+        maxW="400px"
+        m="0 auto"
+      >
+        <VStack>
+          <Box h="calc(100% - 90px)">
+            <HStack justifyContent="start" h="80px" wrap="wrap" overflow="auto">
+              {atomSelectedDate.map((rentalDay) => {
+                return (
+                  <Box
+                    key={rentalDay}
+                    rounded="full"
+                    bg="yellow.500"
+                    px="3"
+                    py="1"
+                    w="75px"
+                  >
+                    <Center>{dayjs(rentalDay).format('M/D')}</Center>
+                  </Box>
+                );
+              })}
+            </HStack>
+            <Center>
+              <Container h="200" bg="blackAlpha.50" rounded="20" mt="6">
+                <HStack justifyContent="space-between">
+                  <Text>終日</Text>
+                  <Spacer />
+                  <Switch
+                    onChange={() => {
+                      setIsToggleOn(!isToggleOn);
+                    }}
+                  ></Switch>
+                </HStack>
+                <Separator />
+                <HStack justifyContent="space-between">
+                  <Text w="200px">開始</Text>
+                  <Spacer />
+                  <Select
+                    bg="white"
+                    w="180px"
+                    value={startHourValue}
+                    onChange={setStartHourValue}
+                  >
+                    {hours.map((hour) => {
+                      return (
+                        <Option key={hour} value={hour}>
+                          {hour}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                  <Text>:</Text>
+                  <Select
+                    bg="white"
+                    w="180px"
+                    value={startMinutesValue}
+                    onChange={setStartMinutesValue}
+                  >
+                    {minutes.map((minute) => {
+                      return (
+                        <Option key={minute} value={minute}>
+                          {minute}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </HStack>
+                <Separator />
+                <HStack justifyContent="space-between">
+                  <Text w="200px">終了</Text>
+                  <Spacer />
+                  <Select
+                    bg="white"
+                    w="180px"
+                    value={endHourValue}
+                    onChange={setEndHourValue}
+                  >
+                    {hours.map((hour) => {
+                      return (
+                        <Option key={hour} value={hour}>
+                          {hour}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                  <Text>:</Text>
+                  <Select
+                    bg="white"
+                    w="180px"
+                    value={endMinutesValue}
+                    onChange={setEndMinutesValue}
+                  >
+                    {minutes.map((minute) => {
+                      return (
+                        <Option key={minute} value={minute}>
+                          {minute}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </HStack>
+              </Container>
+            </Center>
+          </Box>
+          <VStack w="100%" h="90px" mt="80px">
+            <Text textAlign="center" color={fontColor}>
+              {validationMsg}
+            </Text>
+            <Button
+              mt="1"
+              onClick={() => {
+                if (validationMsg === '指定の時間で登録可能です') {
+                  makeRentalData();
+                  navigate('/ownerCheckShareData');
+                }
+              }}
+              isDisabled={validationMsg !== '指定の時間で登録可能です'}
+              sx={{
+                bg: '#289FAB',
+                color: '#FEFEFE',
+              }}
+            >
+              確認画面に進む
+            </Button>
+          </VStack>
         </VStack>
-      </Container>
+      </Center>
       <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );

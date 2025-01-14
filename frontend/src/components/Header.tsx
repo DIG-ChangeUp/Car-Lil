@@ -18,7 +18,6 @@ export default function Header({ routePath, headerTitle }: HeaderProps) {
     <>
       <HStack bg="#F3F7F7" borderBottom="1px solid #D9D9D9">
         <Spacer />
-
         <HStack
           justifyContent="space-between"
           h="50px"

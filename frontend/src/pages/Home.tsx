@@ -158,7 +158,7 @@ const Home = () => {
 
   return (
     <Center p="10" h="100vh" minW="300px" maxW="400px" m="0 auto">
-      <VStack w="100%">
+      <VStack>
         <Text fontSize="6xl" textAlign="center" mb="80px">
           TOP
         </Text>

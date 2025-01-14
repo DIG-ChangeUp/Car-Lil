@@ -75,7 +75,7 @@ const OwnerSelectCar = () => {
 
   return (
     <>
-      <Header isOwnerMode={true} routePath={''} headerTitle={'貸出車両選択'} />
+      <Header routePath={''} headerTitle={'貸出車両選択'} />
       <Container w="100%" h="calc(100vh - 130px)">
         <Text
           sx={{
