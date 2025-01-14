@@ -111,7 +111,7 @@ const SignUp = () => {
           )}
 
           <Button type="submit" marginTop="6">
-            SinUp
+            SignUp
           </Button>
           <HStack marginTop="6">
             <Separator width="40" />
