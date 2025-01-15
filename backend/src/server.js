@@ -41,7 +41,7 @@ function setupServer() {
   app.post('/api/users/email', usersController.confirmationByEmail); //🎉使用 メールアドレスからユーザーの存在を確認
   app.post('/api/users/owner/email', usersController.viewOfOwnerByEmail); //🎉使用 emailからオーナー全情報取得
   app.post('/api/allCarports', carportsController.getAllCarPorte); //🎉使用 map pin用駐車場取得
-  app.post('/api/distance', carportsController.getDistance); //🎉使用 DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
+  //app.post('/api/distance', carportsController.getDistance); //🎉使用 DB、GoogleAPI双方で一番近い駐車場への実移動距離を取得
   app.post('/api/addNewShareData', shareController.addNewShareData); //🎉使用 オーナーの貸出設定を登録
   app.post('/api/addNewReservation', reservationsController.addNewReservation); //🎉使用 テナントの予約を登録し、対象車両のshare_stateも'予約'状態に変更
   app.post('/api/rentalData', rentalData.index); //🎉使用 レンタル情報

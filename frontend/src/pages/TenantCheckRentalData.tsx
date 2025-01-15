@@ -94,11 +94,11 @@ const TenantCheckRentalData = () => {
         routePath={`emptyData/${rentalData.carport_id}/${rentalData.share_car_id}`}
         headerTitle={'予約確定'}
       />
-      <Container h="calc(100vh - 130px)" overflow="auto">
+      <Container h="calc(100vh - 130px)" overflow="auto" minW={'300px'} maxW={'400px'} margin={'0 auto'}>
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'}>
           {rentalData.carport_address}
         </Text>
-        <Box mx="3">
+        <Box>
           <Card
             sx={{
               p: 3,
