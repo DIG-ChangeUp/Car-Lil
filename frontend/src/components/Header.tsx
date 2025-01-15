@@ -1,9 +1,8 @@
 import { MdOutlineArrowBackIos } from 'react-icons/md';
-import { Box, Container, HStack, Spacer, Text } from '@yamada-ui/react';
+import { Box, HStack, Spacer, Text } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
-  isOwnerMode: boolean;
   routePath: string | '';
   headerTitle: string | '';
 }
@@ -13,51 +12,33 @@ interface HeaderProps {
 // ・isOwnerMode:オーナー画面の時は navigate先のパスの文字列 を 、テナント画面の時は '' を入れる
 // ・headerTitle:オーナー画面の時は '' を、テナント画面の時は 'ヘッダーのタイトルの文字列' を入れる
 
-export default function Header({
-  isOwnerMode,
-  routePath,
-  headerTitle,
-}: HeaderProps) {
+export default function Header({ routePath, headerTitle }: HeaderProps) {
   const navigate = useNavigate();
   return (
     <>
-      <Container
-        h="50px"
-        backgroundColor="#F3F7F7"
-        borderBottom="1px solid #D9D9D9"
-      >
-        {isOwnerMode ? (
-          <HStack>
-            <Box fontSize="2xl" w="24px" h="36px">
-              <MdOutlineArrowBackIos
-                onClick={() => navigate(`/${routePath}`)}
-              />
-            </Box>
-            <Spacer />
-            <Text
-              sx={{
-                fontSize: 'xl',
-                fontWeight: 'bold',
-                textAlign: 'center',
-              }}
-            >
-              {headerTitle}
-            </Text>
-            <Spacer />
-            <Box fontSize="2xl" w="24px" h="36px"></Box>
-          </HStack>
-        ) : (
-          <Text
-            sx={{
-              fontSize: 'xl',
-              fontWeight: 'bold',
-              textAlign: 'center',
-            }}
-          >
+      <HStack bg="#F3F7F7" borderBottom="1px solid #D9D9D9">
+        <Spacer />
+        <HStack
+          justifyContent="space-between"
+          h="50px"
+          minW="300px"
+          maxW="400px"
+          fontSize="2xl"
+          bg="#F3F7F7"
+          alignItems="end"
+        >
+          <Box fontSize="2xl" w="24px" h="36px">
+            <MdOutlineArrowBackIos onClick={() => navigate(`/${routePath}`)} />
+          </Box>
+          <Spacer />
+          <Text fontSize="xl" fontWeight="bold" textAlign="center">
             {headerTitle}
           </Text>
-        )}
-      </Container>
+          <Spacer />
+          <Box fontSize="2xl" w="24px" h="36px"></Box>
+        </HStack>
+        <Spacer />
+      </HStack>
     </>
   );
 }

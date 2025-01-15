@@ -363,11 +363,7 @@ export function TenantEmptyData() {
 
   return (
     <>
-      <Header
-        isOwnerMode={true}
-        routePath={'map'}
-        headerTitle={'空き状況確認'}
-      />
+      <Header routePath={'map'} headerTitle={'空き状況確認'} />
 
       <ScrollArea w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>

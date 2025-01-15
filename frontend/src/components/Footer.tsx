@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { HStack } from '@yamada-ui/react';
+import { HStack, Spacer } from '@yamada-ui/react';
 
 import { FooterItem, IFooterItem } from './FooterItem.tsx';
 
@@ -29,45 +29,77 @@ interface IFooterSetting {
  * 10: ログアウト
  */
 export default function Footer(props: IFooterSetting) {
-
   const [aryFooterItems, setAryFooterItems] = useState<IFooterItem[]>([]);
 
   useEffect(() => {
     const _aryFooterItems: IFooterItem[] = [];
-    if(props.isOwnerMode) {
-      _aryFooterItems.push({ labelText: '貸出設定', iconSelector: 0, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 1, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 2, menuMode: 'Enabled' });
-
+    if (props.isOwnerMode) {
+      _aryFooterItems.push({
+        labelText: '貸出設定',
+        iconSelector: 0,
+        menuMode: 'Enabled',
+      });
+      _aryFooterItems.push({
+        labelText: 'TOP',
+        iconSelector: 1,
+        menuMode: 'Enabled',
+      });
+      _aryFooterItems.push({
+        labelText: 'ログアウト',
+        iconSelector: 2,
+        menuMode: 'Enabled',
+      });
     } else {
-      _aryFooterItems.push({ labelText: '予約', iconSelector: 3, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: '予約一覧', iconSelector: 4, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'TOP', iconSelector: 5, menuMode: 'Enabled' });
-      _aryFooterItems.push({ labelText: 'ログアウト', iconSelector: 6, menuMode: 'Enabled' });
-
+      _aryFooterItems.push({
+        labelText: '予約',
+        iconSelector: 3,
+        menuMode: 'Enabled',
+      });
+      _aryFooterItems.push({
+        labelText: '予約一覧',
+        iconSelector: 4,
+        menuMode: 'Enabled',
+      });
+      _aryFooterItems.push({
+        labelText: 'TOP',
+        iconSelector: 5,
+        menuMode: 'Enabled',
+      });
+      _aryFooterItems.push({
+        labelText: 'ログアウト',
+        iconSelector: 6,
+        menuMode: 'Enabled',
+      });
     }
 
-    if(props.activeMenu >= 0) _aryFooterItems[props.activeMenu].menuMode = 'Active';
+    if (props.activeMenu >= 0)
+      _aryFooterItems[props.activeMenu].menuMode = 'Active';
 
     setAryFooterItems(_aryFooterItems);
   }, [props]);
 
-
   return (
-    <HStack
-      justifyContent="space-between"
-      h="80px"
-      paddingX="15"
-      paddingBottom="3"
-      fontSize="2xl"
-      backgroundColor="#F3F7F7"
-      sx={{ borderTop: '1px solid #D9D9D9' }}
-    >
-
-      {aryFooterItems.map((item, index) => (
-        <FooterItem key={index} labelText={item.labelText} iconSelector={item.iconSelector} menuMode={item.menuMode} />
-      ))}
-
+    <HStack bg="#F3F7F7" borderTop="1px solid #D9D9D9">
+      <Spacer />
+      <HStack
+        justifyContent="space-between"
+        h="80px"
+        minW="300px"
+        maxW="400px"
+        pb="3"
+        fontSize="2xl"
+        bg="#F3F7F7"
+      >
+        {aryFooterItems.map((item, index) => (
+          <FooterItem
+            key={index}
+            labelText={item.labelText}
+            iconSelector={item.iconSelector}
+            menuMode={item.menuMode}
+          />
+        ))}
+      </HStack>
+      <Spacer />
     </HStack>
   );
 }
