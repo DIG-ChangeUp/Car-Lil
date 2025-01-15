@@ -108,23 +108,16 @@ const TenantCheckRentalData = () => {
             {/*登録車両情報*/}
             <Text>登録車両1</Text>
             <Box sx={{ mb: 5, px: 4, fontSize: 'sm', border: 'none' }}>
-              <HStack
-                sx={{
-                  w: '100%',
-                  h: 90,
-                  justifyContent: 'space-around',
-                  px: 1,
-                  mt: 2,
-                  mb: 4,
-                }}
-              >
+              <HStack gap={'2%'} my={'2'}>
                 <Image
                   src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${rentalData.car_image_url1}`}
-                  sx={{ maxWidth: '48%', maxHeight: '100%' }}
+                  alt={'car'}
+                  w={'49%'}
                 />
                 <Image
                   src={`${import.meta.env.VITE_ORIGIN_API_URL}/images/${rentalData.car_image_url2}`}
-                  sx={{ maxWidth: '48%', maxHeight: '100%' }}
+                  alt={'car'}
+                  w={'49%'}
                 />
               </HStack>
 

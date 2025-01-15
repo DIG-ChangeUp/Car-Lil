@@ -112,7 +112,7 @@ const SignUp = () => {
           </p>
         )}
 
-        <Button type="submit" mt="6" bg="primary" color="#F4F4F5">
+        <Button h="45" type="submit" mt="6" bg="primary" color="#F4F4F5">
           SignUp
         </Button>
         <HStack mt="6">

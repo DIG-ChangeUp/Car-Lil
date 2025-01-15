@@ -75,7 +75,13 @@ const OwnerSelectCar = () => {
   return (
     <>
       <Header routePath={''} headerTitle={'貸出車両選択'} />
-      <Container w="100%" h="calc(100vh - 130px)">
+      <Container
+        w="100%"
+        h="calc(100vh - 130px)"
+        minW="300px"
+        maxW="400px"
+        m="0 auto"
+      >
         <Text
           sx={{
             mt: 2,
@@ -106,22 +112,16 @@ const OwnerSelectCar = () => {
                 }}
               >
                 <Text>{`登録車両 ${index + 1}`}</Text>
-                <HStack
-                  sx={{
-                    w: '100%',
-                    h: 100,
-                    justifyContent: 'space-around',
-                    paddingX: 1,
-                    marginY: 2,
-                  }}
-                >
+                <HStack gap={'2%'} my={'2'}>
                   <Image
                     src={`${import.meta.env.VITE_ORIGIN_API_URL}/ownerCarImages/${data.image_1}`}
-                    sx={{ maxWidth: '48%', maxHeight: '100%' }}
+                    alt={'car'}
+                    w={'49%'}
                   />
                   <Image
                     src={`${import.meta.env.VITE_ORIGIN_API_URL}/ownerCarImages/${data.image_2}`}
-                    sx={{ maxWidth: '48%', maxHeight: '100%' }}
+                    alt={'car'}
+                    w={'49%'}
                   />
                 </HStack>
 
@@ -180,10 +180,9 @@ const OwnerSelectCar = () => {
                   <Text>{data.share_prise}円 / 15分</Text>
                 </HStack>
                 <Button
-                  sx={{
-                    bg: '#289FAB',
-                    color: '#FEFEFE',
-                  }}
+                  h="45"
+                  bg="#289FAB"
+                  color="#FEFEFE"
                   onClick={() => {
                     setSelectedCarData(data);
                     shareData.user_id = data.user_id;

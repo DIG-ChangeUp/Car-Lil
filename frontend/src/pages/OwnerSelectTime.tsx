@@ -131,7 +131,8 @@ const OwnerSelectTime = () => {
     <>
       <Header routePath={'ownerSelectDay'} headerTitle={'貸出時間選択'} />
       <Center
-        p="10"
+        py="10"
+        px="4"
         h="calc(100vh - 130px)"
         minW="300px"
         maxW="400px"
@@ -250,10 +251,9 @@ const OwnerSelectTime = () => {
                 }
               }}
               isDisabled={validationMsg !== '指定の時間で登録可能です'}
-              sx={{
-                bg: '#289FAB',
-                color: '#FEFEFE',
-              }}
+              h="45"
+              bg="#289FAB"
+              color="#FEFEFE"
             >
               確認画面に進む
             </Button>

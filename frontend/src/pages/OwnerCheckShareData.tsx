@@ -63,7 +63,8 @@ export default function OwnerCheckShareData() {
     <>
       <Header routePath={'ownerSelectTime'} headerTitle={'新規貸出設定'} />
       <Center
-        p="10"
+        py="10"
+        px="4"
         h="calc(100vh - 130px)"
         minW="300px"
         maxW="400px"
@@ -122,8 +123,8 @@ export default function OwnerCheckShareData() {
             </Text>
             <HStack justifyContent="center">
               <Button
-                w="170"
                 h="45"
+                w="170"
                 fontSize="xl"
                 bg="#F4F4F5"
                 mx="3px"
@@ -134,8 +135,8 @@ export default function OwnerCheckShareData() {
                 キャンセル
               </Button>
               <Button
-                w="170"
                 h="45"
+                w="170"
                 fontSize="xl"
                 bg="primary"
                 color="#FEFEFE"
