@@ -365,12 +365,12 @@ export function TenantEmptyData() {
     <>
       <Header routePath={'map'} headerTitle={'空き状況確認'} />
 
-      <ScrollArea w={'100%'} h="calc(100vh - 130px)" px={'6'} py={'2'}>
+      <ScrollArea minW={'300px'} maxW={'400px'} h="calc(100vh - 130px)" py={'2'} m={'0 auto'}>
         <Text as={'h2'} fontSize={'16px'} fontWeight={'bolder'} mb={'2'}>
           {currentRentalData?.carport_address}
         </Text>
 
-        <Box bg={'#F3F7F7'} w={'100%'} borderRadius={'8'} px={'4'} py={'2'}>
+        <Box bg={'#F3F7F7'} w={'100%'} borderRadius={'8'} px={'4'} py={'2'} mb={'4'}>
           <Text as={'h3'} fontSize={'16px'} mb={'4'}>
             登録車両1
           </Text>
@@ -529,19 +529,19 @@ export function TenantEmptyData() {
           </Center>
         )}
 
-        <HStack gap={'4'} mb={'10'}>
+        <HStack gap={'4'} mb={'10'} mx={'auto'}>
           <Button
-            w={'180'}
+            w={'49%'}
             h={'45'}
             bg={'#AFAFAF'}
-            color={'#FEFEFE'}
+            color={'#2F2F2F'}
             onClick={handlerClickCancel}
           >
             キャンセル
           </Button>
           {!isErrorRentalTimeSetting && (
             <Button
-              w={'180'}
+              w={'49%'}
               h={'45'}
               bg={'#289FAB'}
               color={'#FEFEFE'}
