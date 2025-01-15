@@ -1,6 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { Box, Container, HStack, Text } from '@yamada-ui/react';
+import { useEffect, useState } from 'react';
 import { GrUserAdmin, GrUser } from 'react-icons/gr';
+import { useAtom, useSetAtom } from 'jotai/index';
+import { auth } from '../components/auth/firebase.ts';
+import { UseAuthContext } from '../components/AuthContext.tsx';
+import MyLoading from '../components/MyLoading.tsx';
+
+import { ILocation } from '../../globals';
+
 import {
   userEmailAtom,
   userDataAtom,
@@ -8,12 +15,8 @@ import {
   diffDistanceAtom,
   isOpenInfoWindowAtom,
 } from '../components/atom/globalState.ts';
-import { useAtom, useSetAtom } from 'jotai/index';
-import { auth } from '../components/auth/firebase.ts';
-import { useEffect, useState } from 'react';
-import { ILocation } from '../../globals';
-import { UseAuthContext } from '../components/AuthContext.tsx';
-import MyLoading from '../components/MyLoading.tsx';
+
+import { Button, Center, HStack, Text, VStack } from '@yamada-ui/react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -154,87 +157,57 @@ const Home = () => {
   if (isLoading) return <MyLoading />;
 
   return (
-    <Container
-      sx={{
-        h: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Text
-        sx={{
-          fontSize: '6xl',
-          textAlign: 'center',
-          h: '15%',
-        }}
-      >
-        TOP
-      </Text>
-      <HStack
-        sx={{
-          h: 'max-content',
-          mx: 'auto',
-          mb: '25%',
-          textAlign: 'center',
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Box
-          sx={{
-            w: '160',
-            aspectRatio: '1/1',
-            bg: '#F3F7F7',
-            pt: 'xl',
-            rounded: 'xl',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-          }}
-          onClick={async () => {
-            await fetchUserData(emailAddress);
-            navigate('/ownerSelectCar');
-          }}
-        >
-          <GrUserAdmin size="50" />
-          <Text sx={{ fontSize: '2xl' }}>オーナー</Text>
-        </Box>
-        <Box
-          sx={{
-            w: '160',
-            aspectRatio: '1/1',
-            bg: '#F3F7F7',
-            pt: 'xl',
-            rounded: 'xl',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-          }}
-          onClick={async () => {
-            await fetchUserData(emailAddress);
-            setIsOpenInfoWindow(false);
-            navigate('/map');
-          }}
-        >
-          <GrUser size="50" />
-          <Text sx={{ fontSize: '2xl' }}>ユーザー</Text>
-        </Box>
-      </HStack>
-      <Box>
-        <Box
-          sx={{
-            w: 350,
-            h: 55,
-            fontSize: 'xl',
-            bg: '#289FAB',
-            color: '#FEFEFE',
-            mx: 'auto',
-            textAlign: 'center',
-            lineHeight: '55px',
-            rounded: '10px',
-          }}
-          onClick={() => handleLogout()}
+    <Center p="10" h="100vh" minW="300px" maxW="400px" m="0 auto">
+      <VStack>
+        <Text fontSize="6xl" textAlign="center" mb="80px">
+          TOP
+        </Text>
+        <HStack textAlign="center" mx="auto">
+          <Center
+            w="140px"
+            h="140px"
+            bg="#F3F7F7"
+            rounded="xl"
+            boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+            onClick={async () => {
+              await fetchUserData(emailAddress);
+              navigate('/ownerSelectCar');
+            }}
+          >
+            <VStack mt="15px" alignItems="center">
+              <GrUserAdmin size="50" />
+              <Text fontSize="2xl">オーナー</Text>
+            </VStack>
+          </Center>
+          <Center
+            w="140px"
+            h="140px"
+            bg="#F3F7F7"
+            rounded="xl"
+            boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+            onClick={async () => {
+              await fetchUserData(emailAddress);
+              setIsOpenInfoWindow(false);
+              navigate('/map');
+            }}
+          >
+            <VStack mt="15px" alignItems="center">
+              <GrUser size="50" />
+              <Text fontSize="2xl">ユーザー</Text>
+            </VStack>
+          </Center>
+        </HStack>
+        <Button
+          h="45"
+          bg="primary"
+          color="#F4F4F5"
+          mt="60px"
+          onClick={handleLogout}
         >
           サインアウト
-        </Box>
-      </Box>
-    </Container>
+        </Button>
+      </VStack>
+    </Center>
   );
 };
 

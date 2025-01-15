@@ -73,7 +73,9 @@ const Map = () => {
     setViewMode(mode);
     if (mode === 'list') {
       if (checkRequestTiming()) return;
-      const response = await fetch('/api/distance', {
+      //!!!API制限中----------
+      // const response = await fetch('/api/distance', {
+      const response = await fetch('/api/allCarports', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentPosition: currLocation }),

@@ -55,50 +55,43 @@ const OwnerSelectDay = () => {
 
   return (
     <>
-      <Header
-        isOwnerMode={true}
-        routePath={'ownerSelectCar'}
-        headerTitle={'貸出日付選択'}
-      />
-      <Container h="calc(100vh - 130px)" centerContent>
+      <Header routePath={'ownerSelectCar'} headerTitle={'貸出日付選択'} />
+      <Container h="calc(100vh - 220px)" minW="300px" maxW="400px" m="0 auto">
         <Box
-          w="100%"
-          h="calc(100% - 100px)"
-          // overflow="auto"
+          m="0 auto"
           overflow="scroll"
+          h="100%"
+          w="100%"
+          borderBottom="1px solid #D9D9D9"
         >
           <Center>
             <CustomCalendar />
           </Center>
-          <Container>
-            <Text textAlign="center">貸出予定一覧</Text>
-            {/*<ScrollArea h="140" innerProps={{ as: VStack, gap: 'md' }}>*/}
-            <Container h="180" gap="md" overflow="auto">
-              <BorrowDateTable />
-            </Container>
-            {/*</ScrollArea>*/}
-          </Container>
-        </Box>
-        <VStack w="100%" h="100px">
-          <Text
-            fontSize="sm"
-            textAlign="center"
-            color={atomSelectedDate.length > 0 ? 'white' : 'black'}
-          >
-            カレンダーから日付を選択してください
+          <Text mt="10px" textAlign="center">
+            貸出予定一覧
           </Text>
-          <Button
-            onClick={() => navigate('/ownerSelectTime')}
-            isDisabled={atomSelectedDate.length < 1}
-            sx={{
-              bg: '#289FAB',
-              color: '#FEFEFE',
-            }}
-          >
-            時間指定に進む
-          </Button>
-        </VStack>
+          <BorrowDateTable />
+        </Box>
       </Container>
+
+      <VStack w="100%" h="90px" px="15px">
+        <Text
+          fontSize="sm"
+          textAlign="center"
+          color={atomSelectedDate.length > 0 ? 'white' : 'black'}
+        >
+          カレンダーから日付を選択してください
+        </Text>
+        <Button
+          onClick={() => navigate('/ownerSelectTime')}
+          isDisabled={atomSelectedDate.length < 1}
+          bg="primary"
+          color="#FEFEFE"
+          mb="10px"
+        >
+          時間指定に進む
+        </Button>
+      </VStack>
       <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );

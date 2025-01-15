@@ -91,7 +91,6 @@ const TenantCheckRentalData = () => {
   return (
     <>
       <Header
-        isOwnerMode={true}
         routePath={`emptyData/${rentalData.carport_id}/${rentalData.share_car_id}`}
         headerTitle={'予約確定'}
       />

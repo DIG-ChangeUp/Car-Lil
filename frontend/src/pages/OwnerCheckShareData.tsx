@@ -8,7 +8,6 @@ import {
   HStack,
   Text,
   VStack,
-  Wrap,
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -62,22 +61,16 @@ export default function OwnerCheckShareData() {
 
   return (
     <>
-      <Header
-        isOwnerMode={true}
-        routePath={'ownerSelectTime'}
-        headerTitle={'新規貸出設定'}
-      />
-      <Container h="calc(100vh - 130px)">
-        <Box>
-          <Wrap
-            sx={{
-              w: 320,
-              marginX: 'auto',
-              alignItems: 'stretch',
-              display: 'flex',
-              justifyContent: 'left',
-            }}
-          >
+      <Header routePath={'ownerSelectTime'} headerTitle={'新規貸出設定'} />
+      <Center
+        p="10"
+        h="calc(100vh - 130px)"
+        minW="300px"
+        maxW="400px"
+        m="0 auto"
+      >
+        <VStack>
+          <Box>
             <HStack
               justifyContent="start"
               marginTop="6"
@@ -101,70 +94,67 @@ export default function OwnerCheckShareData() {
                 );
               })}
             </HStack>
-          </Wrap>
-          <VStack
-            sx={{
-              w: 320,
-              h: 'auto',
-              backgroundColor: '#F3F7F7',
-              mx: 'auto',
-              mt: 2,
-              px: 10,
-              py: 3,
-              borderRadius: '10px',
-              flexShrink: 1,
-            }}
-          >
-            <Text>車両：{selectedCarData.car_name}</Text>
-            <Text>料金：{selectedCarData.share_prise}円/ 15分</Text>
-            <Text>開始：{atomSelectedDateAndTime[0].start_at}</Text>
-            <Text>終了：{atomSelectedDateAndTime[0].end_at}</Text>
-          </VStack>
-        </Box>
-        <Container sx={{ textAlign: 'center' }}>
-          <Text fontWeight="bold">
-            貸出設定を確定します
-            <br />
-            よろしいですか？
-          </Text>
-          <HStack sx={{ justifyContent: 'center' }}>
-            <Button
-              sx={{
-                w: 170,
-                h: 45,
-                fontSize: 'xl',
-                bg: '#F4F4F5',
-                marginX: '3px',
-              }}
-              onClick={() => {
-                navigate('/ownerSelectTime');
-              }}
+            <VStack
+              h="200px"
+              bg="#F3F7F7"
+              rounded="20"
+              mt="6"
+              py="10px"
+              px="40px"
             >
-              キャンセル
-            </Button>
-            <Button
-              sx={{
-                w: 170,
-                h: 45,
-                fontSize: 'xl',
-                backgroundColor: '#289FAB',
-                color: '#FEFEFE',
-                marginX: '3px',
-              }}
-              onClick={async () => {
-                await Promise.all(
-                  submitData.map(async (data) => {
-                    await submitShareData(data);
-                  })
-                );
-                navigate('/ownerCompleteShareData');
-              }}
-            >
-              はい
-            </Button>
-          </HStack>
-        </Container>
-      </Container>
+              <Text lineHeight="33px">車両：{selectedCarData.car_name}</Text>
+              <Text lineHeight="33px">
+                料金：{selectedCarData.share_prise}円/ 15分
+              </Text>
+              <Text lineHeight="33px">
+                開始：{atomSelectedDateAndTime[0].start_at}
+              </Text>
+              <Text lineHeight="33px">
+                終了：{atomSelectedDateAndTime[0].end_at}
+              </Text>
+            </VStack>
+          </Box>
+          <Container textAlign="center">
+            <Text fontWeight="bold">
+              貸出設定を確定します
+              <br />
+              よろしいですか？
+            </Text>
+            <HStack justifyContent="center">
+              <Button
+                w="170"
+                h="45"
+                fontSize="xl"
+                bg="#F4F4F5"
+                mx="3px"
+                onClick={() => {
+                  navigate('/ownerSelectTime');
+                }}
+              >
+                キャンセル
+              </Button>
+              <Button
+                w="170"
+                h="45"
+                fontSize="xl"
+                bg="primary"
+                color="#FEFEFE"
+                mx="3px"
+                onClick={async () => {
+                  await Promise.all(
+                    submitData.map(async (data) => {
+                      await submitShareData(data);
+                    })
+                  );
+                  navigate('/ownerCompleteShareData');
+                }}
+              >
+                はい
+              </Button>
+            </HStack>
+          </Container>
+        </VStack>
+      </Center>
       <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );
