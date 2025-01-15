@@ -10,10 +10,10 @@ import {
 } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue } from 'jotai/index';
-import { distanceDataAtom } from './atom/globalState.ts';
+import { allCarPorteAtom } from './atom/globalState.ts';
 
 const DistanceCardList = () => {
-  const distanceData = useAtomValue(distanceDataAtom);
+  const allCarPorte = useAtomValue(allCarPorteAtom);
 
   const navigate = useNavigate();
 
@@ -21,12 +21,17 @@ const DistanceCardList = () => {
     navigate(`/emptyData/${carport_id}/${carport_id}`);
   }
 
-  if (distanceData.length < 1) return;
+  if (allCarPorte.length < 1) return;
   return (
     <Container marginTop="40px">
-      <ScrollArea h="calc(100vh - 80px - 90px)" w="100%">
+      <ScrollArea
+        h="calc(100vh - 80px - 90px)"
+        minW="300px"
+        maxW="400px"
+        m="0 auto"
+      >
         <Container>
-          {distanceData.map((data, i) => {
+          {allCarPorte.map((data, i) => {
             return (
               <Card
                 marginTop="3px"
@@ -38,11 +43,11 @@ const DistanceCardList = () => {
               >
                 <HStack>
                   <VStack>
-                    <Text fontSize="14px">{data.carData.address}</Text>
+                    <Text fontSize="14px">{data.address}</Text>
                     <HStack>
-                      <Text>{data.carData.car_name}</Text>
+                      <Text>{data.car_name}</Text>
                       <Spacer />
-                      <Text>{data.distance.text}</Text>
+                      <Text>{`${parseFloat(data.distance.toFixed(1))} km`}</Text>
                     </HStack>
                   </VStack>
                   <Button
@@ -51,7 +56,7 @@ const DistanceCardList = () => {
                     rounded="full"
                     w="50px"
                     h="46px"
-                    onClick={() => handleNavigate(data.carData.carport_id)}
+                    onClick={() => handleNavigate(data.carport_id)}
                   >
                     予約
                   </Button>
