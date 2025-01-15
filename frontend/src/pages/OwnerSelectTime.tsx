@@ -157,7 +157,7 @@ const OwnerSelectTime = () => {
               })}
             </HStack>
             <Center>
-              <Container h="200" bg="blackAlpha.50" rounded="20" mt="6">
+              <Container h="fit-content" bg="blackAlpha.50" rounded="20" mt="6">
                 <HStack justifyContent="space-between">
                   <Text>終日</Text>
                   <Spacer />

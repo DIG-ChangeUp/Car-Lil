@@ -96,7 +96,7 @@ export default function OwnerCheckShareData() {
               })}
             </HStack>
             <VStack
-              h="200px"
+              h="fit-content"
               bg="#F3F7F7"
               rounded="20"
               mt="6"
