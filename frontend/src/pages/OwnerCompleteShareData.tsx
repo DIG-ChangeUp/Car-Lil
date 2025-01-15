@@ -25,7 +25,8 @@ export default function OwnerCompleteShareData() {
   return (
     <>
       <Center
-        p="10"
+        py="10"
+        px="4"
         h="calc(100vh - 80px)"
         minW="300px"
         maxW="400px"

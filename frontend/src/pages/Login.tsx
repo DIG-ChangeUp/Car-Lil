@@ -134,6 +134,7 @@ const Login = () => {
 
         <GoogleAuthButton />
         <Button
+          h="45"
           colorScheme="link"
           mt="8"
           variant="link"

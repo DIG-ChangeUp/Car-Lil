@@ -56,6 +56,7 @@ const OwnerSelectDay = () => {
   return (
     <>
       <Header routePath={'ownerSelectCar'} headerTitle={'貸出日付選択'} />
+
       <Container h="calc(100vh - 220px)" minW="300px" maxW="400px" m="0 auto">
         <Box
           m="0 auto"
@@ -87,6 +88,8 @@ const OwnerSelectDay = () => {
             bg="primary"
             color="#FEFEFE"
             mb="10px"
+            h="45"
+
           >
             時間指定に進む
           </Button>
