@@ -73,27 +73,28 @@ const OwnerSelectDay = () => {
           </Text>
           <BorrowDateTable />
         </Box>
-      </Container>
 
-      <VStack w="100%" h="90px" px="15px" maxW="400px" mx="auto">
-        <Text
-          fontSize="sm"
-          textAlign="center"
-          color={atomSelectedDate.length > 0 ? 'white' : 'black'}
-        >
-          カレンダーから日付を選択してください
-        </Text>
-        <Button
-          onClick={() => navigate('/ownerSelectTime')}
-          isDisabled={atomSelectedDate.length < 1}
-          bg="primary"
-          color="#FEFEFE"
-          mb="10px"
-          h="45"
-        >
-          時間指定に進む
-        </Button>
-      </VStack>
+        <VStack w="100%" h="90px" px="15px">
+          <Text
+            fontSize="sm"
+            textAlign="center"
+            color={atomSelectedDate.length > 0 ? 'white' : 'black'}
+          >
+            カレンダーから日付を選択してください
+          </Text>
+          <Button
+            onClick={() => navigate('/ownerSelectTime')}
+            isDisabled={atomSelectedDate.length < 1}
+            bg="primary"
+            color="#FEFEFE"
+            mb="10px"
+            h="45"
+
+          >
+            時間指定に進む
+          </Button>
+        </VStack>
+      </Container>
       <Footer isOwnerMode={true} activeMenu={0} />
     </>
   );

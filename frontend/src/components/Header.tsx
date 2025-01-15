@@ -1,5 +1,5 @@
 import { MdOutlineArrowBackIos } from 'react-icons/md';
-import { Box, HStack, Spacer, Text } from '@yamada-ui/react';
+import { Box, HStack, Text } from '@yamada-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
@@ -16,29 +16,31 @@ export default function Header({ routePath, headerTitle }: HeaderProps) {
   const navigate = useNavigate();
   return (
     <>
-      <HStack bg="#F3F7F7" borderBottom="1px solid #D9D9D9">
-        <Spacer />
+      <Box bg="#F3F7F7"
+           h="50px"
+           pt={'1'}
+           pb={'8'}
+           fontSize="2xl"
+           borderBottom="1px solid #D9D9D9">
         <HStack
-          justifyContent="space-between"
-          h="50px"
           minW="300px"
           maxW="400px"
-          fontSize="2xl"
-          bg="#F3F7F7"
-          alignItems="end"
+          margin={'0 auto'}
         >
-          <Box fontSize="2xl" w="24px" h="36px">
+          <Box pt={'1'} w={'10%'} >
             <MdOutlineArrowBackIos onClick={() => navigate(`/${routePath}`)} />
           </Box>
-          <Spacer />
-          <Text fontSize="xl" fontWeight="bold" textAlign="center">
-            {headerTitle}
-          </Text>
-          <Spacer />
-          <Box fontSize="2xl" w="24px" h="36px"></Box>
+
+          <Box w={'80%'}>
+            <Text fontSize="xl" fontWeight="bold" textAlign="center">
+              {headerTitle}
+            </Text>
+          </Box>
+          <Box w={'10%'}>
+
+          </Box>
         </HStack>
-        <Spacer />
-      </HStack>
+      </Box>
     </>
   );
 }
